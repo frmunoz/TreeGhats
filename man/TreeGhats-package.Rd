@@ -1,24 +1,24 @@
-\name{anRpackage-package}
-\alias{anRpackage-package}
-\alias{anRpackage}
+\name{TreeGhats-package}
+\alias{TreeGhats-package}
+\alias{TreeGhats}
 \docType{package}
 \title{
-\packageTitle{anRpackage}
+\packageTitle{TreeGhats}
 }
 \description{
-\packageDescription{anRpackage}
+\packageDescription{TreeGhats}
 }
 \details{
 
 The DESCRIPTION file:
-\packageDESCRIPTION{anRpackage}
-\packageIndices{anRpackage}
+\packageDESCRIPTION{TreeGhats}
+\packageIndices{TreeGhats}
 ~~ An overview of how to use the package, including the most important functions ~~
 }
 \author{
-\packageAuthor{anRpackage}
+\packageAuthor{TreeGhats}
 
-Maintainer: \packageMaintainer{anRpackage}
+Maintainer: \packageMaintainer{TreeGhats}
 }
 \references{
 ~~ Literature or other references for background information ~~
