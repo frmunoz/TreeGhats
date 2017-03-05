@@ -1,36 +1,34 @@
-create.phylo <- function(names)
-# The function creates a phylogeny of taxa based on species, genus and APGIII
+create.phylo <- function(names = NULL, scenarios = "S3")
+# The function creates a phylogenic tree of taxa based on species, genus and APGIII
 # family information
 # names is a table with columns "Binome", "Genus" and "Family_APGIII" 
 {
-  names <- tolower(names)
-  if(!any(sapply(names,function(x) strsplit(x,split=" "))>1)) stop("Genus and species names to be separated with space")
+  if(!is.null(names))
+  {
+    if(any(!sapply(c("Binome","Genus","Family_APGIII"),function(x) x%in%colnames(names)))) stop("Input names table must include Binome, Genus and Family_APGIII columns")
+    if(!any(sapply(names$Binome,function(x) length(strsplit(x,split=" ")[[1]]))>1)) stop("Genus and species names to be separated with space")
+  } else names <- reftaxo;
   
-  require(ape)
-  require(Hmisc)
   require(phytools)
   
-  #phylo.all.qian <-read.tree("C:/PhytoPhylo.tre") 
-  data(phylo.all)
-  phylo.all$tip.label <- unlist(sapply(phylo.all$tip.label,function(x) gsub(x,pattern="-",replacement="")))
+  data(qian)
+  #qian$phylo.all$tip.label <- unlist(sapply(qian$phylo.all$tip.label,function(x) gsub(x,pattern="-",replacement="")))
+  data(reftaxo.phylo)
   
-  # Utilisation de l'algorithme de Qian and Jin (2015)
-  #source("D:/François/Documents de travail/Thèses/Ruksan Bose/S.PhyloMaker.R")
-  
-  #nodes <- read.csv("C:/nodes.csv",header=T,stringsAsFactors =F)     # read in the nodes information of the megaphylogeny.
-  data(nodes)
-  
+  phylomaker <- names[,c("Binome", "Genus", "Family_APGIII")]
+  colnames(phylomaker) <- c("species","genus","family");
+  rownames(phylomaker) <- tolower(gsub(phylomaker$species,pattern=" ",replacement="_"))
+
   # For diagnostic only
   #sum(tolower(unique(reftaxo$Family_APGIII))%in%tolower(nodes$family))/length(unique(reftaxo$Family_APGIII))  # 99.2%
   #unique(reftaxo$Family_APGIII)[!tolower(unique(reftaxo$Family_APGIII))%in%tolower(nodes$family)] # Centroplacaceae
   #sum(unique(reftaxo$Genus)%in%nodes$genus)/length(unique(reftaxo$Genus))  # 79.9%
   #sum(unique(rownames(reftaxo))%in%tolower(phylo.all.qian$tip.label))/length(unique(rownames(reftaxo)))  # 18.1%
   
-  #phylomaker <- cbind(gsub(capitalize(names$Binome),pattern="_",replacement=" "),sapply(rownames(reftaxo),function(x) capitalize(reftaxo[x,"Genus"])),sapply(rownames(reftaxo),function(x) capitalize(reftaxo[x,"Family_APGIII"])));
-  phylomaker <- cbind(gsub(capitalize(names$Binome),pattern="_",replacement=" "),sapply(rownames(reftaxo),function(x) capitalize(reftaxo[x,"Genus"])),sapply(rownames(reftaxo),function(x) capitalize(reftaxo[x,"Family_APGIII"])));
-  colnames(phylomaker) <- c("species","genus","family"); phylomaker <- as.data.frame(phylomaker)
+  # With whole Qian phylogeny
+  #result<-S.PhyloMaker(splist=phylomaker, tree=qian$phylo.all , nodes=qian$nodes, scenarios = scenarios)      # run the function S.PhyloMaker
+  # With phylogeny generated for WG trees
+  result<-S.PhyloMaker(splist=phylomaker, tree=reftaxo.phylo, nodes=qian$nodes, scenarios = scenarios)      # run the function S.PhyloMaker
   
-  result<-S.PhyloMaker(splist=phylomaker, tree=phylo.all.qian , nodes=nodes, scenarios = "S3")      # run the function S.PhyloMaker
-  
-  return(result$Scenario.3)
+  return(result)
 }
