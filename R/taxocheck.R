@@ -236,11 +236,3 @@ taxocheck <- function(names, apg = T,othersinfo = T, iucn=T, max.distance = 2)
   return(SpeciesTable=tab)
 }
 
-essai=taxocheck(names)
-tab=essai
-A=TPLck("memecylon bremeri")
-A
-names=c("Aglaia congilos","Friesodielsia argenta","Bambusa albostriato","Acacia nilotica subsp. krausiana","acacia niloteca subsp. adstringens", "acacia nilotica var  adstringes","vitica56","Friesodielsia sahyadrica","Memecylon bremeri","Friesodielsia acuminota","Friesodielsia indoacuminata")
-
-
-
