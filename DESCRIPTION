@@ -10,6 +10,8 @@ Depends:
 Imports:
     ape,
     phytools,
+    taxize,
+    Taxonstand,
     Hmisc
 Description: The package includes utilities for taxonomic name resolution, basic ecological information on Western Ghats tree, and a tool to build a phylogeny from a given list of taxa.
 License: GPL (>= 2)
