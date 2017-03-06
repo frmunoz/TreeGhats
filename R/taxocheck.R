@@ -1,6 +1,5 @@
 taxocheck <- function(names, apg = T,othersinfo = T, iucn=T, max.distance = 2)
 {
-  require(Taxonstand)
   #### faut-il vraiment garder l'option spelling? on peut toujours mettre comme nom de ligne la liste initiale et les gens check par la colonne typo? ###
   # names = vector of taxa names (genus species, with space separation)
   # apg = should we provide apg3 family names
@@ -10,7 +9,7 @@ taxocheck <- function(names, apg = T,othersinfo = T, iucn=T, max.distance = 2)
   names <- tolower(unique(str_trim(names)))
   names<-gsub("(^\\s+|\\s+$|(?<=\\s)\\s)","",names, perl=T)
   orig.names <- names;
-  tab<-data.frame(FoundName=rep(NA,length(names)),Typo=rep(NA,length(names)),Genus=rep(NA,length(names)), Species=rep(NA,length(names)))
+  tab<-data.frame(FoundName=rep(NA,length(names)),Typo=rep(NA,length(names)),Genus=rep(NA,length(names)), Species=rep(NA,length(names)),InfrataxonRank=rep(NA,length(names)), InfrataxonName=rep(NA,length(names)))
   rownames(tab) <- orig.names;
   # Detect incomplete names or names with number:
   num<-c()
@@ -45,11 +44,11 @@ taxocheck <- function(names, apg = T,othersinfo = T, iucn=T, max.distance = 2)
     InfrataxonRank<-replace(InfrataxonRank,InfrataxonRank%in%c("subsp","ssp.", "ssp"),"subsp.")
     InfrataxonRank<-replace(InfrataxonRank,InfrataxonRank%in%c("f","fo","fo."),"f.")
     InfrataxonRank<-replace(InfrataxonRank,InfrataxonRank=="var","var.")
-    tab<-data.frame(tab,InfrataxonRank, InfrataxonName)
+    tab$InfrataxonRank<-as.character(InfrataxonRank)
+    tab$InfrataxonName<-as.character(InfrataxonName)
     rownames(tab)[!is.na(tab$InfrataxonRank)]=paste(tab[!is.na(tab$InfrataxonRank),]$Genus,tab[!is.na(tab$InfrataxonRank),]$Species,
                                                     tab[!is.na(tab$InfrataxonRank),]$InfrataxonRank,tab[!is.na(tab$InfrataxonRank),]$InfrataxonName, sep=" ")
-    tab$InfrataxonRank<-as.character(tab$InfrataxonRank)
-    tab$InfrataxonName<-as.character(tab$InfrataxonName)
+    
   }
   
   # FoundName is the name found in the database, which can differ from the original name if there are typos
@@ -57,11 +56,10 @@ taxocheck <- function(names, apg = T,othersinfo = T, iucn=T, max.distance = 2)
   sel <- intersect(reftaxo$Full.name,rownames(tab));
   tab[sel,]$FoundName <- sel
   tab$Typo <- ifelse(rownames(tab)%in% sel, F, NA)
-  tab$ID_TPL <-NA;tab$Status_TPL <-NA;tab$ReferenceName_TPL <-NA;tab$ReferenceAuthority_TPL <-NA;tab$NewID_TPL<-NA;tab$Status_TBGRI=NA;tab$ReferenceName_TBGRI <-NA;tab$ReferenceAuthorithy_TBGRI <-NA; 
+  tab$ID_TPL <-NA;tab$Status_TPL <-NA;tab$ReferenceName_TPL <-NA;tab$ReferenceAuthority_TPL <-NA;tab$NewID_TPL<-NA;tab$Status_TBGRI=NA;tab$ReferenceName_TBGRI <-NA;tab$ReferenceAuthority_TBGRI <-NA; 
   #tab$StatusProposed<-NA
   
   # Research in Western Ghats database, reftaxo with spelling errors maxDist=2
-  require(stringdist)
   selcor<-setdiff(rownames(tab),reftaxo$Full.name)[!is.na(as.character(sapply(setdiff(rownames(tab),reftaxo$Full.name),function(x) reftaxo$Full.name[amatch(x,reftaxo$Full.name, maxDist=max.distance)])))]
   if(length(selcor)>=1)
   {cornames<-as.character(sapply(setdiff(rownames(tab),reftaxo$Full.name),function(x) reftaxo$Full.name[amatch(x,reftaxo$Full.name, maxDist=max.distance)]))
@@ -73,12 +71,12 @@ taxocheck <- function(names, apg = T,othersinfo = T, iucn=T, max.distance = 2)
   {
     # Research in Western Ghats database, info taxonomique 
     WGinfo<-NA
-    WGinfo<- sapply(tab[!is.na(tab$Typo)&tab$FoundName!="incompleteName",]$FoundName,function(x) reftaxo[which(reftaxo$Full.name==x),c("ID_TPL","Status_TPL","ReferenceName_TPL","ReferenceAuthority_TPL","Status_TBGRI","ReferenceName_TBGRI","ReferenceAuthorithy_TBGRI")]); 
+    WGinfo<- sapply(tab[!is.na(tab$Typo)&tab$FoundName!="incompleteName",]$FoundName,function(x) reftaxo[which(reftaxo$Full.name==x),c("ID_TPL","Status_TPL","ReferenceName_TPL","ReferenceAuthority_TPL","Status_TBGRI","ReferenceName_TBGRI","ReferenceAuthority_TBGRI")]); 
     tab[!is.na(tab$Typo)&tab$FoundName!="incompleteName",]$Status_TBGRI <-unlist(WGinfo["Status_TBGRI",])   
     tab[!is.na(tab$Typo)&tab$FoundName!="incompleteName",]$Status_TPL <- unlist(WGinfo["Status_TPL",])
     tab[!is.na(tab$Typo)&tab$FoundName!="incompleteName",]$ReferenceName_TBGRI <- unlist(WGinfo["ReferenceName_TBGRI",])
     tab[!is.na(tab$Typo)&tab$FoundName!="incompleteName",]$ReferenceAuthority_TPL <- unlist(WGinfo["ReferenceAuthority_TPL",])
-    tab[!is.na(tab$Typo)&tab$FoundName!="incompleteName",]$ReferenceAuthorithy_TBGRI <- unlist(WGinfo["ReferenceAuthorithy_TBGRI",])
+    tab[!is.na(tab$Typo)&tab$FoundName!="incompleteName",]$ReferenceAuthority_TBGRI <- unlist(WGinfo["ReferenceAuthority_TBGRI",])
     tab[!is.na(tab$Typo)&tab$FoundName!="incompleteName",]$ReferenceName_TPL <-unlist(WGinfo["ReferenceName_TPL",]) 
     tab[!is.na(tab$Typo)&tab$FoundName!="incompleteName",]$ID_TPL <-unlist(WGinfo["ID_TPL",])
 
@@ -93,7 +91,7 @@ taxocheck <- function(names, apg = T,othersinfo = T, iucn=T, max.distance = 2)
   {pb <- winProgressBar(title = "progress bar", min = 0,max = length(taxonCheckTPL), width = 300)
   for(i in 1:length(taxonCheckTPL))
   {Sys.sleep(0.1);setWinProgressBar(pb, i, title=paste("Check in TPL" ,round(i/length(taxonCheckTPL)*100, 0),"% done"));res=TPLck2(taxonCheckTPL[i]); tab.plantlist <- rbind(tab.plantlist,res)}
-  }
+  
   rownames(tab.plantlist) <- rownames(tab[is.na(tab$FoundName),])
   tab.plantlist$NewNames<-gsub("(^\\s+|\\s+$|(?<=\\s)\\s)","",paste(tab.plantlist$New.Genus,tab.plantlist$New.Species,tab.plantlist$New.Infraspecific,sep=" "), perl=T)
   if(is.numeric(tab.plantlist$severalNames))
@@ -140,53 +138,59 @@ taxocheck <- function(names, apg = T,othersinfo = T, iucn=T, max.distance = 2)
   tab[tab$ID_TPL%in%IDsel ,]$InfrataxonName<-unlist(sapply(IDsel,function(x) read.csv(paste("http://www.theplantlist.org/tpl1.1/search?q=",paste(tab[tab$ID_TPL==x & !is.na(tab$ID_TPL),]$Genus,tab[tab$ID_TPL==x & !is.na(tab$ID_TPL),]$Species,sep=" "),"&csv=true",sep=""), header = TRUE, sep = ",", fill = TRUE, colClasses = "character", row.names=1,as.is = TRUE)[x,"Infraspecific.epithet"]))
   tab[tab$ID_TPL%in%IDsel ,]$FoundName<-paste0(tab[tab$ID_TPL%in%IDsel,c("FoundName","InfrataxonRank","InfrataxonName")],collapse=" ")}
   close(pb) 
-  
+  }
   
   # Check again in reftaxo
   sel <- is.na(tab$Status_TBGRI) & tab$Typo==T &!is.na(tab$Typo)& !is.na(tab$Status_TPL) & tab$FoundName%in%reftaxo$Full.name
   if (any(sel))
   {
-    WGinfo<- sapply(tab$FoundName[sel],function(x) reftaxo[which(reftaxo$Full.name==x),c("Status_TBGRI","ReferenceName_TBGRI","ReferenceAuthorithy_TBGRI","StatusProposed")]); 
+    WGinfo<- sapply(tab$FoundName[sel],function(x) reftaxo[which(reftaxo$Full.name==x),c("Status_TBGRI","ReferenceName_TBGRI","ReferenceAuthority_TBGRI","StatusProposed")]); 
     tab[sel,]$Status_TBGRI <-unlist(WGinfo["Status_TBGRI",])   
     tab[sel,]$ReferenceName_TBGRI <- unlist(WGinfo["ReferenceName_TBGRI",])
-    tab[sel,]$ReferenceAuthorithy_TBGRI <- unlist(WGinfo["ReferenceAuthorithy_TBGRI",])
+    tab[sel,]$ReferenceAuthority_TBGRI <- unlist(WGinfo["ReferenceAuthority_TBGRI",])
   }
   
   # sel <- is.na(tab$Status_TBGRI) & !is.na(tab$Status_TPL) & tab$Status_TPL=="Synonym" & tolower(tab$ReferenceName_TPL)%in%reftaxo$Full.name
   # if (any(sel))
   # {
-  #   WGinfo<- sapply(tolower(tab$ReferenceName_TPL[sel]),function(x) reftaxo[which(reftaxo$Full.name==x),c("Status_TBGRI","ReferenceName_TBGRI","ReferenceAuthorithy_TBGRI","StatusProposed")]);
-  #   tab$Status_TBGRI_ReferenceName_TPL=NA;tab$ReferenceName_TBGRI_ReferenceName_TPL <-NA;tab$ReferenceAuthorithy_TBGRI_ReferenceName_TPL <-NA
+  #   WGinfo<- sapply(tolower(tab$ReferenceName_TPL[sel]),function(x) reftaxo[which(reftaxo$Full.name==x),c("Status_TBGRI","ReferenceName_TBGRI","ReferenceAuthority_TBGRI","StatusProposed")]);
+  #   tab$Status_TBGRI_ReferenceName_TPL=NA;tab$ReferenceName_TBGRI_ReferenceName_TPL <-NA;tab$ReferenceAuthority_TBGRI_ReferenceName_TPL <-NA
   #   tab[sel,]$Status_TBGRI_ReferenceName_TPL <-unlist(WGinfo["Status_TBGRI",])   
   #   tab[sel,]$ReferenceName_TBGRI_ReferenceName_TPL <- unlist(WGinfo["ReferenceName_TBGRI",])
-  #   tab[sel,]$ReferenceAuthorithy_TBGRI_ReferenceName_TPL <- unlist(WGinfo["ReferenceAuthorithy_TBGRI",])
+  #   tab[sel,]$ReferenceAuthority_TBGRI_ReferenceName_TPL <- unlist(WGinfo["ReferenceAuthority_TBGRI",])
   #   #comment gerer cela dans la base de donnees.
   # }
   
   # Statut proposed:
   tab1<-tab
+  
   tab<-tab[,-c(3:6)]
-  tab$Status_proposed<-NA;tab$ReferenceName_proposed <-NA;tab$ReferenceAuthorithy_proposed <-NA
+  tab$Status_proposed<-NA;tab$ReferenceName_proposed <-NA;tab$ReferenceAuthority_proposed <-NA
   tab$Genus<-NA;tab$Species<-NA;tab$InfrataxonRank<-NA;  tab$InfrataxonName<-NA
   sel<-!is.na(tab$FoundName)&tab$FoundName!="incompleteName"&is.na(tab$Status_TBGRI)
   tab[sel,]$Status_proposed<-tab[sel,]$Status_TPL
   tab[sel,]$ReferenceName_proposed<-tab[sel,]$ReferenceName_TPL
-  tab[sel,]$ReferenceAuthorithy_proposed <-tab[sel,]$ReferenceAuthority_TPL
+  tab[sel,]$ReferenceAuthority_proposed <-tab[sel,]$ReferenceAuthority_TPL
   sel<-!is.na(tab$FoundName)&tab$FoundName!="incompleteName" & !is.na(tab$Status_TBGRI) & tab$Status_TBGRI!="Absent"
   tab[sel,]$Status_proposed<-tab[sel,]$Status_TBGRI
   tab[sel,]$ReferenceName_proposed<-tab[sel,]$ReferenceName_TBGRI
-  tab[sel,]$ReferenceAuthorithy_proposed <-tab[sel,]$ReferenceAuthority_TBGRI
+  tab[sel,]$ReferenceAuthority_proposed <-tab[sel,]$ReferenceAuthority_TBGRI
   sel<-!is.na(tab$FoundName)&tab$FoundName!="incompleteName" & !is.na(tab$Status_TBGRI) & tab$Status_TBGRI=="Absent"
   tab[sel,]$Status_proposed<-tab[sel,]$Status_TPL
   tab[sel,]$ReferenceName_proposed<-tab[sel,]$ReferenceName_TPL
-  tab[sel,]$ReferenceAuthorithy_proposed <-tab[sel,]$ReferenceAuthority_TPL
+  tab[sel,]$ReferenceAuthority_proposed <-tab[sel,]$ReferenceAuthority_TPL
   sel<-!is.na(tab$FoundName) & tab$Status_TPL=="Absent" & tab$Status_TBGRI=="Absent" & !is.na(tab$Status_TBGRI) & !is.na(tab$Status_TPL)
-  tab[sel,]$Status_proposed<-"New species"
-  tab[sel,]$ReferenceName_proposed<-capitalize(tab[sel,]$FoundName)
+  if(any(sel))
+  {tab[sel,]$Status_proposed<-"New species"
+  tab[sel,]$ReferenceName_proposed<-capitalize(tab[sel,]$FoundName)}
   sel<-!is.na(tab$FoundName)&tab$FoundName=="incompleteName"
-  tab[sel,]$Status_proposed<-"IncompleteName"
-  tab[sel,]$FoundName<-NA
-  tab[tab$Status_TPL=="Absent" &!is.na(tab$Status_TPL),]$Status_TPL<-NA
+  if(any(sel))
+  {tab[sel,]$Status_proposed<-"IncompleteName"
+  tab[sel,]$FoundName<-NA}
+  sel<-tab$Status_TPL=="Absent" &!is.na(tab$Status_TPL)
+  if(any(sel))
+  {
+  tab[sel,]$Status_TPL<-NA}
   sel<-!is.na(tab$ReferenceName_proposed)
   tab[sel,]$Genus <- capitalize(do.call(rbind, strsplit(as.vector(tab[sel,]$ReferenceName_proposed), " "))[,1])
   tab[sel,]$Species <-  do.call(rbind, strsplit(as.vector(tab[sel,]$ReferenceName_proposed), " "))[,2]
