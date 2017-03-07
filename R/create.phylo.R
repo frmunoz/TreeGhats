@@ -28,7 +28,7 @@ create.phylo <- function(names = NULL, scenarios = "S3")
   # With whole Qian phylogeny
   #result<-S.PhyloMaker(splist=phylomaker, tree=qian$phylo.all , nodes=qian$nodes, scenarios = scenarios)      # run the function S.PhyloMaker
   # With phylogeny generated for WG trees
-  result<-S.PhyloMaker(splist=phylomaker, tree=reftaxo.phylo, nodes=qian$nodes, scenarios = scenarios)      # run the function S.PhyloMaker
+  result<-S.PhyloMaker(splist=phylomaker[phylomaker$species%in%reftaxo.phylo$tip.label,], tree=reftaxo.phylo, nodes=qian$nodes, scenarios = scenarios)      # run the function S.PhyloMaker
   
   return(result)
 }
