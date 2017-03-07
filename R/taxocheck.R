@@ -1,4 +1,4 @@
-taxocheck <- function(names, apg = T,othersinfo = T, iucn=T, max.distance = 2)
+taxocheck <- function(names, apg = T,othersinfo = T, iucn=T, max.distance = 1)
 {
   #### faut-il vraiment garder l'option spelling? on peut toujours mettre comme nom de ligne la liste initiale et les gens check par la colonne typo? ###
   # names = vector of taxa names (genus species, with space separation)
@@ -119,9 +119,9 @@ taxocheck <- function(names, apg = T,othersinfo = T, iucn=T, max.distance = 2)
   tab[is.na(tab$FoundName),]$Typo <- tab.plantlist[rownames(tab[is.na(tab$FoundName),]),"Typo"]
   tab[is.na(tab$FoundName),]$ReferenceName_TPL<-tab.plantlist[rownames(tab[is.na(tab$FoundName),]),]$NewNames
   sel<-tab$Status_TPL=="" &! is.na(tab$Status_TPL)
-  tab[sel,]$Typo<-NA
+  if(any(sel)){tab[sel,]$Typo<-NA
   tab[sel,]$ReferenceName_TPL<-NA
-  tab[sel,]$FoundName<-NA
+  tab[sel,]$FoundName<-NA}
   # Correct possible typos  
   sel <- is.na(tab$FoundName) & tab$Status_TPL%in% c("Accepted","Unresolved") 
   tab[sel,]$FoundName <- tolower(tab.plantlist[rownames(tab)[sel],]$NewNames)

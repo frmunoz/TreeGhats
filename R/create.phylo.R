@@ -17,8 +17,9 @@ create.phylo <- function(names = NULL, scenarios = "S3")
   
   phylomaker <- names[,c("Binome", "Genus", "Family_APGIII")]
   colnames(phylomaker) <- c("species","genus","family");
-  rownames(phylomaker) <- tolower(gsub(phylomaker$species,pattern=" ",replacement="_"))
+  rownames(phylomaker) <- capitalize(tolower(gsub(phylomaker$species,pattern=" ",replacement="_")))
 
+  
   # For diagnostic only
   #sum(tolower(unique(reftaxo$Family_APGIII))%in%tolower(nodes$family))/length(unique(reftaxo$Family_APGIII))  # 99.2%
   #unique(reftaxo$Family_APGIII)[!tolower(unique(reftaxo$Family_APGIII))%in%tolower(nodes$family)] # Centroplacaceae
@@ -28,7 +29,7 @@ create.phylo <- function(names = NULL, scenarios = "S3")
   # With whole Qian phylogeny
   #result<-S.PhyloMaker(splist=phylomaker, tree=qian$phylo.all , nodes=qian$nodes, scenarios = scenarios)      # run the function S.PhyloMaker
   # With phylogeny generated for WG trees
-  result<-S.PhyloMaker(splist=phylomaker, tree=reftaxo.phylo, nodes=qian$nodes, scenarios = scenarios)      # run the function S.PhyloMaker
+  result<-S.PhyloMaker(splist=phylomaker[rownames(phylomaker)%in%reftaxo.phylo$tip.label,], tree=reftaxo.phylo, nodes=qian$nodes, scenarios = scenarios)      # run the function S.PhyloMaker
   
   return(result)
 }
