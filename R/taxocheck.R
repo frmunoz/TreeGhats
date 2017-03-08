@@ -1,4 +1,4 @@
-taxocheck <- function(names, othersinfo = T, iucn=T, max.distance = 1)
+taxocheck <- function(names, othersinfo = T, iucn=F, max.distance = 1)
 {
   force(reftaxo)
   #### faut-il vraiment garder l'option spelling? on peut toujours mettre comme nom de ligne la liste initiale et les gens check par la colonne typo? ###
@@ -98,7 +98,7 @@ taxocheck <- function(names, othersinfo = T, iucn=T, max.distance = 1)
   {pb <- winProgressBar(title = "progress bar", min = 0,max = length(taxonCheckTPL), width = 300)
   for(i in 1:length(taxonCheckTPL))
   {Sys.sleep(0.1);setWinProgressBar(pb, i, title=paste("Check in TPL" ,round(i/length(taxonCheckTPL)*100, 0),"% done"));res=TPLck2(taxonCheckTPL[i]); tab.plantlist <- rbind(tab.plantlist,res)}
-  
+  #}
   rownames(tab.plantlist) <- rownames(tab[is.na(tab$FoundName),])
   tab.plantlist$NewNames<-gsub("(^\\s+|\\s+$|(?<=\\s)\\s)","",paste(tab.plantlist$New.Genus,tab.plantlist$New.Species,tab.plantlist$New.Infraspecific,sep=" "), perl=T)
   # Complete tab with infos from TPL
@@ -144,10 +144,11 @@ taxocheck <- function(names, othersinfo = T, iucn=T, max.distance = 1)
   sel <-  tab$Typo==T &  tab$Status_TPL %in% c("Synonym","TPLfoundSeveralHomonyms") & !is.na(tab$Status_TPL)
   if(any(sel)){
   tab[sel,]$FoundName <-unlist(sapply(tab.plantlist[rownames(tab)[sel],"ID"],function(x) tolower(paste0(read.csv(paste("http://www.theplantlist.org/tpl1.1/search?q=",x,"&csv=true",sep=""), header = TRUE, sep = ",", fill = TRUE, colClasses = "character", as.is = TRUE)[1,c("Genus","Species")],collapse=" "))))}
-  
-  tab[!is.na(tab$Typo) &tab$Typo==T,]$Species<-sapply(tab[!is.na(tab$Typo) &tab$Typo==T,]$FoundName, function(x)  strsplit(x, " ")[[1]][2])
-  tab[!is.na(tab$Typo) &tab$Typo==T,]$Genus<-capitalize(sapply(tab[!is.na(tab$Typo) &tab$Typo==T,]$FoundName, function(x)  strsplit(x, " ")[[1]][1]))
-  
+  sel<-!is.na(tab$Typo) &tab$Typo==T
+  if(any(sel)){
+  tab[sel,]$Species<-sapply(tab[sel,]$FoundName, function(x)  strsplit(x, " ")[[1]][2])
+  tab[sel,]$Genus<-capitalize(sapply(tab[sel,]$FoundName, function(x)  strsplit(x, " ")[[1]][1]))
+  }
   #Correct infraTaxonNames
   if(any(tab.plantlist$New.Infraspecific!="" &  tab.plantlist$Typo==T & tab.plantlist$Taxonomic.status=="Synonym"))
   {sel<-tab.plantlist$New.Infraspecific!=""& tab.plantlist$Typo==T & tab.plantlist$Taxonomic.status=="Synonym"
@@ -227,7 +228,7 @@ taxocheck <- function(names, othersinfo = T, iucn=T, max.distance = 1)
     tab$Phenology[!is.na(tab$Status_TBGRI)]<-unlist(Info["Phenology",]) 
   }
   
-  #IUCN Status
+  #IUCN Status a revoir
   if(iucn)
     {
     tab$IUCN <- NA; 
