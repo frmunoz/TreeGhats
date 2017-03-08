@@ -14,8 +14,6 @@ taxocheck(names, apg = TRUE, othersinfo = TRUE, iunc = TRUE, max.distance = 2)
 \arguments{
   \item{names}{A vector of taxon names, each element including the genus, the specific epithet and, additionally, the infraspecific epithet. The authority of the taxon name should not be included.
 }
-  \item{apg}{Logical. If 'TRUE' (default), then family according to APGIII is provided for the reference name proposed.
-}
   \item{othersinfo}{Logical. If 'TRUE' (default), then the origin, the habit and the phenology are provided for the taxon names found in the TreeGhats database.
 }
 \item{iucn}{Logical. If 'TRUE' (default), the IUCN status is provided for the reference name proposed.
@@ -59,6 +57,8 @@ The function return an object of class \code{data.frame} with the following comp
   
   \item{ReferenceAuthorithy_proposed}{Names of the scientist(s) who first published the reference name proposed.}
   
+  \item{Family_APGIII}{Family name according to APGIII for the taxon reference name proposed.}
+  
   \item{Genus}{Genus of taxon reference name proposed.}
   
   \item{Species}{Specific epithet  of taxon reference name proposed.}
@@ -66,8 +66,6 @@ The function return an object of class \code{data.frame} with the following comp
   \item{InfrataxonRank}{Intraspecific rank of taxon reference name proposed.}
   
   \item{InfrataxonName}{Intraspecific epithet of taxon reference name proposed.}
-  
-  \item{Family_APGIII}{if \code{apg = T}, the family name according to APGIII for the taxon reference name proposed.}
   
   \item{Origin}{if \code{othersinfo = T}, the origin of the plant according to TBGRI or IFP expertise when the taxon name is not present in TBGRI, either 'exotic', 'endemic of india' or 'native'.}
   
