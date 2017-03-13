@@ -8,17 +8,17 @@
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
-taxocheck(names, apg = TRUE, othersinfo = TRUE, iunc = TRUE, max.distance = 2)
+taxocheck(names, othersinfo = TRUE, iunc = TRUE, max.distance = 2)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{names}{A vector of taxon names, each element including the genus, the specific epithet and, additionally, the infraspecific epithet. The authority of the taxon name should not be included.
+\item{names}{A vector of taxon names, each element including the genus, the specific epithet and, additionally, the infraspecific epithet. The authority of the taxon name should not be included.
 }
-  \item{othersinfo}{Logical. If 'TRUE' (default), then the origin, the habit and the phenology are provided for the taxon names found in the TreeGhats database.
+\item{othersinfo}{Logical. If 'TRUE' (default), then the origin, the habit and the phenology are provided for the taxon names found in the TreeGhats database.
 }
 \item{iucn}{Logical. If 'TRUE' (default), the IUCN status is provided for the reference name proposed.
 }
-  \item{max.distance}{Maximum distance allowed for a match in agrep function when performing corrections of spelling errors.
+\item{max.distance}{Maximum distance allowed for a match in agrep function when performing corrections of spelling errors.
 }
 }
 
@@ -26,7 +26,6 @@ taxocheck(names, apg = TRUE, othersinfo = TRUE, iunc = TRUE, max.distance = 2)
 The procedure searches for a vector of taxon name in The Plant List (TPL) and provides its taxonomic status.
 First, the function standardizes the taxon names by removing unnecessary spaces, checking for incomplete names, i.e. missing species epithet or names including a number and  homogenising abbreviations of intraspecific rank. Then the function searches taxon names in the TreeGhats database and provides their taxonomic status according to TPL and TBGRI. Differences in typos can be detected depending on the arguments 'max.distance'. Some caution is recommended in increasing 'max.distance' as false match can be done. If the taxon name is absent from the database, the function used a modified version of the function \code{TPLck} (see ) in order to provides the taxonomic status of the taxon according to TPL.
 if \code{othersinfo = T},the origin, the habit, the phenology and the IUCN status of the taxon are provided, but only for taxon names present in the TreeGhats database.
-if \code{apg = T}, the family name of the taxon is provided according to APGIII.
 }
 \value{
 The function return an object of class \code{data.frame} with the following components:
@@ -51,7 +50,7 @@ The function return an object of class \code{data.frame} with the following comp
   
   \item{ReferenceAuthorithy_TBGRI}{Names of the scientist(s) who first published the reference name, extracted from TBGRI.}
   
-  \item{Status_proposed}{Taxonomic status proposed, either 'Accepted', 'Synonym', 'New species', 'Unresolved'.'New species' indicates species absent from both TPL and TBGRI but recently described. When a name is absent from TreeGhats database and TPL found several homonyms for the taxon name provided the function returns 'TPLfoundSeveralHomonyms'.When the taxon name is incomplete (missing species epithet or included a number), the function returns 'incompleteName' asStatus_proposed}
+  \item{Status_proposed}{Taxonomic status proposed, either 'Accepted', 'Synonym', 'Unresolved'. When a name is absent from TreeGhats database and TPL found several homonyms for the taxon name provided the function returns 'TPLfoundSeveralHomonyms'. When the taxon name is incomplete (missing species epithet or included a number), the function returns 'IncompleteName' as Status_proposed}
   
   \item{ReferenceName_proposed}{The valid form of the taxon name proposed.}
   
@@ -80,7 +79,7 @@ The function return an object of class \code{data.frame} with the following comp
 The function relies on the TreeGhats database, which is included in the package. This database will be updated.}
  
 
-\section{Warning}{The running time of the function depends on the length of the taxon names vector and which arguments are TRUE (if iucn and apg are TRUE, the running time is longer).
+\section{Warning}{The running time of the function depends on the length of the taxon names vector and which arguments are TRUE (if iucn the running time is longer).
 
 The function uses internet connection to check names in TPL and get the family according to APG III and the IUCN status.
 
