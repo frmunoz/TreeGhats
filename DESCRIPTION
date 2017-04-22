@@ -1,10 +1,12 @@
 Package: TreeGhats
 Type: Package
-Title: Taxonomic and ecological database of trees of Western Ghats
+Title: Towards a comprehensive taxonomic name resolution tool and a phylogeny maker  of Western Ghats trees
 Version: 1.0
-Date: 2017-03-04
-Author: V.Raevel and F. Munoz
-Maintainer: <treeghats@gmail.com>
+Date: 2017-06-05
+Author: Valerie Raevel and Francois Munoz
+Maintainer: Valerie Raevel <treeghats@gmail.com>
+URL: https://github.com/frmunoz/TreeGhats
+BugReports: https://github.com/frmunoz/TreeGhats
 Depends:
     R (>= 3.0.2),
 Imports:
@@ -13,6 +15,11 @@ Imports:
     taxize,
     Taxonstand,
     Hmisc
+Suggests:    
+    stringdist,
+    stringr,
+    letsR,
 Description: The package includes utilities for taxonomic name resolution, basic ecological information on Western Ghats tree, and a tool to build a phylogeny from a given list of taxa.
 License: GPL (>= 2)
-
+Encoding: UTF-8
+VignetteBuilder: knitr
