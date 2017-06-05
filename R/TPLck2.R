@@ -10,7 +10,7 @@ TPLck2<-function (sp, corr = TRUE, diffchar = 2, max.distance = 1, infra = TRUE,
                 " cultivar ", "subfo. ", " subfo ", "subf. ", "subf.", 
                 " subf ", " subproles ", "cf. ", "cf.", " cf ", "aff. ", 
                 "aff.", " aff ", "s.l. ", "s.l.", "s.l ", "s.str. ", 
-                "s.str.", "s.str ", "×", "x. ", "x.", " x ", "X. ", 
+                "s.str.", "s.str ", "?", "x. ", "x.", " x ", "X. ", 
                 "X.", " X ", "f. ", "f.", " f ", "fo. ", "fo.", " fo ", 
                 " forma ", "subvar.", " subvar ", "var. ", "var.", 
                 " var ", "subsp. ", "subsp.", " subsp ", "ssp. ", 
@@ -299,24 +299,24 @@ TPLck2<-function (sp, corr = TRUE, diffchar = 2, max.distance = 1, infra = TRUE,
               if (version == "1.1") {
                 searchstring <- paste("http://www.theplantlist.org/tpl", 
                                       vv, "/search?q=", nsen[13], "+", ifelse(nsen[17] == 
-                                                                                "×", nsen[21], nsen[17]), "&csv=true", 
+                                                                                "?", nsen[21], nsen[17]), "&csv=true", 
                                       sep = "")
               }
               else if (version == "1.0") {
                 searchstring <- paste("http://www.theplantlist.org/tpl", 
                                       vv, "/search?q=", nsen[11], "+", ifelse(nsen[15] == 
-                                                                                "×", nsen[19], nsen[15]), "&csv=true", 
+                                                                                "?", nsen[19], nsen[15]), "&csv=true", 
                                       sep = "")
               }
               kup <- length(grep("var.", nsen)) + length(grep("subsp.", 
                                                               nsen))
               if (infra == T && kup > 0) {
                 if (version == "1.1") {
-                  infrasp <- ifelse(nsen[17] == "×", nsen[29], 
+                  infrasp <- ifelse(nsen[17] == "?", nsen[29], 
                                     nsen[25])
                 }
                 else if (version == "1.0") {
-                  infrasp <- ifelse(nsen[15] == "×", nsen[27], 
+                  infrasp <- ifelse(nsen[15] == "?", nsen[27], 
                                     nsen[23])
                 }
               }
@@ -335,14 +335,14 @@ TPLck2<-function (sp, corr = TRUE, diffchar = 2, max.distance = 1, infra = TRUE,
                                          header = TRUE, sep = ",", fill = TRUE, 
                                          colClasses = "character", as.is = TRUE, 
                                          encoding = encoding), silent = TRUE)
-              if (version == "1.1" && nsen[17] == "×") {
+              if (version == "1.1" && nsen[17] == "?") {
                 table.sp <- table.sp[table.sp$Species.hybrid.marker == 
-                                       "×", ]
+                                       "?", ]
               }
               else if (version == "1.0" && nsen[15] == 
-                       "×") {
+                       "?") {
                 table.sp <- table.sp[table.sp$Species.hybrid.marker == 
-                                       "×", ]
+                                       "?", ]
               }
               grep1 <- grep(infrasp, table.sp$Infraspecific.epithet, 
                             value = TRUE)
@@ -440,24 +440,24 @@ TPLck2<-function (sp, corr = TRUE, diffchar = 2, max.distance = 1, infra = TRUE,
             if (version == "1.1") {
               searchstring <- paste("http://www.theplantlist.org/tpl", 
                                     vv, "/search?q=", nsen[13], "+", ifelse(nsen[17] == 
-                                                                              "×", nsen[21], nsen[17]), "&csv=true", 
+                                                                              "?", nsen[21], nsen[17]), "&csv=true", 
                                     sep = "")
             }
             else if (version == "1.0") {
               searchstring <- paste("http://www.theplantlist.org/tpl", 
                                     vv, "/search?q=", nsen[11], "+", ifelse(nsen[15] == 
-                                                                              "×", nsen[19], nsen[15]), "&csv=true", 
+                                                                              "?", nsen[19], nsen[15]), "&csv=true", 
                                     sep = "")
             }
             kup <- length(grep("var.", nsen)) + length(grep("subsp.", 
                                                             nsen))
             if (infra == T && kup > 0) {
               if (version == "1.1") {
-                infrasp <- ifelse(nsen[17] == "×", nsen[29], 
+                infrasp <- ifelse(nsen[17] == "?", nsen[29], 
                                   nsen[25])
               }
               else if (version == "1.0") {
-                infrasp <- ifelse(nsen[15] == "×", nsen[27], 
+                infrasp <- ifelse(nsen[15] == "?", nsen[27], 
                                   nsen[23])
               }
             }
@@ -474,30 +474,30 @@ TPLck2<-function (sp, corr = TRUE, diffchar = 2, max.distance = 1, infra = TRUE,
             try(table.sp <- read.table(searchstring, header = TRUE, 
                                        sep = ",", fill = TRUE, colClasses = "character", 
                                        encoding = encoding), silent = TRUE)
-            if (version == "1.1" && nsen[17] == "×") {
+            if (version == "1.1" && nsen[17] == "?") {
               table.sp <- table.sp[table.sp$Species.hybrid.marker == 
-                                     "×", ]
-              New.Hybrid.marker <- "×"
+                                     "?", ]
+              New.Hybrid.marker <- "?"
             }
-            else if (version == "1.0" && nsen[15] == "×") {
+            else if (version == "1.0" && nsen[15] == "?") {
               table.sp <- table.sp[table.sp$Species.hybrid.marker == 
-                                     "×", ]
-              New.Hybrid.marker <- "×"
+                                     "?", ]
+              New.Hybrid.marker <- "?"
             }
             Plant.Name.Index <- TRUE
             Family <- table.sp$Family[1]
             if (version == "1.1") {
               New.Genus <- nsen[13]
-              New.Species <- ifelse(nsen[17] == "×", nsen[21], 
+              New.Species <- ifelse(nsen[17] == "?", nsen[21], 
                                     nsen[17])
-              Authority <- ifelse(nsen[17] == "×", nsen[25], 
+              Authority <- ifelse(nsen[17] == "?", nsen[25], 
                                   nsen[21])
             }
             else if (version == "1.0") {
               New.Genus <- nsen[11]
-              New.Species <- ifelse(nsen[15] == "×", nsen[19], 
+              New.Species <- ifelse(nsen[15] == "?", nsen[19], 
                                     nsen[15])
-              Authority <- ifelse(nsen[15] == "×", nsen[23], 
+              Authority <- ifelse(nsen[15] == "?", nsen[23], 
                                   nsen[19])
             }
             grep1 <- grep(infrasp, table.sp$Infraspecific.epithet, 
