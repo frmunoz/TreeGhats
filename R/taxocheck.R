@@ -1,4 +1,4 @@
-taxocheck <- function(names, othersinfo = T, iucn=F, max.distance = 1)
+taxocheck <- function(names, othersinfo = T, iucn=F, max.distance = 2)
 {
   force(reftaxo)
   #### faut-il vraiment garder l'option spelling? on peut toujours mettre comme nom de ligne la liste initiale et les gens check par la colonne typo? ###
