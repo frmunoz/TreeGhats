@@ -87,7 +87,7 @@ taxocheck <- function(names, othersinfo = T, iucn=F, max.distance = 2)
   }
   sel <- !is.na(tab$ReferenceName_proposed)
   if (any(sel))
-  {tab[sel,]$NewID_TPL<- sapply(tolower(tab$ReferenceName_proposed[sel]),function(x) reftaxo[which(reftaxo$Full.name==x),"ID_TPL"]);} 
+  {tab[sel,]$NewID_TPL<- unlist(sapply(tolower(tab$ReferenceName_proposed[sel]),function(x) reftaxo[which(reftaxo$Full.name==x),"ID_TPL"]));} 
     
   
   # For taxa absent from reftaxo, check in PlantList
@@ -99,6 +99,7 @@ taxocheck <- function(names, othersinfo = T, iucn=F, max.distance = 2)
   for(i in 1:length(taxonCheckTPL))
   {Sys.sleep(0.1);setWinProgressBar(pb, i, title=paste("Check in TPL" ,round(i/length(taxonCheckTPL)*100, 0),"% done"));res=TPLck2(taxonCheckTPL[i]); tab.plantlist <- rbind(tab.plantlist,res)}
   #}
+  
   rownames(tab.plantlist) <- rownames(tab[is.na(tab$FoundName),])
   tab.plantlist$NewNames<-gsub("(^\\s+|\\s+$|(?<=\\s)\\s)","",paste(tab.plantlist$New.Genus,tab.plantlist$New.Species,tab.plantlist$New.Infraspecific,sep=" "), perl=T)
   # Complete tab with infos from TPL
@@ -143,7 +144,7 @@ taxocheck <- function(names, othersinfo = T, iucn=F, max.distance = 2)
   tab[sel,]$FoundName <- tolower(rownames(tab)[sel])}
   sel <-  tab$Typo==T &  tab$Status_TPL %in% c("Synonym","TPLfoundSeveralHomonyms") & !is.na(tab$Status_TPL)
   if(any(sel)){
-  tab[sel,]$FoundName <-unlist(sapply(tab.plantlist[rownames(tab)[sel],"ID"],function(x) tolower(paste0(read.csv(paste("http://www.theplantlist.org/tpl1.1/search?q=",x,"&csv=true",sep=""), header = TRUE, sep = ",", fill = TRUE, colClasses = "character", as.is = TRUE)[1,c("Genus","Species")],collapse=" "))))}
+  tab[sel,]$FoundName <-unlist(sapply(tab[rownames(tab)[sel],"ID_TPL"],function(x) tolower(paste0(read.csv(paste("http://www.theplantlist.org/tpl1.1/search?q=",x,"&csv=true",sep=""), header = TRUE, sep = ",", fill = TRUE, colClasses = "character", as.is = TRUE)[1,c("Genus","Species")],collapse=" "))))}
   sel<-!is.na(tab$Typo) &tab$Typo==T
   if(any(sel)){
   tab[sel,]$Species<-sapply(tab[sel,]$FoundName, function(x)  strsplit(x, " ")[[1]][2])
