@@ -54,16 +54,16 @@ taxocheck <- function(names, othersinfo = T, iucn=F, max.distance = 2)
   
   # FoundName is the name found in the database, which can differ from the original name if there are typos
   # Research in Western Ghats database, without spelling difference
-  sel <- intersect(reftaxo$Full.name,rownames(tab));
+  sel <- intersect(reftaxo$Full_name,rownames(tab));
   tab[sel,]$FoundName <- sel
   tab$Typo <- ifelse(rownames(tab)%in% sel, F, NA)
   tab$ID_TPL <-NA;tab$Status_TPL <-NA;tab$ReferenceName_TPL <-NA;tab$ReferenceAuthority_TPL <-NA;tab$Status_TBGRI=NA;tab$ReferenceName_TBGRI <-NA;tab$ReferenceAuthority_TBGRI <-NA; 
   tab$Status_proposed<-NA;tab$ReferenceName_proposed <-NA;tab$ReferenceAuthority_proposed <-NA;tab$NewID_TPL<-NA;tab$Family_APGIII <-NA
   
   # Research in Western Ghats database, reftaxo with spelling errors maxDist=2
-  selcor<-setdiff(rownames(tab),reftaxo$Full.name)[!is.na(as.character(sapply(setdiff(rownames(tab),reftaxo$Full.name),function(x) reftaxo$Full.name[amatch(x,reftaxo$Full.name, maxDist=max.distance)])))]
+  selcor<-setdiff(rownames(tab),reftaxo$Full_name)[!is.na(as.character(sapply(setdiff(rownames(tab),reftaxo$Full_name),function(x) reftaxo$Full_name[amatch(x,reftaxo$Full_name, maxDist=max.distance)])))]
   if(length(selcor)>=1)
-  {cornames<-as.character(sapply(setdiff(rownames(tab),reftaxo$Full.name),function(x) reftaxo$Full.name[amatch(x,reftaxo$Full.name, maxDist=max.distance)]))
+  {cornames<-as.character(sapply(setdiff(rownames(tab),reftaxo$Full_name),function(x) reftaxo$Full_name[amatch(x,reftaxo$Full_name, maxDist=max.distance)]))
   tab[selcor,]$FoundName <- cornames[!is.na(cornames)]
   tab[selcor,]$Typo <- T
   sel<-c(sel,cornames[!is.na(cornames)])}
@@ -72,7 +72,7 @@ taxocheck <- function(names, othersinfo = T, iucn=F, max.distance = 2)
   {
     # Research in Western Ghats database, info taxonomique 
     WGinfo<-NA
-    WGinfo<- sapply(tab[!is.na(tab$Typo)&tab$FoundName!="incompleteName",]$FoundName,function(x) reftaxo[which(reftaxo$Full.name==x),c("ID_TPL","Family_APGIII","Status_TPL","ReferenceName_TPL","ReferenceAuthority_TPL","Status_TBGRI","ReferenceName_TBGRI","ReferenceAuthority_TBGRI","Status_proposed","ReferenceName_proposed","ReferenceAuthority_proposed","Family_APGIII")]); 
+    WGinfo<- sapply(tab[!is.na(tab$Typo)&tab$FoundName!="incompleteName",]$FoundName,function(x) reftaxo[which(reftaxo$Full_name==x),c("ID_TPL","Family_APGIII","Status_TPL","ReferenceName_TPL","ReferenceAuthority_TPL","Status_TBGRI","ReferenceName_TBGRI","ReferenceAuthority_TBGRI","Status_proposed","ReferenceName_proposed","ReferenceAuthority_proposed","Family_APGIII")]); 
     tab[!is.na(tab$Typo)&tab$FoundName!="incompleteName",]$Status_TBGRI <-unlist(WGinfo["Status_TBGRI",])   
     tab[!is.na(tab$Typo)&tab$FoundName!="incompleteName",]$Status_TPL <- unlist(WGinfo["Status_TPL",])
     tab[!is.na(tab$Typo)&tab$FoundName!="incompleteName",]$ReferenceName_TBGRI <- unlist(WGinfo["ReferenceName_TBGRI",])
@@ -87,7 +87,7 @@ taxocheck <- function(names, othersinfo = T, iucn=F, max.distance = 2)
   }
   sel <- !is.na(tab$ReferenceName_proposed)
   if (any(sel))
-  {tab[sel,]$NewID_TPL<- unlist(sapply(tolower(tab$ReferenceName_proposed[sel]),function(x) reftaxo[which(reftaxo$Full.name==x),"ID_TPL"]));} 
+  {tab[sel,]$NewID_TPL<- unlist(sapply(tolower(tab$ReferenceName_proposed[sel]),function(x) reftaxo[which(reftaxo$Full_name==x),"ID_TPL"]));} 
     
   
   # For taxa absent from reftaxo, check in PlantList
@@ -160,10 +160,10 @@ taxocheck <- function(names, othersinfo = T, iucn=F, max.distance = 2)
   }
   
   # Check again in reftaxo: is it usefull
-  sel <- is.na(tab$Status_TBGRI) & tab$Typo==T &!is.na(tab$Typo) & !is.na(tab$Status_TPL) & tab$FoundName%in%reftaxo$Full.name
+  sel <- is.na(tab$Status_TBGRI) & tab$Typo==T &!is.na(tab$Typo) & !is.na(tab$Status_TPL) & tab$FoundName%in%reftaxo$Full_name
   if (any(sel))
   {
-    WGinfo<- sapply(tab$FoundName[sel],function(x) reftaxo[which(reftaxo$Full.name==x),c("Status_TBGRI","ReferenceName_TBGRI","ReferenceAuthority_TBGRI","Status_proposed")]); 
+    WGinfo<- sapply(tab$FoundName[sel],function(x) reftaxo[which(reftaxo$Full_name==x),c("Status_TBGRI","ReferenceName_TBGRI","ReferenceAuthority_TBGRI","Status_proposed")]); 
     tab[sel,]$Status_TBGRI <-unlist(WGinfo["Status_TBGRI",])   
     tab[sel,]$ReferenceName_TBGRI <- unlist(WGinfo["ReferenceName_TBGRI",])
     tab[sel,]$ReferenceAuthority_TBGRI <- unlist(WGinfo["ReferenceAuthority_TBGRI",])
@@ -223,7 +223,7 @@ taxocheck <- function(names, othersinfo = T, iucn=F, max.distance = 2)
   if(othersinfo & any(!is.na(tab$Status_TBGRI)))
   {
     tab$Origin <- NA; tab$Habit <- NA; tab$Phenology <- NA; 
-    Info <-sapply(tab[!is.na(tab$Status_TBGRI),]$FoundName,function(x) reftaxo[which(reftaxo$Full.name==x),c("Origin","Habit","Phenology")])
+    Info <-sapply(tab[!is.na(tab$Status_TBGRI),]$FoundName,function(x) reftaxo[which(reftaxo$Full_name==x),c("Origin","Habit","Phenology")])
     tab$Origin[!is.na(tab$Status_TBGRI)]<-unlist(Info["Origin",])
     tab$Habit[!is.na(tab$Status_TBGRI)]<-unlist(Info["Habit",]) 
     tab$Phenology[!is.na(tab$Status_TBGRI)]<-unlist(Info["Phenology",]) 
@@ -239,6 +239,6 @@ taxocheck <- function(names, othersinfo = T, iucn=F, max.distance = 2)
   
   tab[tab == ""] <- NA
   # Return a table with original names in Rownames, and information on these taxa in other columns
-  return(list(SpeciesTable=tab))
+  return(data.frame(tab))
 }
 
