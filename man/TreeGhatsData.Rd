@@ -1,5 +1,5 @@
-\name{TreeGhats}
-\alias{TreeGhats}
+\name{TreeGhatsData}
+\alias{TreeGhatsData}
 \docType{data}
 \title{Western Ghats trees database
 }
@@ -56,8 +56,7 @@ A comprehensive database of tree species of the Western Ghats with an up-to-date
   \item{Phenology}{The leaves phenology of plants according to IFP expertise, either 'evergreen' or 'deciduous'.}
   
   \item{IUCN}{The IUCN status of plants, either 'CR', 'DD', 'EN', 'EX', 'LC', 'LR/cd', 'LR/lc', 'LR/nt', 'NE', 'NT', 'VU'.}
-  \item{Ecology_habitat} {Some informations are dispensed in this field about particular habitat: 'Planted/Cultivated', 'Coastal plant', 'Mangrove plant', Riparian}
-}  
+  \item{Ecology_habitat}{Some informations are dispensed in this field about particular habitat: 'Planted/Cultivated', 'Coastal plant', 'Mangrove plant', Riparian}
 }
 \details{
 The database is a compilation of different taxa lists :
@@ -72,7 +71,7 @@ Tropicos.org. Missouri Botanical Garden. 2017. \url{http://www.tropicos.org}.
 
 
 }
-\authors{
+\author{
 V. Raevel & F. Munoz
 }
 \references{

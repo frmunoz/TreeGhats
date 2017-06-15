@@ -94,7 +94,7 @@ S.PhyloMaker<-function (splist, tree, nodes, output.splist = T, scenarios = "S3"
         T1$edge.length <- round(T1$edge.length, 5)
         toDrop <- setdiff(1:length(T1$tip.label), which(!is.na(match(T1$tip.label, 
             splist$species))))
-        T1 <- drop.tip(T1, tip = toDrop)
+        T1 <- ape::drop.tip(T1, tip = toDrop)
         Re <- which(!is.na(match(T1$node.label, renameNode$node.label)))
         noRe <- which(is.na(match(T1$node.label, renameNode$node.label)))
         T1$node.label[Re] <- renameNode$original.node.label[match(T1$node.label, 
@@ -117,7 +117,7 @@ S.PhyloMaker<-function (splist, tree, nodes, output.splist = T, scenarios = "S3"
                   num <- grep(nodeF$taxa[n], T2$tip.label)
                   len <- T2$edge.length[match(num, T2$edge[, 
                     2])] * (2/3)
-                  T2 <- bind.tip(T2, tip.label = data$species[i], 
+                  T2 <- ape::bind.tip(T2, tip.label = data$species[i], 
                     edge.length = len, where = num, position = len)
                   nodeF$clade.size[n] <- f + 1
                   num <- grep(nodeF$taxa[n], T2$tip.label)
@@ -137,7 +137,7 @@ S.PhyloMaker<-function (splist, tree, nodes, output.splist = T, scenarios = "S3"
                   num <- unique(T2$edge[, 1])[match(nodeG$node.label[nu], 
                     T2$node.label)]
                   len <- nodeG$node.age[nu]
-                  T2 <- bind.tip(T2, tip.label = data$species[i], 
+                  T2 <- ape::bind.tip(T2, tip.label = data$species[i], 
                     edge.length = len, where = num)
                 }
             }
@@ -150,7 +150,7 @@ S.PhyloMaker<-function (splist, tree, nodes, output.splist = T, scenarios = "S3"
                 if (length(n) == 1) {
                   len <- T2$edge.length[match(n, T2$edge[, 
                     2])]/2
-                  T2 <- bind.tip(T2, tip.label = data$species[i], 
+                  T2 <- ape::bind.tip(T2, tip.label = data$species[i], 
                     edge.length = len, where = n, position = len)
                 }
                 if (length(n) > 1) {
@@ -158,7 +158,7 @@ S.PhyloMaker<-function (splist, tree, nodes, output.splist = T, scenarios = "S3"
                     T2$tip.label[max(n)])
                   len <- T2$edge.length[match(n[1], T2$edge[, 
                     2])]
-                  T2 <- bind.tip(T2, tip.label = data$species[i], 
+                  T2 <- ape::bind.tip(T2, tip.label = data$species[i], 
                     edge.length = len, where = num)
                 }
             }
@@ -173,7 +173,7 @@ S.PhyloMaker<-function (splist, tree, nodes, output.splist = T, scenarios = "S3"
                   2])]
                 len <- T2$edge.length[match(n, T2$edge[, 
                   2])]
-                T2 <- bind.tip(T2, tip.label = data$species[i], 
+                T2 <- ape::bind.tip(T2, tip.label = data$species[i], 
                   edge.length = len, where = num)
             }
         }
@@ -203,7 +203,7 @@ S.PhyloMaker<-function (splist, tree, nodes, output.splist = T, scenarios = "S3"
                   num <- grep(nodeF$taxa[n], T3$tip.label)
                   len <- T3$edge.length[match(num, T3$edge[, 
                     2])] * (2/3)
-                  T3 <- bind.tip(T3, tip.label = data$species[i], 
+                  T3 <- ape::bind.tip(T3, tip.label = data$species[i], 
                     edge.length = len, where = num, position = len)
                   nodeF$clade.size[n] <- f + 1
                   num <- grep(nodeF$taxa[n], T3$tip.label)
@@ -219,7 +219,7 @@ S.PhyloMaker<-function (splist, tree, nodes, output.splist = T, scenarios = "S3"
                   num <- unique(T3$edge[, 1])[match(nodeF$node.label[n], 
                     T3$node.label)]
                   len <- nodeF$node.age[n]
-                  T3 <- bind.tip(T3, tip.label = data$species[i], 
+                  T3 <- ape::bind.tip(T3, tip.label = data$species[i], 
                     edge.length = len, where = num)
                 }
             }
@@ -232,7 +232,7 @@ S.PhyloMaker<-function (splist, tree, nodes, output.splist = T, scenarios = "S3"
                 if (length(n) == 1) {
                   len <- T3$edge.length[match(n, T3$edge[, 
                     2])]/2
-                  T3 <- bind.tip(T3, tip.label = data$species[i], 
+                  T3 <- ape::bind.tip(T3, tip.label = data$species[i], 
                     edge.length = len, where = n, position = len)
                   nodeG$clade.size[match(data$genus[i], nodeG$genus)] <- length(n) + 
                     1

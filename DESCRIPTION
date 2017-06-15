@@ -14,7 +14,8 @@ Imports:
     phytools,
     taxize,
     Taxonstand,
-    Hmisc
+    Hmisc,
+    knitr
 Suggests:    
     stringdist,
     stringr,

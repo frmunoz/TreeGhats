@@ -88,7 +88,7 @@ Nayar, T., Rasiya Beegam, A. & Sibi, M. 2015. Flowering plants of the Western Gh
 Nayar, T.S., Beegam, A.R. & Sibi, M. 2014. Flowering Plants of the Western Ghats, India: Dicots. Jawaharlal Nehru Tropical Botanic Garden and Research Institute.
 }
 
-\authors{
+\author{
 V. Raevel & F. Munoz
 }
 
@@ -118,7 +118,7 @@ result <- taxocheck(example)
 
 \note{The function only consider subspecies, varieties and forms.
 The function relies on the TreeGhats database, which is included in the package. This database will be updated.
-The running time of the function depends on the length of the taxon names vector and which arguments are TRUE ({if \code{othersinfo = T} the running time is longer).
+The running time of the function depends on the length of the taxon names vector and which arguments are TRUE (if \code{othersinfo = T} the running time is longer).
 
 The function uses internet connection to check names in TPL, get the family according to APG III and the IUCN status.
 
