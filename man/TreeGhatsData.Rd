@@ -6,7 +6,7 @@
 \description{
 A comprehensive database of tree species of the Western Ghats with an up-to-date taxonomic reference. It contains all the taxon names that have been commonly used in forest ecology research on Western Ghats over the last decades. It considers infra taxa. The Database is dynamic and will be updated. 
 }
-\usage{data("TreeGhats")}
+\usage{data("TreeGhatsData")}
 \value{
   A data frame with the following information.
   
@@ -76,10 +76,11 @@ V. Raevel & F. Munoz
 }
 \references{
 %%  ~~ possibly secondary sources and usages ~~
+To be completed
 }
 \examples{
-data(TreeGhats)
-str(TreeGhats)
+data(TreeGhatsData)
+str(TreeGhatsData)
 }
 \keyword{datasets}
 \keyword{ Western Ghats }

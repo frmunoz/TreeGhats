@@ -15,11 +15,11 @@ Imports:
     taxize,
     Taxonstand,
     Hmisc,
-    knitr
-Suggests:    
     stringdist,
-    stringr,
     letsR,
+    knitr,
+    stringr
+LazyData: true
 Description: The package includes utilities for taxonomic name resolution, basic ecological information on Western Ghats tree, and a tool to build a phylogeny from a given list of taxa.
 License: GPL (>= 2)
 Encoding: UTF-8

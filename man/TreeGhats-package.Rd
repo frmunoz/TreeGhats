@@ -27,9 +27,11 @@ Maintainer: \packageMaintainer{TreeGhats}
 %%~~ documentation directory ~~
 \keyword{ package }
 \seealso{
-~~ Optional links to other man pages, e.g. ~~
-~~ \code{\link[<pkg>:<pkg>-package]{<pkg>}} ~~
+To be completed
 }
+%%~~ Optional links to other man pages, e.g. ~~
+%%~~ \code{\link[<pkg>:<pkg>-package]{<pkg>}} ~~
 \examples{
-~~ simple examples of the most important functions ~~
+# To be completed
 }
+%%~~ simple examples of the most important functions ~~

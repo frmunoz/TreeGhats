@@ -5,6 +5,7 @@
 Function of Qian and Jin (2015) to generate a phylogenetic tree}
 \description{
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
+To be completed
 }
 \usage{
 S.PhyloMaker(splist, tree, nodes, output.splist = T, scenarios = "S3")
@@ -52,25 +53,20 @@ Qian H. & Jin Y. (2015). An updated megaphylogeny of plants, a tool for generati
 \author{
 F. Munoz, adapted from Qian and Jin (2015)
 }
-\note{
-%%  ~~further notes~~
-}
-
-%% ~Make other sections like Warning with \section{Warning }{....} ~
-
 \seealso{
 %% ~~objects to See Also as \code{\link{help}}, ~~~
+To be completed
 }
 \examples{
-library("phytools") # load the "phytools" package.
+example <- data.frame(species = c("Dipterocarpus indicus", "Memecylon umbellatum",
+"Michelia champaca"), genus=c("Dipterocarpus", "Memecylon", "Michelia"), 
+family=c("Dipterocarpaceae", "Melastomataceae", "Magnoliaceae"))
 
-example <- 
-
-data(qian)
-result<-S.PhyloMaker(splist=example, tree=qian$phylo.all, nodes=qian$nodes)      # run the function S.PhyloMaker.
+# run the function S.PhyloMaker
+result<-S.PhyloMaker(splist=example, tree=qian$phylo.all, nodes=qian$nodes)
 str(result)       # the structure of the ouput of S.PhyloMaker.
 
-plot(result$Scenario.1,cex=1.1)
+plot(result$Scenario.3, cex=1.1)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

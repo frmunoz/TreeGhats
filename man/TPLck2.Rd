@@ -7,7 +7,8 @@
 A modified version of \code{\link[Taxonstand]{TPLck}} function from the package \code{Taxonstand} in order to connect to The Plant list (TPL),and check for the validity of a plant name. The function provides the same informations than \code{TPLck}. However we add a new value indicating the number of homonyms. Indeed, even the presence of several homonyms is indicating in \code{Warning message}, by  \code{the plant name has more than one valid synonym},  the function \code{TPLck} returns the values for the first homonyms. 
 }
 \usage{
-TPLck2(sp, corr = TRUE, diffchar = 2, max.distance = 1, infra = TRUE, abbrev = TRUE, version = "1.1", encoding = "UTF-8")
+TPLck2(sp, corr = TRUE, diffchar = 2, max.distance = 1, infra = TRUE, abbrev = TRUE,
+version = "1.1", encoding = "UTF-8")
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -36,6 +37,7 @@ TPLck2(sp, corr = TRUE, diffchar = 2, max.distance = 1, infra = TRUE, abbrev = T
 }
 \details{
 %%  ~~ If necessary, more details than the description above ~~
+To be completed
 }
 \value{
 The function return an object of class \code{data.frame} with the following components:
@@ -45,12 +47,14 @@ The function return an object of class \code{data.frame} with the following comp
 }
 \references{
 %% ~put references to the literature/web site here ~
+To be completed
 }
 \author{
 V. Raevel adapted from Luis Cayuela & Jari Oksanen
 }
 \note{
 %%  ~~further notes~~
+To be completed
 }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~

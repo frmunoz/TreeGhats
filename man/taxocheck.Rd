@@ -8,11 +8,11 @@
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
-taxocheck(names, othersinfo = TRUE, iunc = TRUE, max.distance = 2)
+taxocheck(names, othersinfo = T, iucn = F, max.distance = 2)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-\item{names}{A vector of plant names, each element including the genus, the specific epithet and, additionally, the infraspecific epithet. The authority of the taxon name should not be included.
+\item{names}{A vector of plant names, each element including the genus, the specific epithet and, additionally, the infraspecific epithet. The elements must be separated with a space. The authority of the taxon name should not be included.
 }
 \item{othersinfo}{Logical. If 'TRUE' (default), then the origin, the habit and the phenology are provided for the plant names found in the TreeGhats database.
 }
@@ -93,23 +93,26 @@ V. Raevel & F. Munoz
 }
 
 \seealso{
- See Also  \code{\link[TreeGhats]{TreeGhats_database}}, which is the database used by the function.
+ See Also  \code{\link{TreeGhatsData}}, which is the database used by the function.
  
  See Also  \code{\link[Taxonstand]{TPLck}}
  
- See Also  \code{\link[TreeGhats]{TPLck2}}
+ See Also  \code{\link{TPLck2}}
  
  See Also  \code{\link[taxize]{get_uid}}
  
  See Also  \code{\link[taxize]{apg_lookup}}
  
- See Also  \code{\link[taxize]{lets.iucn}}
+ See Also  \code{\link[letsR]{lets.iucn}}
  
 }
 
 \examples{
-example <- c("Dipterocarpus indicus","Michelia champaca","Drypetes roxburghii","Corypha umbraculifera")
+example <- c("Dipterocarpus indicus","Michelia champaca","Drypetes roxburghii",
+"Corypha umbraculifera")
+\dontrun{
 result <- taxocheck(example)
+}
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

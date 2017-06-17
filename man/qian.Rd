@@ -29,12 +29,13 @@ List of 2
 }
 \details{
 %%  ~~ If necessary, more details than the __description__ above ~~
+To be completed
 }
 \source{
 Qian H. & Jin Y. (2015). An updated megaphylogeny of plants, a tool for generating plant phylogenies, and an analysis of phylogenetic community structure. Journal of Plant Ecology.
 }
 \references{
-
+To be completed
 }
 \examples{
 data(qian)

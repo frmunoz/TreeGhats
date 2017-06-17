@@ -1,12 +1,14 @@
 \name{create.phylo}
 \alias{create.phylo}
 %- Also NEED an '\alias' for EACH other topic documented here.
+\alias{create.phylo.all}
 \title{
 Generating a phylogeny of selected Western Ghats trees}
 \description{
 Creates a phylogenic tree of taxa based on species, genus and APGIII family information}
 \usage{
 create.phylo(names = NULL, scenarios = "S3")
+create.phylo.all()
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -18,6 +20,7 @@ create.phylo(names = NULL, scenarios = "S3")
 }
 \details{
 %%  ~~ If necessary, more details than the description above ~~
+To be completed
 }
 \value{
 %%  ~Describe the value returned
@@ -25,6 +28,7 @@ create.phylo(names = NULL, scenarios = "S3")
 %%  \item{comp1 }{Description of 'comp1'}
 %%  \item{comp2 }{Description of 'comp2'}
 %% ...
+To be completed
 }
 \references{
 Qian H. & Jin Y. (2015). An updated megaphylogeny of plants, a tool for generating plant phylogenies, and an analysis of phylogenetic community structure. Journal of Plant Ecology.}
@@ -32,12 +36,17 @@ Qian H. & Jin Y. (2015). An updated megaphylogeny of plants, a tool for generati
 F. Munoz}
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
-
+\note{
+\code{create.phylo.all} is used only once to generate the phylogeny of all the taxa of the database.
+}
 \seealso{
 See Also \code{\link{qian}}.
 }
 \examples{
-example <- data.frame(Binome=c("Dipterocarpus indicus","Michelia champaca","Drypetes roxburghii","Corypha umbraculifera"),Genus=c("Dipterocarpus","Michelia","Drypetes","Corypha"),Family_APGIII=c("Dipterocarpaceae","Magnoliaceae","Euphorbiaceae","Aceraceae"),stringsAsFactors = F)
+example <- data.frame(Binome=c("Dipterocarpus indicus","Michelia champaca",
+"Drypetes roxburghii","Corypha umbraculifera"),Genus=c("Dipterocarpus","Michelia",
+"Drypetes","Corypha"),Family_APGIII=c("Dipterocarpaceae","Magnoliaceae",
+"Euphorbiaceae","Aceraceae"),stringsAsFactors = FALSE)
 
 phylo <- create.phylo(example)
 plot(phylo$Scenario.3)
