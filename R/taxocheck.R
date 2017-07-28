@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 taxocheck <- function(names, otherinfo = T, max.distance = 2)
+=======
+taxocheck <- function(names, otherinfo = T, iucn = F, max.distance = 2)
+>>>>>>> 435a74562bca46e8b1dbf482fa8884086c878f05
 {
   #### faut-il vraiment garder l'option spelling? on peut toujours mettre comme nom de ligne la liste initiale et les gens check par la colonne typo? ###
   # names = vector of taxa names (genus species, with space separation)
@@ -240,8 +244,13 @@ taxocheck <- function(names, otherinfo = T, max.distance = 2)
   # otherinfo
   if(otherinfo & any(!is.na(tab$Status_TBGRI)))
   {
+<<<<<<< HEAD
     tab$Origin <- NA; tab$Habit <- NA; tab$Phenology <- NA;tab$IUCN <- NA; 
     Info <-sapply(tab[!is.na(tab$Status_TBGRI),]$FoundName,function(x) TreeGhatsData[which(TreeGhatsData$Name==x),c("Origin","Habit","Phenology","IUCN_Status")])
+=======
+    tab$Origin <- NA; tab$Habit <- NA; tab$Phenology <- NA; 
+    Info <-sapply(tab[!is.na(tab$Status_TBGRI),]$FoundName,function(x) TreeGhatsData[which(TreeGhatsData$Name==x),c("Origin","Habit","Phenology")])
+>>>>>>> 435a74562bca46e8b1dbf482fa8884086c878f05
     tab$Origin[!is.na(tab$Status_TBGRI)]<-unlist(Info["Origin",])
     tab$Habit[!is.na(tab$Status_TBGRI)]<-unlist(Info["Habit",]) 
     tab$Phenology[!is.na(tab$Status_TBGRI)]<-unlist(Info["Phenology",])

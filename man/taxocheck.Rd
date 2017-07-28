@@ -4,17 +4,32 @@
 \title{Provide taxonomic status of a tree names list 
 
 }
+<<<<<<< HEAD
 \description{Check the status of a vector of taxon names, according to Tropical Botanic Garden and Research Institute of India (TBGRI) and The Plant List (TPL), from the TreeGhats database (\code{TreeGhatsData}). The function corrects orthographical errors in taxon names and provides the status and the reference names according to TBGRI and TPL. A synthese between TPL and TBGRI is done and a status, a reference name and a reference authority are proposed. The family name according to APGIII is provided.  The origin, the habit, the phenology and the IUCN status of the taxon are provided if \code{otherinfo = TRUE}, if the taxon name is present in (\code{TreeGhatsData}).
 
 }
 \usage{
 taxocheck(names, otherinfo = T,  max.distance = 2)
+=======
+\description{Check the status of a vector of taxon names, according to Tropical Botanic Garden and Research Institute of India (TBGRI) and The Plant List (TPL), from the TreeGhats database (\code{TreeGhatsData}). The function corrects orthographical errors in taxon names and provides the status and the reference names according to TBGRI and TPL. A synthese between TPL and TBGRI is done and a status, a reference name and a reference authority are proposed. The family name according to APGIII is provided.  The origin, the habit and the phenology of the taxon are provided if \code{otherinfo = TRUE}, if the taxon name is present in (\code{TreeGhatsData}).The IUCN status of the taxon is provided if \code{iucn = TRUE}.
+
+}
+\usage{
+taxocheck(names, otherinfo = T, iucn = F, max.distance = 2)
+>>>>>>> 435a74562bca46e8b1dbf482fa8884086c878f05
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
 \item{names}{A vector of taxon names, each element including the genus, the specific epithet and, additionally, the infraspecific rank and the infraspecific epithet. The elements must be separated with a space. The authority of the taxon name should not be included.
+<<<<<<< HEAD
 }
 \item{otherinfo}{Logical. If 'TRUE' (default), the biogeographic origin, the habit, the phenology and the IUCN status are provided for the taxon names found in \code{TreeGhatsData}.
+=======
+}
+\item{otherinfo}{Logical. If 'TRUE' (default), the biogeographic origin, the habit and the phenology are provided for the taxon names found in \code{TreeGhatsData}.
+}
+\item{iucn}{Logical. If 'TRUE' (default), the IUCN status is provided for the taxon names found in \code{TreeGhatsData}.
+>>>>>>> 435a74562bca46e8b1dbf482fa8884086c878f05
 }
 \item{max.distance}{Maximum distance allowed for a match in \code{agrep} function when performing corrections of spelling errors.
 }
@@ -24,7 +39,12 @@ taxocheck(names, otherinfo = T,  max.distance = 2)
 First, the function standardizes the taxon names by removing unnecessary spaces, homogenising abbreviations of intraspecific rank and checking for incomplete names, i.e. missing species epithet, or names including a number. Then the function searches taxon names in the \code{TreeGhatsData}  and provides their taxonomic status according to TPL and TBGRI. Typos can be detected depending on the arguments \code{max.distance} and the correct spelling is provided in \code{FoundName}.
 Some caution is recommended in increasing \code{max.distance} to avoid incorrect matching. If the taxon name is absent from \code{TreeGhatsData}, the function used a modified version of the function \code{TPLck} (see \code{\link{TPLck2}}) in order to provide the taxonomic status of the taxon name according to TPL.
 The family according to APGIII is provided for each taxon name using the function \code{apg_lookup} from the package \pkg{Taxize}. 
+<<<<<<< HEAD
 If \code{otherinfo = T}, the origin, the habit, the phenology and the IUCN status of the reference names proposed are extracted from the \code{TreeGhatsData}. For taxon names absent from the TreeGhats database, the function return \code{NA}.
+=======
+If \code{otherinfo = T}, the origin, the habit, the phenology of the reference names proposed are extracted from the \code{TreeGhatsData}. For taxon names absent from the TreeGhats database, the function return \code{NA}.
+If \code{iucn = T}, the IUCN status is extracted from the \code{TreeGhatsData}. %-provided using the function \code{lets.iucn} from the package Taxize%.
+>>>>>>> 435a74562bca46e8b1dbf482fa8884086c878f05
 }
 \value{
 The function return an object of class \code{data.frame} with the following components:
@@ -71,7 +91,11 @@ The function return an object of class \code{data.frame} with the following comp
   
   \item{Phenology}{if \code{otherinfo = T}, the leaf phenology of the plant extracted from TreeGhats database or according to IFP expertise, either 'evergreen' or 'deciduous'.}
   
+<<<<<<< HEAD
   \item{IUCN}{if \code{otherinfo = T}, the IUCN status, either 'CR', 'DD', 'EN', 'EX', 'LC', 'LR/cd', 'LR/lc', 'LR/nt', 'NE', 'VU' for the reference name proposed. When the taxon name is not present in TreeGhats database or not evaluated by IUCN, the function returns \code{NA}.}
+=======
+  \item{IUCN}{if \code{iucn = T}, the IUCN status, either 'CR', 'DD', 'EN', 'EX', 'LC', 'LR/cd', 'LR/lc', 'LR/nt', 'NE', 'VU' for the reference name proposed. When the taxon name is not present in TreeGhats database or not evaluated by IUCN, the function returns \code{NA}.}
+>>>>>>> 435a74562bca46e8b1dbf482fa8884086c878f05
 }
 
 \references{
