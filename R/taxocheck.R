@@ -1,4 +1,4 @@
-taxocheck <- function(names, othersinfo = T, iucn = F, max.distance = 2)
+taxocheck <- function(names, otherinfo = T, max.distance = 2)
 {
   #### faut-il vraiment garder l'option spelling? on peut toujours mettre comme nom de ligne la liste initiale et les gens check par la colonne typo? ###
   # names = vector of taxa names (genus species, with space separation)
@@ -68,16 +68,16 @@ taxocheck <- function(names, othersinfo = T, iucn = F, max.distance = 2)
   
   # FoundName is the name found in the database, which can differ from the original name if there are typos
   # Research in Western Ghats database, without spelling difference
-  sel <- intersect(TreeGhatsData$Full_name,rownames(tab));
+  sel <- intersect(TreeGhatsData$Name,rownames(tab));
   tab[sel,]$FoundName <- sel
   tab$Typo <- ifelse(rownames(tab)%in% sel, F, NA)
   tab$ID_TPL <-NA;tab$Status_TPL <-NA;tab$ReferenceName_TPL <-NA;tab$ReferenceAuthority_TPL <-NA;tab$Status_TBGRI=NA;tab$ReferenceName_TBGRI <-NA;tab$ReferenceAuthority_TBGRI <-NA; 
   tab$Status_proposed<-NA;tab$ReferenceName_proposed <-NA;tab$ReferenceAuthority_proposed <-NA;tab$NewID_TPL<-NA;tab$Family_APGIII <-NA
   
   # Research in Western Ghats database, TreeGhatsData with spelling errors maxDist=2
-  selcor<-setdiff(rownames(tab),TreeGhatsData$Full_name)[!is.na(as.character(sapply(setdiff(rownames(tab),TreeGhatsData$Full_name),function(x) TreeGhatsData$Full_name[amatch(x,TreeGhatsData$Full_name, maxDist=max.distance)])))]
+  selcor<-setdiff(rownames(tab),TreeGhatsData$Name)[!is.na(as.character(sapply(setdiff(rownames(tab),TreeGhatsData$Name),function(x) TreeGhatsData$Name[amatch(x,TreeGhatsData$Name, maxDist=max.distance)])))]
   if(length(selcor)>=1)
-  {cornames<-as.character(sapply(setdiff(rownames(tab),TreeGhatsData$Full_name),function(x) TreeGhatsData$Full_name[amatch(x,TreeGhatsData$Full_name, maxDist=max.distance)]))
+  {cornames<-as.character(sapply(setdiff(rownames(tab),TreeGhatsData$Name),function(x) TreeGhatsData$Name[amatch(x,TreeGhatsData$Name, maxDist=max.distance)]))
   tab[selcor,]$FoundName <- cornames[!is.na(cornames)]
   tab[selcor,]$Typo <- T
   sel<-c(sel,cornames[!is.na(cornames)])}
@@ -86,7 +86,7 @@ taxocheck <- function(names, othersinfo = T, iucn = F, max.distance = 2)
   {
     # Research in Western Ghats database, info taxonomique 
     WGinfo<-NA
-    WGinfo<- sapply(tab[!is.na(tab$Typo)&tab$FoundName!="incompleteName",]$FoundName,function(x) TreeGhatsData[which(TreeGhatsData$Full_name==x),c("ID_TPL","Family_APGIII","Status_TPL","ReferenceName_TPL","ReferenceAuthority_TPL","Status_TBGRI","ReferenceName_TBGRI","ReferenceAuthority_TBGRI","Status_proposed","ReferenceName_proposed","ReferenceAuthority_proposed","Family_APGIII")]); 
+    WGinfo<- sapply(tab[!is.na(tab$Typo)&tab$FoundName!="incompleteName",]$FoundName,function(x) TreeGhatsData[which(TreeGhatsData$Name==x),c("ID_TPL","Family_APGIII","Status_TPL","ReferenceName_TPL","ReferenceAuthority_TPL","Status_TBGRI","ReferenceName_TBGRI","ReferenceAuthority_TBGRI","Status_proposed","ReferenceName_proposed","ReferenceAuthority_proposed","Family_APGIII")]); 
     tab[!is.na(tab$Typo)&tab$FoundName!="incompleteName",]$Status_TBGRI <-unlist(WGinfo["Status_TBGRI",])   
     tab[!is.na(tab$Typo)&tab$FoundName!="incompleteName",]$Status_TPL <- unlist(WGinfo["Status_TPL",])
     tab[!is.na(tab$Typo)&tab$FoundName!="incompleteName",]$ReferenceName_TBGRI <- unlist(WGinfo["ReferenceName_TBGRI",])
@@ -101,7 +101,7 @@ taxocheck <- function(names, othersinfo = T, iucn = F, max.distance = 2)
   }
   sel <- !is.na(tab$ReferenceName_proposed)
   if (any(sel))
-  {tab[sel,]$NewID_TPL<- unlist(sapply(tolower(tab$ReferenceName_proposed[sel]),function(x) TreeGhatsData[which(TreeGhatsData$Full_name==x),"ID_TPL"]));} 
+  {tab[sel,]$NewID_TPL<- unlist(sapply(tolower(tab$ReferenceName_proposed[sel]),function(x) TreeGhatsData[which(TreeGhatsData$Name==x),"ID_TPL"]));} 
   
   
   # For taxa absent from TreeGhatsData, check in PlantList
@@ -177,10 +177,10 @@ taxocheck <- function(names, othersinfo = T, iucn = F, max.distance = 2)
   }
   
   # Check again in TreeGhatsData: is it usefull
-  sel <- is.na(tab$Status_TBGRI) & tab$Typo==T &!is.na(tab$Typo) & !is.na(tab$Status_TPL) & tab$FoundName%in%TreeGhatsData$Full_name
+  sel <- is.na(tab$Status_TBGRI) & tab$Typo==T &!is.na(tab$Typo) & !is.na(tab$Status_TPL) & tab$FoundName%in%TreeGhatsData$Name
   if (any(sel))
   {
-    WGinfo<- sapply(tab$FoundName[sel],function(x) TreeGhatsData[which(TreeGhatsData$Full_name==x),c("Status_TBGRI","ReferenceName_TBGRI","ReferenceAuthority_TBGRI","Status_proposed")]); 
+    WGinfo<- sapply(tab$FoundName[sel],function(x) TreeGhatsData[which(TreeGhatsData$Name==x),c("Status_TBGRI","ReferenceName_TBGRI","ReferenceAuthority_TBGRI","Status_proposed")]); 
     tab[sel,]$Status_TBGRI <-unlist(WGinfo["Status_TBGRI",])   
     tab[sel,]$ReferenceName_TBGRI <- unlist(WGinfo["ReferenceName_TBGRI",])
     tab[sel,]$ReferenceAuthority_TBGRI <- unlist(WGinfo["ReferenceAuthority_TBGRI",])
@@ -234,26 +234,27 @@ taxocheck <- function(names, othersinfo = T, iucn = F, max.distance = 2)
   if(any(sel)){tab[sel,]$Family_APGIII<-NA }
   fam.list <- c();
   # Need to force definition apg_families, otherwise error in apg_lookup
-  fam.list=sapply(tab[!is.na(tab$Family_APGIII),]$Family_APGIII,function(x) with(apg_families, apg_lookup(taxa =as.character(x), rank = "family")[1]))
+  try(fam.list=sapply(tab[!is.na(tab$Family_APGIII),]$Family_APGIII,function(x) with(apg_families, apg_lookup(taxa =as.character(x), rank = "family")[1])),TRUE)
   tab[!is.na(tab$Family_APGIII),]$Family_APGIII=fam.list
   
-  # OthersInfo
-  if(othersinfo & any(!is.na(tab$Status_TBGRI)))
+  # otherinfo
+  if(otherinfo & any(!is.na(tab$Status_TBGRI)))
   {
-    tab$Origin <- NA; tab$Habit <- NA; tab$Phenology <- NA; 
-    Info <-sapply(tab[!is.na(tab$Status_TBGRI),]$FoundName,function(x) TreeGhatsData[which(TreeGhatsData$Full_name==x),c("Origin","Habit","Phenology")])
+    tab$Origin <- NA; tab$Habit <- NA; tab$Phenology <- NA;tab$IUCN <- NA; 
+    Info <-sapply(tab[!is.na(tab$Status_TBGRI),]$FoundName,function(x) TreeGhatsData[which(TreeGhatsData$Name==x),c("Origin","Habit","Phenology","IUCN_Status")])
     tab$Origin[!is.na(tab$Status_TBGRI)]<-unlist(Info["Origin",])
     tab$Habit[!is.na(tab$Status_TBGRI)]<-unlist(Info["Habit",]) 
-    tab$Phenology[!is.na(tab$Status_TBGRI)]<-unlist(Info["Phenology",]) 
+    tab$Phenology[!is.na(tab$Status_TBGRI)]<-unlist(Info["Phenology",])
+    tab$IUCN[!is.na(tab$Status_TBGRI)]<-unlist(Info["IUCN_Status",])
   }
   
   #IUCN Status a revoir
-  if(iucn)
-  {
-    tab$IUCN <- NA; 
-    sel<-!is.na(tab$ReferenceName_proposed)
-    tab$IUCN[sel]<-as.character(lets.iucn(paste(tab[sel,]$Genus,tab[sel,]$Species, sep=" ") , count = TRUE)$Status)
-  }
+  #if(iucn)
+  #{
+  #  tab$IUCN <- NA; 
+  #  sel<-!is.na(tab$ReferenceName_proposed)
+  #  tab$IUCN[sel]<-as.character(lets.iucn(paste(tab[sel,]$Genus,tab[sel,]$Species, sep=" ") , count = TRUE)$Status)
+  # }
   
   tab[tab == ""] <- NA
   # Return a table with original names in Rownames, and information on these taxa in other columns
