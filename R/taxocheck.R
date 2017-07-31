@@ -64,10 +64,8 @@ taxocheck <- function(names, otherinfo = T, max.distance = 2)
     rownames(tab)[!is.na(tab$InfrataxonRank)]=paste(tab[!is.na(tab$InfrataxonRank),]$Genus, tab[!is.na(tab$InfrataxonRank),]$Species,
                                                     tab[!is.na(tab$InfrataxonRank),]$InfrataxonRank, tab[!is.na(tab$InfrataxonRank),]$InfrataxonName, sep="_")
   }
-  
   # For consistency with rownames in TreeGhatsData
-  rownames(tab) <- gsub(rownames(tab), pattern=" ", replacement="_")
-  
+  # rownames(tab) <- gsub(rownames(tab), pattern=" ", replacement="_")
   # FoundName is the name found in the database, which can differ from the original name if there are typos
   # Research in Western Ghats database, without spelling difference
   sel <- intersect(TreeGhatsData$Name,rownames(tab));
@@ -104,11 +102,12 @@ taxocheck <- function(names, otherinfo = T, max.distance = 2)
   sel <- !is.na(tab$ReferenceName_proposed)
   if (any(sel))
   {tab[sel,]$NewID_TPL<- unlist(sapply(tolower(tab$ReferenceName_proposed[sel]),function(x) TreeGhatsData[which(TreeGhatsData$Name==x),"ID_TPL"]));} 
-  
+
   
   # For taxa absent from TreeGhatsData, check in PlantList
   #### Ici intervient la la fonction TPLck2, modifiee pour savoir s'il y a plusieurs synomym? comment appeler une fonction si on l'inclut dans notre package? ###  
-  taxonCheckTPL<-gsub(rownames(tab[is.na(tab$FoundName),]), pattern="_", replacement=" ")
+  #taxonCheckTPL<-gsub(rownames(tab[is.na(tab$FoundName),]), pattern="_", replacement=" ")
+  taxonCheckTPL<-rownames(tab[is.na(tab$FoundName),])
   tab.plantlist <- c();
   if(length(taxonCheckTPL)>=1)
   {pb <- winProgressBar(title = "progress bar", min = 0,max = length(taxonCheckTPL), width = 300)
@@ -250,14 +249,6 @@ taxocheck <- function(names, otherinfo = T, max.distance = 2)
     tab$Phenology[!is.na(tab$Status_TBGRI)]<-unlist(Info["Phenology",])
     tab$IUCN[!is.na(tab$Status_TBGRI)]<-unlist(Info["IUCN_Status",])
   }
-  
-  #IUCN Status a revoir
-  #if(iucn)
-  #{
-  #  tab$IUCN <- NA; 
-  #  sel<-!is.na(tab$ReferenceName_proposed)
-  #  tab$IUCN[sel]<-as.character(lets.iucn(paste(tab[sel,]$Genus,tab[sel,]$Species, sep=" ") , count = TRUE)$Status)
-  # }
   
   tab[tab == ""] <- NA
   # Return a table with original names in Rownames, and information on these taxa in other columns
