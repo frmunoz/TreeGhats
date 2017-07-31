@@ -16,7 +16,6 @@ Imports:
     Taxonstand,
     Hmisc,
     stringdist,
-    letsR,
     knitr,
     stringr
 LazyData: true
