@@ -24,17 +24,16 @@ taxocheck(names, otherinfo = T,  max.distance = 2)
 \details{
 First, the function standardizes the taxon names by removing unnecessary spaces, homogenising abbreviations of intraspecific rank and checking for incomplete names, i.e. missing species epithet, or names including a number. Then the function searches taxon names in the \code{TreeGhatsData}  and provides their taxonomic status according to TPL and TBGRI. Typos can be detected depending on the arguments \code{max.distance} and the correct spelling is provided in \code{FoundName}.
 Some caution is recommended in increasing \code{max.distance} to avoid incorrect matching. If the taxon name is absent from \code{TreeGhatsData}, the function used a modified version of the function \code{TPLck} (see \code{\link{TPLck2}}) in order to provide the taxonomic status of the taxon name according to TPL.
+From the status in TPL and TBGRI, a reference status, name and authority are proposed.
 The family according to APGIII is provided for each taxon name using the function \code{apg_lookup} from the package \pkg{Taxize}. 
 If \code{otherinfo = T}, the origin, the habit, the phenology and the IUCN status of the reference names proposed are extracted from the \code{TreeGhatsData}. For taxon names absent from the TreeGhats database, the function return \code{NA}.
 }
 \value{
 The function return an object of class \code{data.frame} with the following components:
 
-  \item{FoundName}{taxon names as found TreeGhats database or when it is absent in TPL. Orthographic errors are corrected. The taxon names provided by the user is kept in the rownames of the return object.}
+  \item{FoundName}{taxon names as found in \code{TreeGhatsData} or when it is absent in TPL. Orthographic errors are corrected. The taxon names provided by the user is kept in the rownames of the return object.'incompleteName' is return when the user did not provide without  species epithet, or including a number.}
   
   \item{Typo}{Logical. If 'TRUE' there was a spelling error in the taxon name provided by the user. The correct spelling can be found in the \code{Foundname} column.}
-  
-  \item{ID_TPL}{The Plant List record 'id'.}
   
   \item{Status_TPL}{Taxonomic status found in The Plant List, either 'Accepted', 'Synonym', 'Unresolved', or 'Misapplied' (see \url{http://www.theplantlist.org/1.1/about/#status}). \code{NA} indicates taxon names not found in TPL. When TPL found several homonyms for the taxon name provided the function returns 'TPLfoundSeveralHomonyms'.}
   
@@ -42,15 +41,13 @@ The function return an object of class \code{data.frame} with the following comp
   
   \item{ReferenceAuthority_TPL}{Names of the author(s) who first published the reference name, extracted from TPL.}
   
-  \item{NewID_TPL}{The Plant List record 'id' for the reference name, extracted from TPL.}
-  
-  \item{Status_TBGRI}{Taxonomic status according to TBGRI and extracted from the TreeGhats database, either 'Absent', 'Accepted', 'Synonym', 'Unresolved'. 'Absent' indicates taxon names not found in TBGRI.}
+  \item{Status_TBGRI}{Taxonomic status according to TBGRI and extracted from the TreeGhats database, either 'Absent', 'Accepted', 'Synonym', 'Unresolved'. 'Absent' indicates taxon names not found in TBGRI. \code{NA} indicates taxon names not found in \code{TreeGhatsData} i.e. taxon names not checked in TBGRI.}
   
   \item{ReferenceName_TBGRI}{The taxon name according to TBGRI and extracted from the TreeGhats data base.}
   
   \item{ReferenceAuthorithy_TBGRI}{Names of the author(s) who first published the reference name, according to TBGRI and extracted from the TreeGhats database.}
   
-  \item{Status_proposed}{Taxonomic status proposed, either 'Accepted', 'Synonym', 'Unresolved'. When a name is absent from TreeGhats database and TPL found several homonyms for the taxon name provided the function returns 'TPLfoundSeveralHomonyms'. When the taxon name is incomplete (missing species epithet or included a number), the function returns 'IncompleteName' as \code{Status_proposed}.}
+  \item{Status_proposed}{Taxonomic status proposed, either 'Accepted', 'Synonym', 'Unresolved' or 'incompleteName'. When a name is absent from TreeGhats database and TPL found several homonyms for the taxon name provided the function returns 'TPLfoundSeveralHomonyms'. When the taxon name is incomplete (missing species epithet or included a number), the function returns 'IncompleteName' as \code{Status_proposed}.}
   
   \item{ReferenceName_proposed}{The taxon name proposed.}
   
@@ -65,6 +62,8 @@ The function return an object of class \code{data.frame} with the following comp
   \item{InfrataxonRank}{Intraspecific rank of plant reference name proposed.}
   
   \item{InfrataxonName}{Intraspecific epithet of taxon reference name proposed.}
+  
+  \item{Comment}{Indicate if the name gives by the user has several infra taxon present in the WG according to TBGRI.}
   
   \item{Origin}{if \code{otherinfo = T}, the origin of the plant extracted from TreeGhats database according to TBGRI or IFP expertise, either 'exotic', 'endemic of Western Ghats', 'endemic of india' or 'native'.  When the taxon name is not present in TreeGhats database, the function returns \code{NA}.}
   
