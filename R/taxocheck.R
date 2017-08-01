@@ -233,13 +233,14 @@ taxocheck <- function(names, otherinfo = T, max.distance = 2)
     tab$ReferenceName_proposed[sel]<-paste(tab$Genus[sel],tab$Species[sel], sep=" ")
   }
   
-  # sel <- tab$Comment=="One Infrataxon in WG" & !is.na(tab$Comment)
-  # if (any(sel))
-  # {
-  #   tab$InfrataxonRank[sel]<-NA
-  #   tab$InfrataxonName[sel]<-NA
-  #   tab$ReferenceName_proposed[sel]<-paste(tab$Genus[sel],tab$Species[sel], sep=" ")
-  # } 
+  sel <- tab$Comment=="One Infrataxon in WG" & !is.na(tab$Comment)
+  if (any(sel))
+  { 
+    tab$ReferenceName_proposed[sel]<-sapply(tab$ReferenceName_proposed[sel],function(x) TreeGhatsData$ReferenceName_proposed[which(paste(TreeGhatsData$Genus,TreeGhatsData$Species, sep=" ")==x & !is.na(TreeGhatsData$InfraTaxonRank))])
+    tab$InfrataxonRank[sel]<-sapply(tolower(tab$ReferenceName_proposed[sel]),function(x) TreeGhatsData$InfraTaxonRank[which(TreeGhatsData$Name==x)])
+    tab$InfrataxonName[sel]<-sapply(tolower(tab$ReferenceName_proposed[sel]),function(x) TreeGhatsData$InfraTaxonNames[which(TreeGhatsData$Name==x)])
+    tab$Comment[tab$Comment=="One Infrataxon in WG"]<-NA
+   } 
   
    
   # APG III family
