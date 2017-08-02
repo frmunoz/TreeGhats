@@ -3,14 +3,13 @@ taxocheck <- function(names, otherinfo = T, max.distance = 2)
 
 {
   # names = vector of taxa names (genus species, with space separation)
-  # apg = should we provide apg3 family names
-  # IMPORTANT TreeGhatsData = base de donnees a utiliser
+  # TreeGhatsData  must be use as the database
   data('TreeGhatsData', package='TreeGhats', envir=environment())
   TreeGhatsData <- get("TreeGhatsData", envir=environment())
   data("apg_families", package='taxize', envir=environment())
   apg_families <- get("apg_families", envir=environment())
   # Pb with definition of sp to be checked (see below)
-  sp <- NULL
+  #sp <- NULL
   names <- na.omit(names)
   names <- tolower(unique(str_trim(names)))
   names<-gsub("(^\\s+|\\s+$|(?<=\\s)\\s)", "", names, perl=T)
@@ -28,8 +27,8 @@ taxocheck <- function(names, otherinfo = T, max.distance = 2)
   num<-cbind(num, sapply(rownames(tab), function(x) length(unlist(strsplit(x, split=" ")))==1),
              unlist(lapply(rownames(tab), function(x) strsplit(x, split=" ")[[1]][2]%in%c("sp.", "sp"," species"))))
   num<-apply(num, 1, function(x) any(x))
-  tab$FoundName<-ifelse(num==T, "incompleteName", NA)
-  sel<-tab$FoundName!= "incompleteName" | is.na(tab$FoundName)
+  tab$FoundName<-ifelse(num==T, "IncompleteName", NA)
+  sel<-tab$FoundName!= "IncompleteName" | is.na(tab$FoundName)
   tab[sel,]$Genus <- capitalize(do.call(rbind, strsplit(as.vector(names[sel]), " "))[,1])
   tab[sel,]$Species <-  sapply(names[sel], function(x) ifelse(length(unlist(strsplit(x, " "))) > 1, strsplit(x, " ")[[1]][2], ""))
   
@@ -52,7 +51,7 @@ taxocheck <- function(names, otherinfo = T, max.distance = 2)
       names<-as.vector(sapply(names, function(x) gsub(unique(InfrataxonRank[!is.na(InfrataxonRank)])[j]," ", x, fixed = TRUE)))}
     names<-gsub("(^\\s+|\\s+$|(?<=\\s)\\s)", "", names, perl=T)
     ## Problem here because sp is undefined
-    names <- ifelse(substr(names, 1, 1) == " ", substr(sp, 2, nchar(names)), names)
+    #names <- ifelse(substr(names, 1, 1) == " ", substr(sp, 2, nchar(names)), names)
     InfrataxonName <- sapply(names, function(x) ifelse(length(unlist(strsplit(x, " "))) > 2, strsplit(x, " ")[[1]][3], ""))
     InfrataxonRank<-replace(InfrataxonRank, InfrataxonRank%in%c("subsp", "ssp.", "ssp"), "subsp.")
     InfrataxonRank<-replace(InfrataxonRank, InfrataxonRank%in%c("f", "fo", "fo."), "f.")
@@ -62,17 +61,17 @@ taxocheck <- function(names, otherinfo = T, max.distance = 2)
     rownames(tab)[!is.na(tab$InfrataxonRank)]=paste(tab[!is.na(tab$InfrataxonRank),]$Genus, tab[!is.na(tab$InfrataxonRank),]$Species,
                                                     tab[!is.na(tab$InfrataxonRank),]$InfrataxonRank, tab[!is.na(tab$InfrataxonRank),]$InfrataxonName, sep=" ")
   }
-  # For consistency with rownames in TreeGhatsData
-  # rownames(tab) <- gsub(rownames(tab), pattern=" ", replacement="_")
+  # Research in TreeGhatsdata the taxonomic Information
   # FoundName is the name found in the database, which can differ from the original name if there are typos
-  # Research in Western Ghats database, without spelling difference
+  # Research names without spelling difference
   sel <- intersect(TreeGhatsData$Name,rownames(tab));
   tab[sel,]$FoundName <- sel
   tab$Typo <- ifelse(rownames(tab)%in% sel, F, NA)
   tab$ID_TPL <-NA;tab$Status_TPL <-NA;tab$ReferenceName_TPL <-NA;tab$ReferenceAuthority_TPL <-NA;tab$Status_TBGRI=NA;tab$ReferenceName_TBGRI <-NA;tab$ReferenceAuthority_TBGRI <-NA; 
-  tab$Status_proposed<-NA;tab$ReferenceName_proposed <-NA;tab$ReferenceAuthority_proposed <-NA;tab$Family_APGIII <-NA
+  tab$Status_proposed<-NA;tab$ReferenceName_proposed <-NA;tab$ReferenceAuthority_proposed <-NA;tab$Comment<-NA;tab$Family_APGIII <-NA
   #tab$NewID_TPL<-NA;
-  # Research in Western Ghats database, TreeGhatsData with spelling errors maxDist
+  
+  # Research names  with spelling errors maxDist
   selcor<-setdiff(rownames(tab),TreeGhatsData$Name)[!is.na(as.character(sapply(setdiff(rownames(tab),TreeGhatsData$Name),function(x) TreeGhatsData$Name[amatch(x,TreeGhatsData$Name, maxDist=max.distance)])))]
   if(length(selcor)>=1)
   {cornames<-as.character(sapply(setdiff(rownames(tab),TreeGhatsData$Name),function(x) TreeGhatsData$Name[amatch(x,TreeGhatsData$Name, maxDist=max.distance)]))
@@ -82,29 +81,26 @@ taxocheck <- function(names, otherinfo = T, max.distance = 2)
   if(length(sel)==0){warning("No match in TreeGhats database")}
   if(length(sel)>=1)
   {
-    # Research in Western Ghats database, info taxonomique 
     WGinfo<-NA
-    WGinfo<- sapply(tab[!is.na(tab$Typo)&tab$FoundName!="incompleteName",]$FoundName,function(x) TreeGhatsData[which(TreeGhatsData$Name==x),c("ID_TPL","Family_APGIII","Status_TPL","ReferenceName_TPL","ReferenceAuthority_TPL","Status_TBGRI","ReferenceName_TBGRI","ReferenceAuthority_TBGRI","Status_proposed","ReferenceName_proposed","ReferenceAuthority_proposed","Family_APGIII")]); 
-    tab[!is.na(tab$Typo)&tab$FoundName!="incompleteName",]$Status_TBGRI <-unlist(WGinfo["Status_TBGRI",])   
-    tab[!is.na(tab$Typo)&tab$FoundName!="incompleteName",]$Status_TPL <- unlist(WGinfo["Status_TPL",])
-    tab[!is.na(tab$Typo)&tab$FoundName!="incompleteName",]$ReferenceName_TBGRI <- unlist(WGinfo["ReferenceName_TBGRI",])
-    tab[!is.na(tab$Typo)&tab$FoundName!="incompleteName",]$ReferenceAuthority_TPL <- unlist(WGinfo["ReferenceAuthority_TPL",])
-    tab[!is.na(tab$Typo)&tab$FoundName!="incompleteName",]$ReferenceAuthority_TBGRI <- unlist(WGinfo["ReferenceAuthority_TBGRI",])
-    tab[!is.na(tab$Typo)&tab$FoundName!="incompleteName",]$ReferenceName_TPL <-unlist(WGinfo["ReferenceName_TPL",]) 
-    tab[!is.na(tab$Typo)&tab$FoundName!="incompleteName",]$ID_TPL <-unlist(WGinfo["ID_TPL",])
-    tab[!is.na(tab$Typo)&tab$FoundName!="incompleteName",]$Family_APGIII <-unlist(WGinfo["Family_APGIII",])
-    tab[!is.na(tab$Typo)&tab$FoundName!="incompleteName",]$Status_proposed <-unlist(WGinfo["Status_proposed",])
-    tab[!is.na(tab$Typo)&tab$FoundName!="incompleteName",]$ReferenceAuthority_proposed <-unlist(WGinfo["ReferenceAuthority_proposed",])
-    tab[!is.na(tab$Typo)&tab$FoundName!="incompleteName",]$ReferenceName_proposed <-unlist(WGinfo["ReferenceName_proposed",])
+    WGinfo<- sapply(tab[!is.na(tab$Typo)&tab$FoundName!="IncompleteName",]$FoundName,function(x) TreeGhatsData[which(TreeGhatsData$Name==x),c("ID_TPL","Family_APGIII","Status_TPL","ReferenceName_TPL","ReferenceAuthority_TPL","Status_TBGRI","ReferenceName_TBGRI","ReferenceAuthority_TBGRI","Status_proposed","ReferenceName_proposed","ReferenceAuthority_proposed","Family_APGIII")]); 
+    tab[!is.na(tab$Typo)&tab$FoundName!="IncompleteName",]$Status_TBGRI <-unlist(WGinfo["Status_TBGRI",])   
+    tab[!is.na(tab$Typo)&tab$FoundName!="IncompleteName",]$Status_TPL <- unlist(WGinfo["Status_TPL",])
+    tab[!is.na(tab$Typo)&tab$FoundName!="IncompleteName",]$ReferenceName_TBGRI <- unlist(WGinfo["ReferenceName_TBGRI",])
+    tab[!is.na(tab$Typo)&tab$FoundName!="IncompleteName",]$ReferenceAuthority_TPL <- unlist(WGinfo["ReferenceAuthority_TPL",])
+    tab[!is.na(tab$Typo)&tab$FoundName!="IncompleteName",]$ReferenceAuthority_TBGRI <- unlist(WGinfo["ReferenceAuthority_TBGRI",])
+    tab[!is.na(tab$Typo)&tab$FoundName!="IncompleteName",]$ReferenceName_TPL <-unlist(WGinfo["ReferenceName_TPL",]) 
+    tab[!is.na(tab$Typo)&tab$FoundName!="IncompleteName",]$ID_TPL <-unlist(WGinfo["ID_TPL",])
+    tab[!is.na(tab$Typo)&tab$FoundName!="IncompleteName",]$Family_APGIII <-unlist(WGinfo["Family_APGIII",])
+    tab[!is.na(tab$Typo)&tab$FoundName!="IncompleteName",]$Status_proposed <-unlist(WGinfo["Status_proposed",])
+    tab[!is.na(tab$Typo)&tab$FoundName!="IncompleteName",]$ReferenceAuthority_proposed <-unlist(WGinfo["ReferenceAuthority_proposed",])
+    tab[!is.na(tab$Typo)&tab$FoundName!="IncompleteName",]$ReferenceName_proposed <-unlist(WGinfo["ReferenceName_proposed",])
   }
   #sel <- !is.na(tab$ReferenceName_proposed)
   #if (any(sel))
   #{tab[sel,]$NewID_TPL<- unlist(sapply(tolower(tab$ReferenceName_proposed[sel]),function(x) TreeGhatsData[which(TreeGhatsData$Name==x),"ID_TPL"]));} 
 
   
-  # For taxa absent from TreeGhatsData, check in PlantList
-  #### Ici intervient la la fonction TPLck2, modifiee pour savoir s'il y a plusieurs synomym? comment appeler une fonction si on l'inclut dans notre package? ###  
-  #taxonCheckTPL<-gsub(rownames(tab[is.na(tab$FoundName),]), pattern="_", replacement=" ")
+  ## For taxa absent from TreeGhatsData, check in PlantList ##
   taxonCheckTPL<-rownames(tab[is.na(tab$FoundName),])
   tab.plantlist <- c();
   if(length(taxonCheckTPL)>=1)
@@ -119,10 +115,11 @@ taxocheck <- function(names, otherinfo = T, max.distance = 2)
   sel<-is.na(tab$FoundName)
   tab[is.na(tab$FoundName),]$Typo <- tab.plantlist[rownames(tab[is.na(tab$FoundName),]),"Typo"]
   tab[is.na(tab$FoundName),]$Family_APGIII<- tab.plantlist[rownames(tab[is.na(tab$FoundName),]),"Family"]
+  tab[is.na(tab$FoundName),]$ID_TPL<-tab.plantlist[rownames(tab[is.na(tab$FoundName),]),"ID"]
   # Check several homonyms
   if(is.numeric(tab.plantlist$severalNames))
-  {tab[rownames(tab.plantlist)[!is.na(tab.plantlist$severalNames)],]$Status_TPL<-"TPLfoundSeveralHomonyms"
-  sel<-!is.na(tab$Status_TPL) & tab$Status_TPL=="TPLfoundSeveralHomonyms"
+  {tab[rownames(tab.plantlist)[!is.na(tab.plantlist$severalNames)],]$Status_TPL<-"SeveralHomonyms"
+  sel<-!is.na(tab$Status_TPL) & tab$Status_TPL=="SeveralHomonyms"
   tab[sel,]$FoundName<-rownames(tab[sel,])
   }  
   #Check infrataxon in tlp refnames  
@@ -137,7 +134,6 @@ taxocheck <- function(names, otherinfo = T, max.distance = 2)
   
   # Complete tab with infos from TPL
   tab[is.na(tab$FoundName),]$Status_TPL <- tab.plantlist[rownames(tab[is.na(tab$FoundName),]),"Taxonomic.status"]
-  tab[is.na(tab$FoundName),]$ID_TPL<-tab.plantlist[rownames(tab[is.na(tab$FoundName),]),"ID"]
   #tab[is.na(tab$FoundName),]$NewID_TPL<-tab.plantlist[rownames(tab[is.na(tab$FoundName),]),"New.ID"]
   tab[is.na(tab$FoundName),]$ReferenceAuthority_TPL<-tab.plantlist[rownames(tab[is.na(tab$FoundName),]),"Authority"]
   tab[is.na(tab$FoundName),]$InfrataxonName<-tab.plantlist[rownames(tab[is.na(tab$FoundName),]),"Infraspecific"]
@@ -148,14 +144,14 @@ taxocheck <- function(names, otherinfo = T, max.distance = 2)
   tab[sel,]$ReferenceName_TPL<-NA
   tab[sel,]$FoundName<-NA}
   
-  # Correct possible typos  
+  ## Correct possible typos ## 
   sel <- is.na(tab$FoundName) & tab$Status_TPL %in% c("Accepted","Unresolved")
   if(any(sel)){
     tab[sel,]$FoundName <- tolower(tab.plantlist[rownames(tab)[sel],]$NewNames)}
   sel <- is.na(tab$FoundName) & tab$Status_TPL=="Synonym" & tab$Typo==F
   if(any(sel)){
     tab[sel,]$FoundName <- tolower(rownames(tab)[sel])}
-  sel <-  tab$Typo==T &  tab$Status_TPL %in% c("Synonym","TPLfoundSeveralHomonyms") & !is.na(tab$Status_TPL)
+  sel <-  tab$Typo==T &  tab$Status_TPL %in% c("Synonym","SeveralHomonyms") & !is.na(tab$Status_TPL)
   if(any(sel)){
     tab[sel,]$FoundName <-unlist(sapply(tab[rownames(tab)[sel],"ID_TPL"],function(x) tolower(paste0(read.csv(paste("http://www.theplantlist.org/tpl1.1/search?q=",x,"&csv=true",sep=""), header = TRUE, sep = ",", fill = TRUE, colClasses = "character", as.is = TRUE)[1,c("Genus","Species")],collapse=" "))))}
   sel<-!is.na(tab$Typo) &tab$Typo==T
@@ -164,7 +160,7 @@ taxocheck <- function(names, otherinfo = T, max.distance = 2)
     tab[sel,]$Genus<-capitalize(sapply(tab[sel,]$FoundName, function(x)  strsplit(x, " ")[[1]][1]))
   }
   
-  #Correct infraTaxonNames
+  #For infrataxon names
   if(any(tab.plantlist$New.Infraspecific!="" &  tab.plantlist$Typo==T & tab.plantlist$Taxonomic.status=="Synonym"))
   {sel<-tab.plantlist$New.Infraspecific!=""& tab.plantlist$Typo==T & tab.plantlist$Taxonomic.status=="Synonym"
   IDsel<-tab.plantlist[sel,]$ID
@@ -186,23 +182,23 @@ taxocheck <- function(names, otherinfo = T, max.distance = 2)
     tab[sel,]$ReferenceAuthority_TBGRI <- unlist(WGinfo["ReferenceAuthority_TBGRI",])
   }
   
-  # Infrataxon management  
+  # Infrataxon management: Count number of Infrataxa in TreeGhatsData  
   tab$Comment<-NA
   sel <- !is.na(tab$Status_TBGRI) & is.na(tab$InfrataxonRank)
   if (any(sel))
   {
     InfrataxonCount<-table(paste(TreeGhatsData$Genus,TreeGhatsData$Species, sep=" "))-1
     tab$Comment[sel]<-sapply(tab$FoundName[sel],function(x) InfrataxonCount[which(tolower(names(InfrataxonCount))==x)])
-    tab$Comment[tab$Comment>1]<-"Several Infrataxa in WG"
-    tab$Comment[tab$Comment==1]<-"One Infrataxon in WG"
+    tab$Comment[tab$Comment>1]<-"SeveralInfrataxa"
+    tab$Comment[tab$Comment==1]<-"OneInfrataxon"
     tab$Comment[tab$Comment==0]<-NA
   }
   
-  # Statut proposed:
+  ## Statut proposed ##
   tab1<-tab
   tab<-tab[,-c(3:7)]
-  tab$Genus<-NA;tab$Species<-NA;tab$InfrataxonRank<-NA; tab$InfrataxonName<-NA
-  sel<-!is.na(tab$FoundName) & tab$FoundName!="incompleteName" & is.na(tab$Status_TBGRI)
+  tab$Genus<-NA;tab$Species<-NA;tab$InfrataxonRank<-NA; tab$InfrataxonName<-NA;
+  sel<-!is.na(tab$FoundName) & tab$FoundName!="IncompleteName" & is.na(tab$Status_TBGRI)
   tab[sel,]$Status_proposed<-tab[sel,]$Status_TPL
   tab[sel,]$ReferenceName_proposed<-tab[sel,]$ReferenceName_TPL
   tab[sel,]$ReferenceAuthority_proposed <-tab[sel,]$ReferenceAuthority_TPL
@@ -211,47 +207,41 @@ taxocheck <- function(names, otherinfo = T, max.distance = 2)
   tab[sel,]$Species <-  do.call(rbind, strsplit(as.vector(tab[sel,]$ReferenceName_proposed), " "))[,2]
   tab[sel,]$InfrataxonRank <-  sapply(tab[sel,]$ReferenceName_proposed, function(x) ifelse(length(unlist(strsplit(x, " "))) > 2, strsplit(x, " ")[[1]][3], ""))
   tab[sel,]$InfrataxonName <-  sapply(tab[sel,]$ReferenceName_proposed, function(x) ifelse(length(unlist(strsplit(x, " "))) > 2, strsplit(x, " ")[[1]][4], ""))
-  sel<-!is.na(tab$Status_TPL) & tab$Status_TPL=="TPLfoundSeveralHomonyms"
+  
+  sel<-tab$FoundName=="IncompleteName" & !is.na(tab$FoundName)
   if(any(sel))
   {
-    tab[sel,]$Genus <- tab1[sel,]$Genus
-    tab[sel,]$Species <-tab1[sel,]$Species  
-    tab[sel,]$InfrataxonRank <- tab1[sel,]$InfrataxonRank 
-    tab[sel,]$InfrataxonName<- tab1[sel,]$InfrataxonName 
-  }
-  sel<-tab$FoundName=="incompleteName" & !is.na(tab$FoundName)
-  if(any(sel))
-  {
-    tab[sel,]$Status_proposed <- "incompleteName"
+    tab[sel,]$Status_proposed <- "IncompleteName"
   }
   
-  sel <- tab$Comment=="Several Infrataxa in WG" & !is.na(tab$Comment)
+  # For Infrataxon the reference name proposed depend on the number of Infrataxa present in WG.
+  sel <- tab$Comment=="SeveralInfrataxa" & !is.na(tab$Comment)
   if (any(sel))
   {
     tab$InfrataxonRank[sel]<-NA
     tab$InfrataxonName[sel]<-NA
     tab$ReferenceName_proposed[sel]<-paste(tab$Genus[sel],tab$Species[sel], sep=" ")
   }
-  
-  sel <- tab$Comment=="One Infrataxon in WG" & !is.na(tab$Comment)
+  sel <- tab$Comment=="OneInfrataxon" & !is.na(tab$Comment)
   if (any(sel))
   { 
     tab$ReferenceName_proposed[sel]<-sapply(tab$ReferenceName_proposed[sel],function(x) TreeGhatsData$ReferenceName_proposed[which(paste(TreeGhatsData$Genus,TreeGhatsData$Species, sep=" ")==x & !is.na(TreeGhatsData$InfraTaxonRank))])
     tab$InfrataxonRank[sel]<-sapply(tolower(tab$ReferenceName_proposed[sel]),function(x) TreeGhatsData$InfraTaxonRank[which(TreeGhatsData$Name==x)])
     tab$InfrataxonName[sel]<-sapply(tolower(tab$ReferenceName_proposed[sel]),function(x) TreeGhatsData$InfraTaxonNames[which(TreeGhatsData$Name==x)])
-    tab$Comment[tab$Comment=="One Infrataxon in WG"]<-NA
+    tab$Comment[tab$Comment=="OneInfrataxon"]<-NA
    } 
   
    
-  # APG III family
+  ## Upadate family name according to APGIII ##
   sel<-!is.na(tab$Family_APGIII) & tab$Family_APGIII==""
   if(any(sel)){tab[sel,]$Family_APGIII<-NA }
   fam.list <- c();
   # Need to force definition apg_families, otherwise error in apg_lookup
-  try(fam.list=sapply(tab[!is.na(tab$Family_APGIII),]$Family_APGIII,function(x) with(apg_families, apg_lookup(taxa =as.character(x), rank = "family")[1])),TRUE)
+  fam.list=sapply(tab[!is.na(tab$Family_APGIII),]$Family_APGIII,function(x) with(apg_families, apg_lookup(taxa =as.character(x), rank = "family")[1]))
   tab[!is.na(tab$Family_APGIII),]$Family_APGIII=fam.list
   
-  # otherinfo
+  
+  ## Provide some ecological information ##
   if(otherinfo & any(!is.na(tab$ReferenceName_proposed)))
   {
 
@@ -265,6 +255,11 @@ taxocheck <- function(names, otherinfo = T, max.distance = 2)
   }
   
   tab[tab == ""] <- NA
+  if(all(is.na(tab$Comment)))
+  {tab<-tab[,-which(colnames(tab)=="Comment")]}
+  if(all(is.na(tab$InfrataxonName)))
+  {tab<-tab[,-which(colnames(tab) %in% c("InfrataxonName","InfrataxonRank"))]}
+  
   rownames(tab)<-orig.names
   # Return a table with original names in Rownames, and information on these taxa in other columns
   return(data.frame(tab))
