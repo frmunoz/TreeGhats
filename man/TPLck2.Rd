@@ -1,10 +1,10 @@
 \name{TPLck2}
 \alias{TPLck2}
 %- Also NEED an '\alias' for EACH other topic documented here.
-\title{Modified version of \code{TPLck} indicating the number of homonyms of a plant name 
+\title{Modified version of \code{TPLck} indicating the number of homonyms of a taxon name 
 }
 \description{
-A modified version of \code{\link[Taxonstand]{TPLck}} function from the package \code{Taxonstand} in order to connect to The Plant list (TPL),and check for the validity of a plant name. The function provides the same informations than \code{TPLck}. However we add a new value indicating the number of homonyms. Indeed, even the presence of several homonyms is indicating in \code{Warning message}, by  \code{the plant name has more than one valid synonym},  the function \code{TPLck} returns the values for the first homonyms. 
+A modified version of \code{\link[Taxonstand]{TPLck}} function from the package \code{Taxonstand} in order to connect to The Plant list (TPL),and check for the validity of a plant name. The function provides the same informations than \code{TPLck}. However we add a new value indicating the number of homonyms. Indeed, even the presence of several homonyms is indicating in \code{Warning message}, by  \code{the plant name has more than one valid synonym},  the function \code{TPLck} returns the values for the first alaphabetic homonyms. 
 }
 \usage{
 TPLck2(sp, corr = TRUE, diffchar = 2, max.distance = 1, infra = TRUE, abbrev = TRUE,
