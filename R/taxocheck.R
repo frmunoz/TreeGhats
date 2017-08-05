@@ -110,9 +110,9 @@ taxocheck <- function(names, otherinfo = T, max.distance = 2)
   taxonCheckTPL<-rownames(tab[is.na(tab$FoundName),])
   tab.plantlist <- c();
   if(length(taxonCheckTPL)>=1)
-  {pb <- winProgressBar(title = "progress bar", min = 0,max = length(taxonCheckTPL), width = 300)
+  {pb <- utils::winProgressBar(title = "progress bar", min = 0,max = length(taxonCheckTPL), width = 300)
   for(i in 1:length(taxonCheckTPL))
-  {Sys.sleep(0.1);setWinProgressBar(pb, i, title=paste("Check in TPL" ,round(i/length(taxonCheckTPL)*100, 0),"% done"));res=TPLck2(taxonCheckTPL[i]); tab.plantlist <- rbind(tab.plantlist,res)}
+  {Sys.sleep(0.1);utils::setWinProgressBar(pb, i, title=paste("Check in TPL" ,round(i/length(taxonCheckTPL)*100, 0),"% done"));res=TPLck2(taxonCheckTPL[i]); tab.plantlist <- rbind(tab.plantlist,res)}
   #}
   
   rownames(tab.plantlist) <- rownames(tab[is.na(tab$FoundName),])
