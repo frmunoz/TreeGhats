@@ -77,9 +77,11 @@ taxocheck <- function(names, otherinfo = T, max.distance = 2)
   {cornames<-as.character(sapply(setdiff(rownames(tab),TreeGhatsData$Name),function(x) TreeGhatsData$Name[amatch(x,TreeGhatsData$Name, maxDist=max.distance)]))
   tab[selcor,]$FoundName <- cornames[!is.na(cornames)]
   tab[selcor,]$Typo <- T
-  sel<-c(sel,cornames[!is.na(cornames)])}
-  if(length(sel)==0){warning("No match in TreeGhats database")}
-  if(length(sel)>=1)
+  tab$Typo[tab$FoundName=="NULL"]<-NA
+  tab$FoundName[tab$FoundName=="NULL"]<-NA
+  sel<-!is.na(tab$Typo)&tab$FoundName!="IncompleteName"}
+  
+  if(any(sel))
   {
     WGinfo<-NA
     WGinfo<- sapply(tab[!is.na(tab$Typo)&tab$FoundName!="IncompleteName",]$FoundName,function(x) TreeGhatsData[which(TreeGhatsData$Name==x),c("ID_TPL","Family_APGIII","Status_TPL","ReferenceName_TPL","ReferenceAuthority_TPL","Status_TBGRI","ReferenceName_TBGRI","ReferenceAuthority_TBGRI","Status_proposed","ReferenceName_proposed","ReferenceAuthority_proposed","Family_APGIII")]); 
@@ -94,7 +96,7 @@ taxocheck <- function(names, otherinfo = T, max.distance = 2)
     tab[!is.na(tab$Typo)&tab$FoundName!="IncompleteName",]$Status_proposed <-unlist(WGinfo["Status_proposed",])
     tab[!is.na(tab$Typo)&tab$FoundName!="IncompleteName",]$ReferenceAuthority_proposed <-unlist(WGinfo["ReferenceAuthority_proposed",])
     tab[!is.na(tab$Typo)&tab$FoundName!="IncompleteName",]$ReferenceName_proposed <-unlist(WGinfo["ReferenceName_proposed",])
-  }
+  } else {warning("No match in TreeGhats database")}
   #sel <- !is.na(tab$ReferenceName_proposed)
   #if (any(sel))
   #{tab[sel,]$NewID_TPL<- unlist(sapply(tolower(tab$ReferenceName_proposed[sel]),function(x) TreeGhatsData[which(TreeGhatsData$Name==x),"ID_TPL"]));} 
