@@ -29,8 +29,11 @@ taxocheck <- function(names, otherinfo = T, max.distance = 2)
   num<-apply(num, 1, function(x) any(x))
   tab$FoundName<-ifelse(num==T, "IncompleteName", NA)
   sel<-tab$FoundName!= "IncompleteName" | is.na(tab$FoundName)
-  tab[sel,]$Genus <- capitalize(do.call(rbind, strsplit(as.vector(names[sel]), " "))[,1])
-  tab[sel,]$Species <-  sapply(names[sel], function(x) ifelse(length(unlist(strsplit(x, " "))) > 1, strsplit(x, " ")[[1]][2], ""))
+  if(sum(sel)!=0)
+  {
+    tab[sel,]$Genus <- capitalize(do.call(rbind, strsplit(as.vector(names[sel]), " "))[,1])
+    tab[sel,]$Species <-  sapply(names[sel], function(x) ifelse(length(unlist(strsplit(x, " "))) > 1, strsplit(x, " ")[[1]][2], ""))
+  }
   
   # Detect infrataxon
   vec0 <- c( "nothossp.", " nothossp ", "nothosubsp.", " nothosubsp ", "cultivar.", 
@@ -201,14 +204,20 @@ taxocheck <- function(names, otherinfo = T, max.distance = 2)
   tab<-tab[,-c(3:7)]
   tab$Genus<-NA;tab$Species<-NA;tab$InfrataxonRank<-NA; tab$InfrataxonName<-NA;
   sel<-!is.na(tab$FoundName) & tab$FoundName!="IncompleteName" & is.na(tab$Status_TBGRI)
-  tab[sel,]$Status_proposed<-tab[sel,]$Status_TPL
-  tab[sel,]$ReferenceName_proposed<-tab[sel,]$ReferenceName_TPL
-  tab[sel,]$ReferenceAuthority_proposed <-tab[sel,]$ReferenceAuthority_TPL
+  if(sum(sel)!=0)
+  {
+    tab[sel,]$Status_proposed<-tab[sel,]$Status_TPL
+    tab[sel,]$ReferenceName_proposed<-tab[sel,]$ReferenceName_TPL
+    tab[sel,]$ReferenceAuthority_proposed <-tab[sel,]$ReferenceAuthority_TPL
+  }
   sel<-!is.na(tab$ReferenceName_proposed)
-  tab[sel,]$Genus <- capitalize(do.call(rbind, strsplit(as.vector(tab[sel,]$ReferenceName_proposed), " "))[,1])
-  tab[sel,]$Species <-  do.call(rbind, strsplit(as.vector(tab[sel,]$ReferenceName_proposed), " "))[,2]
-  tab[sel,]$InfrataxonRank <-  sapply(tab[sel,]$ReferenceName_proposed, function(x) ifelse(length(unlist(strsplit(x, " "))) > 2, strsplit(x, " ")[[1]][3], ""))
-  tab[sel,]$InfrataxonName <-  sapply(tab[sel,]$ReferenceName_proposed, function(x) ifelse(length(unlist(strsplit(x, " "))) > 2, strsplit(x, " ")[[1]][4], ""))
+  if(sum(sel!=0))
+  {
+    tab[sel,]$Genus <- capitalize(do.call(rbind, strsplit(as.vector(tab[sel,]$ReferenceName_proposed), " "))[,1])
+    tab[sel,]$Species <-  do.call(rbind, strsplit(as.vector(tab[sel,]$ReferenceName_proposed), " "))[,2]
+    tab[sel,]$InfrataxonRank <-  sapply(tab[sel,]$ReferenceName_proposed, function(x) ifelse(length(unlist(strsplit(x, " "))) > 2, strsplit(x, " ")[[1]][3], ""))
+    tab[sel,]$InfrataxonName <-  sapply(tab[sel,]$ReferenceName_proposed, function(x) ifelse(length(unlist(strsplit(x, " "))) > 2, strsplit(x, " ")[[1]][4], ""))
+  }
   
   sel<-tab$FoundName=="IncompleteName" & !is.na(tab$FoundName)
   if(any(sel))
