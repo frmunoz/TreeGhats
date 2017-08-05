@@ -1,6 +1,7 @@
 # TreeGhats
-Taxonomic and ecological database of trees of Western Ghats
 [![Build Status](https://travis-ci.org/frmunoz/TreeGhats.svg?branch=master)](https://travis-ci.org/frmunoz/TreeGhats)
+
+Taxonomic and ecological database of trees of Western Ghats
 
 In this project, we aim to develop a comprehensive database on the taxon names and a tool to recognize and resolve taxon names for
 the Western Ghats region in R software environment.
