@@ -82,8 +82,8 @@ taxocheck <- function(names, otherinfo = T, max.distance = 2)
   tab[selcor,]$Typo <- T
   tab$Typo[tab$FoundName=="NULL"]<-NA
   tab$FoundName[tab$FoundName=="NULL"]<-NA
+  }
   sel<-!is.na(tab$Typo)&tab$FoundName!="IncompleteName"
-  } else sel <- F
   
   if(any(sel))
   {
