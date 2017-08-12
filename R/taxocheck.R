@@ -4,8 +4,8 @@ taxocheck <- function(names, otherinfo = T, max.distance = 2, phylo = F)
 {
   # names = vector of taxa names (genus species, with space separation)
   if(!is.vector(names))
-    if(!"names"%in%colnames(names) & !"BINOME"%in%toupper(colnames(names))) stop("input should be a vector of names")
-    else if("names"%in%colnames(names)) names <- names$names
+    if(!"NAMES"%in%toupper(colnames(names)) & !"BINOME"%in%toupper(colnames(names))) stop("input should be a vector of names")
+    else if("NAMES"%in%toupper(colnames(names))) names <- names[,which(toupper(colnames(names))=="NAMES")[1]]
       else if("BINOME"%in%toupper(colnames(names))) names <- names[,which(toupper(colnames(names))=="BINOME")[1]]
         
   # TreeGhatsData  must be use as the database
@@ -117,7 +117,7 @@ taxocheck <- function(names, otherinfo = T, max.distance = 2, phylo = F)
   taxonCheckTPL<-rownames(tab[is.na(tab$FoundName),])
   tab.plantlist <- c();
   if(length(taxonCheckTPL)>=1)
-  {pb <- utils::winProgressBar(title = "progress bar", min = 0,max = length(taxonCheckTPL), width = 300)
+  {pb <- utils::winProgressBar(title = "progress bar", min = 0, max = length(taxonCheckTPL), width = 300)
   for(i in 1:length(taxonCheckTPL))
   {Sys.sleep(0.1);utils::setWinProgressBar(pb, i, title=paste("Check in TPL" ,round(i/length(taxonCheckTPL)*100, 0),"% done"));res=TPLck2(taxonCheckTPL[i]); tab.plantlist <- rbind(tab.plantlist,res)}
   #}
