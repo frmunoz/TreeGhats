@@ -2,7 +2,7 @@ Package: TreeGhats
 Type: Package
 Title: Taxonomic and ecological database and a phylogeny maker of Western Ghats trees
 Version: 1.0
-Date: 2017-06-05
+Date: 2017-08-12
 Author: V. Raevel and F. Munoz
 Maintainer: V. Raevel <treeghats@gmail.com>
 URL: https://github.com/frmunoz/TreeGhats
