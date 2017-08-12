@@ -105,6 +105,7 @@ V. Raevel & F. Munoz
 }
 
 \examples{
+\dontrun{
 example <- c("Dipterocarpus indicus","Michelia champaca","Drypetes roxburghii",
 "Corypha umbraculifera")
 result <- taxocheck(example)
@@ -112,6 +113,7 @@ result <- taxocheck(example)
 # Tree species from the Uppangala permanent forest plot
 test <- taxocheck(UPSP_Species, phylo = TRUE)
 plot(test$phylo)
+}
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
