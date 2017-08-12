@@ -23,7 +23,7 @@ create.phylo <- function(names = NULL, scenarios = "S3")
   phylomaker <- na.omit(phylomaker)
   phylomaker <- unique(phylomaker)
   colnames(phylomaker) <- c("species","genus","family");
-  rownames(phylomaker) <- capitalize(tolower(gsub(phylomaker$species,pattern=" ",replacement="_")))
+  rownames(phylomaker) <- Hmisc::capitalize(tolower(gsub(phylomaker$species,pattern=" ",replacement="_")))
   
   # For diagnostic only
   #sum(tolower(unique(TreeGhatsData$Family_APGIII))%in%tolower(nodes$family))/length(unique(TreeGhatsData$Family_APGIII)) # 99.2%

@@ -1,15 +1,22 @@
 
-taxocheck <- function(names, otherinfo = T, max.distance = 2)
+taxocheck <- function(names, otherinfo = T, max.distance = 2, phylo = F)
 
 {
   # names = vector of taxa names (genus species, with space separation)
+  if(!is.vector(names))
+    if(!"names"%in%colnames(names) & !"BINOME"%in%toupper(colnames(names))) stop("input should be a vector of names")
+    else if("names"%in%colnames(names)) names <- names$names
+      else if("BINOME"%in%toupper(colnames(names))) names <- names[,which(toupper(colnames(names))=="BINOME")[1]]
+        
   # TreeGhatsData  must be use as the database
   data('TreeGhatsData', package='TreeGhats', envir=environment())
   TreeGhatsData <- get("TreeGhatsData", envir=environment())
   data("apg_families", package='taxize', envir=environment())
   apg_families <- get("apg_families", envir=environment())
+  
   # Pb with definition of sp to be checked (see below)
   #sp <- NULL
+  
   names <- na.omit(names)
   names <- tolower(unique(str_trim(names)))
   names<-gsub("(^\\s+|\\s+$|(?<=\\s)\\s)", "", names, perl=T)
@@ -243,13 +250,13 @@ taxocheck <- function(names, otherinfo = T, max.distance = 2)
     tab$Comment[tab$Comment=="OneInfrataxon"]<-NA
    } 
   
-   
-  ## Upadate family name according to APGIII ##
+  ## Update family name according to APGIII ##
   sel<-!is.na(tab$Family_APGIII) & tab$Family_APGIII==""
   if(any(sel)){tab[sel,]$Family_APGIII<-NA }
   fam.list <- c();
   # Need to force definition apg_families, otherwise error in apg_lookup
-  fam.list=sapply(tab[!is.na(tab$Family_APGIII),]$Family_APGIII,function(x) with(apg_families, apg_lookup(taxa =as.character(x), rank = "family")[1]))
+  #fam.list=sapply(tab[!is.na(tab$Family_APGIII),]$Family_APGIII,function(x) with(apg_families, apg_lookup(taxa =as.character(x), rank = "family")[1]))
+  fam.list=sapply(tab[!is.na(tab$Family_APGIII),]$Family_APGIII,function(x) ifelse(x%in%apg_families$this & apg_families$that[apg_families$this==x]!="",apg_families$that[apg_families$this==x],x))
   tab[!is.na(tab$Family_APGIII),]$Family_APGIII=fam.list
   
   
@@ -273,6 +280,16 @@ taxocheck <- function(names, otherinfo = T, max.distance = 2)
   {tab<-tab[,-which(colnames(tab) %in% c("InfrataxonName","InfrataxonRank"))]}
   
   rownames(tab)<-orig.names
-  # Return a table with original names in Rownames, and information on these taxa in other columns
-  return(data.frame(tab))
+  tab <- data.frame(tab)
+  
+  if(!phylo)
+  {
+    # Return a table with original names in Rownames, and information on these taxa in other columns
+    return(tab)
+  } else
+  {
+    # Create the phylogeny corresponding to the taxa (create.phylo with default options)
+    phylo <- create.phylo(tab)
+    return(list(tab=tab, phylo=phylo$Scenario.3))
+  }
 }

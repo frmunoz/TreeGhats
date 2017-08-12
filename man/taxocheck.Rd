@@ -8,7 +8,7 @@
 \description{Check the taxonomic status of a vector of taxon names, according to the Tropical Botanic Garden and Research Institute of India (TBGRI) and The Plant List (TPL), from the TreeGhats database (\code{TreeGhatsData}). The function corrects orthographical errors in taxon names and provides the taxonomic status and the reference names according to TBGRI and TPL. From these information a status, a reference name and  authority are proposed. For the reference taxon proposed, the family name according to APGIII is provided.  The biogeographic origin, the habit, the phenology and the IUCN status are also provided, if \code{otherinfo = TRUE} and if the taxon name is present in \code{\link{TreeGhatsData}}.
 }
 \usage{
-taxocheck(names, otherinfo = T,  max.distance = 2)
+taxocheck(names, otherinfo = T,  max.distance = 2, phylo = F)
 }
 \arguments{
 \item{names}{A vector of taxon names, each element including a genus, a specific epithet and, additionally, an infraspecific rank and an infraspecific epithet. The elements must be separated with a space. The authority of the taxon name should not be included.
@@ -16,6 +16,8 @@ taxocheck(names, otherinfo = T,  max.distance = 2)
 \item{otherinfo}{Logical. If 'TRUE' (default), the biogeographic origin, the habit, the phenology and the IUCN status are provided for the taxon names found in \code{TreeGhatsData}.
 }
 \item{max.distance}{Maximum distance allowed for a match in \code{agrep} function when performing corrections of spelling errors.
+}
+\item{phylo}{If 'TRUE', the function will return an object of class \code{phylo} with the phylogenetic tree. Default is 'FALSE'.
 }
 }
 
@@ -25,7 +27,7 @@ From the status found in TPL and TBGRI, a status, a reference name and authority
 The family of the reference taxon proposed according to APGIII is provided using the function \code{apg_lookup} from the package \pkg{Taxize}. If \code{otherinfo = T}, the biogeographic origin, the habit, the phenology and the IUCN status of the reference taxon proposed are extracted from the \code{TreeGhatsData}.
 }
 \value{
-The function return an object of class \code{data.frame} with the following components:
+If \code{phylo = F} (default), the function returns an object of class \code{data.frame} with the following components:
 
   \item{FoundName}{taxon names as found in \code{TreeGhatsData} or when it is absent in TPL. Orthographic errors are corrected. The taxon names provided by the user is kept in the rownames of the return object. 'IncompleteName' is return when the user provide an name without species epithet, or including a number. \code{NA} indicates taxon names found neither in \code{TreeGhatsData} nor in TPL.}
   
@@ -68,6 +70,9 @@ The function return an object of class \code{data.frame} with the following comp
   \item{Phenology}{if \code{otherinfo = T}, the leaf phenology of the reference taxon proposed extracted from \code{TreeGhatsData}, either 'evergreen' or 'deciduous'.}
   
   \item{IUCN}{if \code{otherinfo = T}, the IUCN status, either 'CR', 'DD', 'EN', 'EX', 'LC', 'LR/cd', 'LR/lc', 'LR/nt', 'NE', 'VU' for the reference taxon proposed. When the taxon name is not present in \code{TreeGhatsData} or not evaluated by IUCN, the function returns \code{NA}.}
+  
+If \code{phylo = T}, the function returns a list with the same data frame as above in \code{$tab}, plus an object of class \code{phylo} in \code{$phylo} providing the phylogenetic tree of the requested taxa.
+
 }
 
 \references{
@@ -101,9 +106,11 @@ V. Raevel & F. Munoz
 \examples{
 example <- c("Dipterocarpus indicus","Michelia champaca","Drypetes roxburghii",
 "Corypha umbraculifera")
-\dontrun{
 result <- taxocheck(example)
-}
+
+# Tree species from the Uppangala permanent forest plot
+test <- taxocheck(UPSP_Species, phylo = TRUE)
+plot(test$phylo)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
