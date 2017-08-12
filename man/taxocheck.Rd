@@ -11,7 +11,8 @@
 taxocheck(names, otherinfo = T,  max.distance = 2, phylo = F)
 }
 \arguments{
-\item{names}{A vector of taxon names, each element including a genus, a specific epithet and, additionally, an infraspecific rank and an infraspecific epithet. The elements must be separated with a space. The authority of the taxon name should not be included.
+\item{names}{Typically a vector of taxon names, each element including a genus, a specific epithet and, additionally, an infraspecific rank and an infraspecific epithet. The elements must be separated with a space. The authority of the taxon name should not be included.
+If the user instead provides a data frame, \code{taxocheck} selects the first column named "names" or "binome" (case insensitive). This column should include taxon names following the same format as presented above.
 }
 \item{otherinfo}{Logical. If 'TRUE' (default), the biogeographic origin, the habit, the phenology and the IUCN status are provided for the taxon names found in \code{TreeGhatsData}.
 }
