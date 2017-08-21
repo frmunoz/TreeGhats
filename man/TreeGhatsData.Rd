@@ -51,12 +51,12 @@ A comprehensive database of tree taxa of the Western Ghats with up-to-date taxon
   
   \item{Origin}{Biogeographic origin according to TBGRI or IFP expertise, either 'exotic', 'endemic of Western Ghats', 'endemic of india' or 'native'.}
   
-  \item{Habit}{Habit according to TBGRI or IFP expertise, either 'liana', 'shrub', 'tree','...','unknown' ,or any combination of these terms.}
+  \item{Habit}{Habit according to TBGRI or IFP expertise, either 'climbing shrub','liana', 'shrub', 'tree','unknown' ,or any combination of these terms.}
   
   \item{Phenology}{Leaf phenology of plants according to IFP expertise, either 'evergreen' or 'deciduous'.}
   
   \item{IUCN}{IUCN status of plants, either 'CR', 'DD', 'EN', 'EX', 'LC', 'LR/cd', 'LR/lc', 'LR/nt', 'NE', 'VU'. \code{NA} correspond to the non evaluated taxa.}
-  \item{Ecology_habitat}{particular habitats are precised, either 'Planted/Cultivated', 'Coastal plant', 'Mangrove plant'or 'Riparian'.}
+  \item{Ecology_habitat}{particular habitats are precised, either 'Planted/Cultivated', 'Coastal', 'Mangrove'or 'Riparian'.}
 }
 \details{
 The database is a compilation of different taxa lists :
@@ -64,6 +64,8 @@ taxa for which the word "tree" appeared in habit in the book Flowering plants of
 }
 \source{
 Nayar, T., Rasiya Beegam, A. & Sibi, M. 2015. Flowering plants of the Western Ghats, India, Volume 1 Dicots; Volume 2 Monocots. Jawaharlal Nehru Tropical Botanic Garden and Research Insitute.
+
+Ramesh, B.R., and Jean-Pierre Pascal. 1997. Atlas of Endemics of the Western Ghats (India): Distribution of Tree Species in the Evergreen and Semi-Evergreen Forests. French Institute of Pondicherry.
 
 The International taxon names Index. 2017. \url{http://www.ipni.org}.
 
