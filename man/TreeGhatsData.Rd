@@ -60,9 +60,12 @@ A comprehensive database of tree taxa of the Western Ghats with up-to-date taxon
 }
 \details{
 The database is a compilation of different taxa lists :
-taxa for which the word "tree" appeared in habit in the book Flowering plants of the western Ghats edited by the Tropical Botanic Garden Research Institute (TBGRI) including planted or cultivated taxa; Taxon described after 2014; taxon names used in studies done in different parts of the Western Ghats by the French institut of Pondicherry (IFP) or from 2000 and for which the list of taxa is published; taxon names reported as "tree" growth form used in the Indian Biodiversity Portail (\url{http://indiabiodiversity.org/}). As most of studies did not distinguish the infraspecific level, for each infra species (sub-species, variety or form), we automatically add the species level as an entry in our taxonomic database. The addition of the species level correspond to a degraded information. Indeed, according to the International code of nomenclature, the publication of an infrataxon name automatically created the infrataxon autonym corresponding to the taxon level.  
+taxa for which the word "tree" appeared in habit in the book Flowering plants of the western Ghats edited by the Tropical Botanic Garden Research Institute (TBGRI) including planted or cultivated taxa; Taxon described after 2014; taxon names used in studies done in different parts of the Western Ghats by the French institut of Pondicherry (IFP) or from 2000 and for which the list of taxa is published; taxon names reported as "tree" growth form used in the Indian Biodiversity Portail (\url{http://indiabiodiversity.org/}). As most of studies did not distinguish the infraspecific level, for each infra species (sub-species, variety or form), we automatically add the species level as an entry in our taxonomic database. The addition of the species level correspond to a degraded information. Indeed, according to the International code of nomenclature, the publication of an infrataxon name automatically created the infrataxon autonym corresponding to the taxon level.
+The version of the database available in TreeGhats package has been published on Zenodo on August 21st (https://zenodo.org/record/846291).
 }
 \source{
+Raevel, V., Ayyappan, N., Balachandran, N., Aravajy, S., Barathan, N., Ramesh, B. R. & Munoz, F. (2017) Taxonomic and ecological database of trees of Western Ghats - TreeGhatsData (ed Zenodo), https://zenodo.org/record/846291
+
 Nayar, T., Rasiya Beegam, A. & Sibi, M. 2015. Flowering plants of the Western Ghats, India, Volume 1 Dicots; Volume 2 Monocots. Jawaharlal Nehru Tropical Botanic Garden and Research Insitute.
 
 Ramesh, B.R., and Jean-Pierre Pascal. 1997. Atlas of Endemics of the Western Ghats (India): Distribution of Tree Species in the Evergreen and Semi-Evergreen Forests. French Institute of Pondicherry.
@@ -72,7 +75,6 @@ The International taxon names Index. 2017. \url{http://www.ipni.org}.
 Tropicos.org. Missouri Botanical Garden. 2017. \url{http://www.tropicos.org}.
 
 India biodiversity Portal.2017.\url{http://indiabiodiversity.org/}
-
 
 }
 \author{
