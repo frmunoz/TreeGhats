@@ -4,9 +4,14 @@ taxocheck <- function(names, otherinfo = T, max.distance = 2, phylo = F)
 {
   # names = vector of taxa names (genus species, with space separation)
   if(!is.vector(names))
-    if(!"NAMES"%in%toupper(colnames(names)) & !"BINOME"%in%toupper(colnames(names))) stop("input should be a vector of names")
-    else if("NAMES"%in%toupper(colnames(names))) names <- names[,which(toupper(colnames(names))=="NAMES")[1]]
-      else if("BINOME"%in%toupper(colnames(names))) names <- names[,which(toupper(colnames(names))=="BINOME")[1]]
+    if(!"NAMES"%in%toupper(colnames(names)) & !"BINOME"%in%toupper(colnames(names))) 
+    {
+      stop("input should be a vector of names")
+    } else 
+      if("NAMES"%in%toupper(colnames(names))) 
+      {
+        names <- names[,which(toupper(colnames(names))=="NAMES")[1]]
+      } else if("BINOME"%in%toupper(colnames(names))) names <- names[,which(toupper(colnames(names))=="BINOME")[1]]
         
   # TreeGhatsData  must be use as the database
   data('TreeGhatsData', package='TreeGhats', envir=environment())
