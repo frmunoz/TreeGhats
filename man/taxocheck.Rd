@@ -5,7 +5,7 @@
 
 }
 
-\description{Check the taxonomic status of a vector of taxon names, according to the Tropical Botanic Garden and Research Institute of India (TBGRI) and The Plant List (TPL), from the TreeGhats database (\code{TreeGhatsData}). The function corrects orthographical errors in taxon names and provides the taxonomic status and the reference names according to TBGRI and TPL. From these information a status, a reference name and  authority are proposed. For the reference taxon proposed, the family name according to APGIII is provided.  The biogeographic origin, the habit, the phenology and the IUCN status are also provided, if \code{otherinfo = TRUE} and if the taxon name is present in \code{\link{TreeGhatsData}}.
+\description{Check the taxonomic status of a vector of taxon names, according to the Tropical Botanic Garden and Research Institute of India (TBGRI) and The Plant List (TPL), from the TreeGhats database (\code{TreeGhatsData}). The function corrects orthographical errors in taxon names and provides the taxonomic status and the reference names according to TBGRI and TPL. From these information a status, a reference name and  authority are proposed. For the reference taxon proposed, the family name according to APGIII is provided.  The biogeographic origin, the habit, the phenology and the IUCN status are also provided, if \code{otherinfo = TRUE} and if the taxon name is present in \code{\link{TreeGhatsData}}.A phylogenetic tree of the data is constructed if \code{phylo = TRUE}.
 }
 \usage{
 taxocheck(names, otherinfo = T,  max.distance = 2, phylo = F)
@@ -40,7 +40,7 @@ If \code{phylo = F} (default), the function returns an object of class \code{dat
   
   \item{ReferenceAuthority_TPL}{Names of the author(s) who first published the reference name extracted from TPL.}
   
-  \item{Status_TBGRI}{Taxonomic status according to TBGRI and extracted from \code{TreeGhatsData}, either 'Absent', 'Accepted', 'Synonym', 'Unresolved'. 'Absent' indicates taxon names not found in TBGRI. \code{NA} indicates taxon names not found in \code{TreeGhatsData} i.e. taxon names not checked in TBGRI.}
+  \item{Status_TBGRI}{Taxonomic status according to TBGRI and extracted from \code{TreeGhatsData}, either 'Absent', 'Accepted', 'Synonym', 'Unresolved', 'Absent' indicates taxon names not found in TBGRI. \code{NA} indicates taxon names not found in \code{TreeGhatsData} i.e. taxon names not checked in TBGRI.}
   
   \item{ReferenceName_TBGRI}{The reference taxon name according to TBGRI and extracted from \code{TreeGhatsData}.}
   
@@ -66,7 +66,7 @@ If \code{phylo = F} (default), the function returns an object of class \code{dat
   
   \item{Origin}{if \code{otherinfo = T}, the biogegraphical origin of the reference taxon proposed extracted from \code{TreeGhatsData}, either 'exotic', 'endemic of Western Ghats', 'endemic of india' or 'native'. \code{NA} indicates that the reference taxon proposed is absent from \code{TreeGhatsData}.}
   
-  \item{Habit}{if \code{otherinfo = T}, the habit of the reference taxon proposed extracted from from \code{TreeGhatsData}, either 'liana', 'shrub', 'tree', '...', 'unknown' ,or any combination of these terms. \code{NA} indicates that the reference taxon proposed is absent from \code{TreeGhatsData}.}
+  \item{Habit}{if \code{otherinfo = T}, the habit of the reference taxon proposed extracted from from \code{TreeGhatsData}, either 'liana', 'shrub', 'tree', 'unknown' ,or any combination of these terms. \code{NA} indicates that the reference taxon proposed is absent from \code{TreeGhatsData}.}
   
   \item{Phenology}{if \code{otherinfo = T}, the leaf phenology of the reference taxon proposed extracted from \code{TreeGhatsData}, either 'evergreen' or 'deciduous'.}
   
