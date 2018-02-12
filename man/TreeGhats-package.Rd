@@ -21,17 +21,12 @@ The DESCRIPTION file:
 Maintainer: \packageMaintainer{TreeGhats}
 }
 \references{
-~~ Literature or other references for background information ~~
+Raevel, V., Ayyappan, N., Balachandran, N., Aravajy, S., Barathan, N., Ramesh, B. R. & Munoz, F. (2017) Taxonomic and ecological database of trees of Western Ghats - TreeGhatsData (ed Zenodo), https://zenodo.org/record/846291
 }
-%%~~ Optionally other standard keywords, one per line, from file KEYWORDS in the R ~~
-%%~~ documentation directory ~~
-\keyword{ package }
-\seealso{
-To be completed
-}
-%%~~ Optional links to other man pages, e.g. ~~
-%%~~ \code{\link[<pkg>:<pkg>-package]{<pkg>}} ~~
-\examples{
-# To be completed
-}
-%%~~ simple examples of the most important functions ~~
+
+\keyword{Western Ghats}
+\keyword{tree}
+\keyword{taxonomy}
+\keyword{phylogeny}
+\keyword{database}
+

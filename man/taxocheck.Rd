@@ -119,6 +119,8 @@ plot(test$phylo)
 % R documentation directory.
 \keyword{ Western Ghats }
 \keyword{ Tree }
+\keyword{taxonomy}
+\keyword{phylogeny}
 
 \note{
 The function relies on \code{TreeGhatsData} included in the package, which will be update.
