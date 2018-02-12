@@ -13,7 +13,7 @@
 The DESCRIPTION file:
 \packageDESCRIPTION{TreeGhats}
 \packageIndices{TreeGhats}
-~~ An overview of how to use the package, including the most important functions ~~
+
 }
 \author{
 \packageAuthor{TreeGhats}
