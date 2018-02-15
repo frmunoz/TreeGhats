@@ -1,8 +1,8 @@
 Package: TreeGhats
 Type: Package
-Title: Taxonomic name resolution and phylogeny generation of Western Ghats trees
+Title: Taxonomic name resolution and phylogeny generator for Western Ghats trees
 Version: 1.0
-Date: 2017-08-12
+Date: 2018-02-15
 Author: V. Raevel and F. Munoz
 Maintainer: V. Raevel <treeghats@gmail.com>
 URL: https://github.com/frmunoz/TreeGhats
@@ -20,7 +20,8 @@ Imports:
     stringr,
     utils
 LazyData: true
-Description: The package includes utilities for taxonomic name resolution, basic ecological information on Western Ghats tree, and a tool to build a phylogeny from a given list of taxa.
+Description: The package includes two tools to manage taxonomic, ecological and phylogenetic information on Western Ghats trees.
+    The tools (i) provide taxonomic name resolution and basic ecological information extracted from the TreeGhatsData database, and (ii) build a dated phylogeny for a given list of taxa.
 License: GPL (>= 2)
 Encoding: UTF-8
 VignetteBuilder: knitr
