@@ -2,35 +2,48 @@
 \alias{UPSP_Species}
 \docType{data}
 \title{
-Species list of Uppangala rainforest plot
+List of tree species in the Uppangala rainforest plot
 }
 \description{
-To be completed
+The data frame includes a list of tree species names reported in the Uppangala Permanent Sampling Plot (UPSP), Karnataka.
 }
 \usage{data("UPSP_Species")}
-\format{
-  The format is:
-'data.frame':	100 obs. of  7 variables:
- $ SpCode    : chr  "acta" "agba" "agja" "agbo" ...
- $ LatinName : chr  "Actinodaphne" "Aglaia" "Aglaia" "Agrostistachys" ...
- $ species   : chr  "tadulingamii" "barberi" "jainii" "borneensis" ...
- $ family    : chr  "Lauraceae" "Meliaceae" "Meliaceae" "Euphorbiaceae" ...
- $ VoucherRef: chr  "HIFP_RP578" "HIFP_BRR1306" "HIFP_MAM07" "HIFP_BRR1744" ...
- $ PotStrata : chr  "3" "2" NA "3" ...
- $ binome    : chr  "Actinodaphne tadulingamii" "Aglaia barberi" "Aglaia jainii" "Agrostistachys borneensis" ...
+\value{
+  A data frame including the following columns:
+  \item{SpCode}{
+  a four-letter code including the two first letters of genus and two first letter of species names.
+  }
+  \item{LatinName}{
+  genus names (capitalized).
+  }
+  \item{species}{
+  species names.
+  }
+  \item{family}{
+  family names.
+  }
+  \item{VoucherRef}{
+  the reference code of samples collected and conserved in the Herbarium of French Institute of Pondicherry (HFIP).
+  }
+  \item{PotStrata}{
+  the potential vertical stratum of tree species.
+  }
+  \item{binome}{
+  binome name (genus plus species).
+  }   
 }
 \details{
-%%  ~~ If necessary, more details than the __description__ above ~~
-To be completed
+The dataset includes all the tree species reaching a diameter at breadth height above 10cm in the Uppangala Permanent Forest Plot(UPSP). The context of the forest plot is presented in details in Pélissier et al. (2011).
 }
 \source{
-To be completed
+The basic dataset is available in \href{https://figshare.com/collections/Tree_demography_in_an_undisturbed_Dipterocarp_permanent_sample_plot_at_Uppangala_Western_Ghats_of_India/3304026}{Pélissier et al. (2011)}.
+We only included the additional column \code{binome}.
 }
 \references{
-To be completed
+Pélissier R., Pascal J.-P., Ayyappan N., Ramesh B. R., Aravajy S. & Ramalingam (2011). Twenty years tree demography in an undisturbed Dipterocarp permanent sample plot at Uppangala, Western Ghats of India. Ecology. 92: 1376.
 }
 \examples{
 data(UPSP_Species)
-## maybe str(UPSP_Species) ; plot(UPSP_Species) ...
+str(UPSP_Species)
 }
 \keyword{datasets}

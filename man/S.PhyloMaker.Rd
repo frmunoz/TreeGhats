@@ -1,74 +1,60 @@
 \name{S.PhyloMaker}
 \alias{S.PhyloMaker}
-%- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Function of Qian and Jin (2015) to generate a phylogenetic tree}
+Function of Qian and Jin (2016) to generate a phylogenetic tree}
 \description{
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
-To be completed
+The function builds a phylogenetic tree based on taxonomic information on the taxa to be included.
 }
 \usage{
 S.PhyloMaker(splist, tree, nodes, output.splist = T, scenarios = "S3")
 }
-%- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{splist}{
-%%     ~~Describe \code{splist} here~~
-A user specified data frame which contains a list of seed plant species for which S.PhyloMaker generates phylogenies. This data frame should include three columns with field names as species, genus, and family. The three columns are, respectively, for species name (e.g. Acacia berlandieri), genus name (e.g. Acacia), and family name (e.g. Fabaceae)
+a data frame containing taxonomic information for a set of plant species (rows), for which \code{S.PhyloMaker} generates a phylogeny. It should include three columns named "species", "genus", and "family", and providing the species names (e.g. Acacia berlandieri), genus names (e.g. Acacia), and family names (e.g. Fabaceae), respectively.
 }
   \item{tree}{
-%%     ~~Describe \code{tree} here~~
-A phylo object; the megaphylogeny of vascular plants (i.e. PhytoPhylo). 
+a \code{\link[ape]{phylo}} object including the reference megaphylogeny of vascular plants (available in \code{\link{qian}}, i.e., \code{qian$phylo.all}). 
 }
   \item{nodes}{
-%%     ~~Describe \code{nodes} here~~
-A data.frame; it contains the basal node information of every family and genus on the megaphylogeny (i.e. PhytoPhylo).
+a data frame containing the basal node information of every family and genus of the megaphylogeny (available in \code{\link{qian}}, i.e., \code{qian$nodes}).
 }
   \item{output.splist}{
-%%     ~~Describe \code{output.splist} here~~
-Logical; the output species list includes the columns of the "splist" data frame and an extra column showing which species in "splist" have matched with species in the megaphylogeny. 
+if \code{TRUE}, the output species list will include in \code{splist} an extra column showing which species have matched with species in the megaphylogeny.
 }
   \item{scenarios}{
-%%     ~~Describe \code{scenarios} here~~
-Optional; defining which scenario(s) will be used to generate phylogenies. By default, scenario "S3" is performed. 
+defines which scenario(s) will be used to generate phylogenies. See Qian and Jin (2016) for more information on the alternative options \code{S1}, \code{S2} and \code{S3}. By default, scenario \code{S3} is performed.
 }
 }
 \details{
-%%  ~~ If necessary, more details than the description above ~~
-(The function description is derived from the Appendix of Qian and Jin (2015))
+(The function description is derived from the Appendix of Qian and Jin (2016))
 
-Using the PhytoPhylo megaphylogeny as a backbone, this function takes a user-specified species list and matches species in the species list with species in the megaphylogeny of Qian and Jin (2015). If a species is found in the megaphylogeny, the species will be selected for pruning; if the species is not found but its genus or family is found in the megaphylogeny, the species will be added to the backbone at a certain place within the genus or family depending on which scenarios are taken. Finally, the selected and added species are pruned from the megaphylogeny, which results in three phylogenies corresponding to the three scenarios (when default is chosen). 
+Using the PhytoPhylo megaphylogeny as a backbone, this function takes a user-specified species list and matches species in the species list with species in the megaphylogeny of Qian and Jin (2016). If a species is found in the megaphylogeny, the species will be selected for pruning; if the species is not found but its genus or family is found in the megaphylogeny, the species will be added to the backbone at a certain place within the genus or family depending on which scenarios are taken. Finally, the selected and added species are pruned from the megaphylogeny, which results in three phylogenies corresponding to the three scenarios (when default is chosen). 
 }
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
-The output contains a phylogenetetic tree in phylo format corresponding to the scenario defined in input, and a species list, which includes the original columns of the "spList" data frame and an additional column (called "status") showing which species in the user’s species list have matched with species in the megaphylogeny. Species matched between the species list and the megaphylogeny are indicated as "match(prune)"; species that are added to the megaphylogeny before the pruning are indicated as "match(add)"; species whose genera or families are not found in the megaphylogeny are indicated as "unmatch". 
+  \item{Scenario.x}{
+a phylogenetic tree in \code{\link[ape]{phylo}} format, built according to the \code{scenarios} defined in input. \code{x} is replaced with 1, 2 or 3 depending on whether scenarios \code{S1}, \code{S2} or \code{S3} have been defined.
+}
+  \item{Species.list}{
+a species list including original columns of the \code{splist} data frame and, if \code{output.splist = T}, an additional column called \code{status} showing which species have matched with species of the megaphylogeny. Species matching between the species list and the megaphylogeny are indicated as \code{match(prune)}, species that are added to the megaphylogeny before pruning are indicated as \code{match(add)}, while species whose genera or families are not found in the megaphylogeny are indicated as \code{unmatch}.
+}
 }
 \references{
-Qian H. & Jin Y. (2015). An updated megaphylogeny of plants, a tool for generating plant phylogenies, and an analysis of phylogenetic community structure. Journal of Plant Ecology.
+Qian H. & Jin Y. (2016). An updated megaphylogeny of plants, a tool for generating plant phylogenies, and an analysis of phylogenetic community structure. Journal of Plant Ecology. 9(2):233-239.
 }
 \author{
-F. Munoz, adapted from Qian and Jin (2015)
+F. Munoz, adapted from Qian and Jin (2016)
 }
 \seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
-To be completed
+\code{\link{create.phylo}}
 }
 \examples{
 example <- data.frame(species = c("Dipterocarpus indicus", "Memecylon umbellatum",
-"Michelia champaca"), genus=c("Dipterocarpus", "Memecylon", "Michelia"), 
-family=c("Dipterocarpaceae", "Melastomataceae", "Magnoliaceae"))
+"Michelia champaca"), genus = c("Dipterocarpus", "Memecylon", "Michelia"), 
+family = c("Dipterocarpaceae", "Melastomataceae", "Magnoliaceae"))
 
 # run the function S.PhyloMaker
-result<-S.PhyloMaker(splist=example, tree=qian$phylo.all, nodes=qian$nodes)
+result <- S.PhyloMaker(splist = example, tree = qian$phylo.all, nodes = qian$nodes)
 str(result)       # the structure of the ouput of S.PhyloMaker.
 
-plot(result$Scenario.3, cex=1.1)
+plot(result$Scenario.3, cex = 1.1)
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }% use one of  RShowDoc("KEYWORDS")
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

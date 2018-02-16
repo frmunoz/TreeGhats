@@ -1,19 +1,20 @@
 \name{TreeGhatsData}
 \alias{TreeGhatsData}
 \docType{data}
-\title{Western Ghats tree database
-}
+\title{Western Ghats tree database}
 \description{
 A comprehensive database of tree taxa of the Western Ghats with up-to-date taxonomic reference. It contains taxon names that have been commonly used in forest ecology research on Western Ghats. It also considers infrataxon level. The database is dynamic and will be updated. 
 }
 \usage{data("TreeGhatsData")}
 \value{
-  A data frame with the following information.
+  A data frame including the following information:
   
   \item{Name}{Taxon names without authority.}
   
   \item{Spelling_variants}{Other spelling found for taxon names.}
+  
   \item{Family_TBGRI}{Family names according to the Tropical Botanic Garden Research Institute (TBGRI).}
+  
   \item{Family_APGIII}{Family names according to APGIII.}
   
   \item{Genus}{Genus of taxon names.}
@@ -25,10 +26,15 @@ A comprehensive database of tree taxa of the Western Ghats with up-to-date taxon
   \item{InfraTaxonName}{Intraspecific epithet of taxon names.}
   
   \item{Authority_InitialDatabases}{Names of the author(s) who first published the taxon name presented in the reference lists to build TreeGhatsData.}
+  
   \item{Authority_TPL}{Names of the author(s) who first published the taxon name, according to TPL. 'Absent' indicates taxon names not found in TPL.}
+  
   \item{Authority_IPNI}{Names of the author(s) who first published the taxon name, according to IPNI. 'Absent' indicates taxon names not found in IPNI.}
+  
   \item{Full_name}{Taxon names with authority.}
+  
   \item{ID_Tropicos}{Tropicos record 'id'. 'Absent' indicates taxon names not found in Tropicos.}
+  
   \item{ID_TPL}{The Plant List record 'id'. 'Absent' indicates taxon names not found in TPL.}
   
   \item{Status_TPL}{Taxonomic status found in TPL, either 'Absent', 'Accepted', 'Synonym' or 'Unresolved' (see \url{http://www.theplantlist.org/1.1/about/#status}). 'Absent' indicates taxon names not found in TPL.}
@@ -36,7 +42,6 @@ A comprehensive database of tree taxa of the Western Ghats with up-to-date taxon
   \item{ReferenceName_TPL}{Reference taxon names, extracted from TPL. The field is filled with \code{NA} when the name is absent in TPL.}
   
   \item{ReferenceAuthority_TPL}{Names of the author(s) who first published the TPL reference taxon names. The field is filled with \code{NA} when the name is absent in TPL.}
-  
   
   \item{Status_TBGRI}{Taxonomic status according to TBGRI, either 'Absent', 'Accepted' or 'Synonym'. 'Absent' designs names not found in TBGRI.}
   
@@ -89,8 +94,8 @@ str(TreeGhatsData)
 }
 \keyword{database}
 \keyword{Western Ghats}
-\keyword{Tree}
-\keyword{ Flowering plants }
+\keyword{trees}
+\keyword{flowering plants}
 
 \note{
-The database is not exhaustive but will be updated and completed regularly. The priority has been to include the most commonly used taxon names,so the database does not content all synonym for a taxon. The attribution of 'tree' as a growth form to a taxon depends on the criteria used in the study and/or on the environmental conditions of the study area. This can explain missing taxa in the database and the inclusion of some shrubs or lianas according to TBGRI flora, because they have been reported in forest plot with a GBH larger than 10 cm.}
+The database is not exhaustive but will be updated and completed regularly. The priority has been to include the most commonly used taxon names, so the database does not content all the known synonyms for a taxon. The attribution of 'tree' as a growth form to a taxon depends on the criteria used in the study and/or on the environmental conditions of the study area. It can explain missing taxa in the database and the inclusion of some shrubs or lianas according to TBGRI flora, because they have been reported in forest plots and had a GBH larger than 10 cm.}

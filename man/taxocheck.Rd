@@ -1,8 +1,6 @@
 \name{taxocheck}
 \alias{taxocheck}
-%- Also NEED an '\alias' for EACH other topic documented here.
 \title{Provide taxonomic status of a tree names list 
-
 }
 
 \description{Check the taxonomic status of a vector of taxon names, according to the Tropical Botanic Garden and Research Institute of India (TBGRI) and The Plant List (TPL), from the TreeGhats database (\code{TreeGhatsData}). The function corrects orthographical errors in taxon names and provides the taxonomic status and the reference names according to TBGRI and TPL. From these information a status, a reference name and  authority are proposed. For the reference taxon proposed, the family name according to APGIII is provided.  The biogeographic origin, the habit, the phenology and the IUCN status are also provided, if \code{otherinfo = TRUE} and if the taxon name is present in \code{\link{TreeGhatsData}}.A phylogenetic tree of the data is constructed if \code{phylo = TRUE}.
@@ -91,17 +89,12 @@ V. Raevel & F. Munoz
 }
 
 \seealso{
- See Also  \code{\link{TreeGhatsData}}, which is the database used by the function.
+ \code{\link{TreeGhatsData}}, the database used by the function.
  
- See Also  \code{\link[Taxonstand]{TPLck}}
- 
- See Also  \code{\link{TPLck2}}
- 
- See Also  \code{\link[taxize]{get_uid}}
- 
- See Also  \code{\link[taxize]{apg_lookup}}
- 
- 
+ \code{\link[Taxonstand]{TPLck}}
+ \code{\link{TPLck2}}
+ \code{\link[taxize]{get_uid}}
+ \code{\link[taxize]{apg_lookup}}
 }
 
 \examples{

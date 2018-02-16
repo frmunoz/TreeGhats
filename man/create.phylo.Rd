@@ -1,57 +1,46 @@
 \name{create.phylo}
 \alias{create.phylo}
-%- Also NEED an '\alias' for EACH other topic documented here.
 \alias{create.phylo.all}
 \title{
 Generating a phylogeny of selected Western Ghats trees}
 \description{
-Creates a phylogenic tree of taxa based on species, genus and APGIII family information}
+Creates a phylogeny of tree taxa based on species, genus and APGIII family information.
+}
 \usage{
 create.phylo(names = NULL, scenarios = "S3")
-create.phylo.all()
+create.phylo.all(scenarios = "S3")
 }
-%- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{names}{Table including taxonomic information for each taxon on row, and columnes denoted "Binome", "Genus" and "Family_APGIII", with latine genus species combination, genus name and APGIII complying family name, respectively. Genus and species names in "Binome" must be separated with a space.
-  With default value NULL, the phylogeny is generated for all the taxa of the TreeGhats database.
+  \item{names}{a data frame including taxonomic information for each taxon on row. The columns must be named "Binome", "Genus" and "Family_APGIII", and include latine genus species combination, genus name and APGIII family name, respectively. Genus and species names in "Binome" must be separated with a space.
+  Default value is \code{NULL}, the phylogeny is generated for all taxa in the TreeGhatsData database.
 }
-  \item{scenarios}{One of the scenarios of Qian and Jin (2015) proposed for including taxa that are not already present in the worldwide phylogeny.
+  \item{scenarios}{one of the scenarios of Qian and Jin (2016) proposed for including taxa that are not already present in the megaphylogeny \link{qian}. See \link{S.PhyloMaker} for more information on the available options.
 }
 }
 \details{
-%%  ~~ If necessary, more details than the description above ~~
-To be completed
+\code{create.phylo} establishes a baseline phylogeny with the taxa in \code{names} that are already present in the megaphylogeny \code{\link{qian}}, and further includes the missing taxa by branching them to the corresponding genus node or, if the genus is absent from \code{\link{qian}}, to the corresponding family node.
+
+\code{create.phylo.all} is used to generate the phylogeny of all the taxa of the database (\code{$phylo.all} in \code{\link{qian}}).
+
 }
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
-To be completed
+The function returns an object of class \code{link[ape]{phylo}}, which can be analyzed and plotted with tools available in \code{ape} package.
 }
 \references{
-Qian H. & Jin Y. (2015). An updated megaphylogeny of plants, a tool for generating plant phylogenies, and an analysis of phylogenetic community structure. Journal of Plant Ecology.}
+Qian H. & Jin Y. (2016). An updated megaphylogeny of plants, a tool for generating plant phylogenies, and an analysis of phylogenetic community structure. Journal of Plant Ecology. 9(2):233-239.
+}
 \author{
 F. Munoz}
-
-%% ~Make other sections like Warning with \section{Warning }{....} ~
-\note{
-\code{create.phylo.all} is used only once to generate the phylogeny of all the taxa of the database.
-}
 \seealso{
-See Also \code{\link{qian}}.
+\code{\link{qian}}
+\code{\link{S.PhyloMaker}}
 }
 \examples{
-example <- data.frame(Binome=c("Dipterocarpus indicus","Michelia champaca",
-"Drypetes roxburghii","Corypha umbraculifera"),Genus=c("Dipterocarpus","Michelia",
-"Drypetes","Corypha"),Family_APGIII=c("Dipterocarpaceae","Magnoliaceae",
-"Euphorbiaceae","Aceraceae"),stringsAsFactors = FALSE)
+example <- data.frame(Binome = c("Dipterocarpus indicus", "Michelia champaca", 
+"Drypetes roxburghii", "Corypha umbraculifera"), Genus = c("Dipterocarpus", "Michelia", 
+"Drypetes", "Corypha"), Family_APGIII = c("Dipterocarpaceae", "Magnoliaceae", 
+"Euphorbiaceae", "Aceraceae"), stringsAsFactors = FALSE)
 
 phylo <- create.phylo(example)
 plot(phylo$Scenario.3)
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }% use one of  RShowDoc("KEYWORDS")
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
