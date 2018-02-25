@@ -2,7 +2,7 @@ Package: TreeGhats
 Type: Package
 Title: Taxonomic name resolution and phylogeny generator for Western Ghats trees
 Version: 1.0
-Date: 2018-02-15
+Date: 2018-02-25
 Author: V. Raevel and F. Munoz
 Maintainer: V. Raevel <treeghats@gmail.com>
 URL: https://github.com/frmunoz/TreeGhats
@@ -12,7 +12,6 @@ Depends:
 Imports:
     ape,
     phytools,
-    taxize,
     Taxonstand,
     Hmisc,
     stringdist,
