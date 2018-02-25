@@ -13,7 +13,7 @@ S.PhyloMaker(splist, tree, nodes, output.splist = T, scenarios = "S3")
 a data frame containing taxonomic information for a set of plant species (rows), for which \code{S.PhyloMaker} generates a phylogeny. It should include three columns named "species", "genus", and "family", and providing the species names (e.g. Acacia berlandieri), genus names (e.g. Acacia), and family names (e.g. Fabaceae), respectively.
 }
   \item{tree}{
-a \code{\link[ape]{phylo}} object including the reference megaphylogeny of vascular plants (available in \code{\link{qian}}, i.e., \code{qian$phylo.all}). 
+a \code{phylo} object including the reference megaphylogeny of vascular plants (available in \code{\link{qian}}, i.e., \code{qian$phylo.all}). 
 }
   \item{nodes}{
 a data frame containing the basal node information of every family and genus of the megaphylogeny (available in \code{\link{qian}}, i.e., \code{qian$nodes}).
@@ -32,7 +32,7 @@ Using the PhytoPhylo megaphylogeny as a backbone, this function takes a user-spe
 }
 \value{
   \item{Scenario.x}{
-a phylogenetic tree in \code{\link[ape]{phylo}} format, built according to the \code{scenarios} defined in input. \code{x} is replaced with 1, 2 or 3 depending on whether scenarios \code{S1}, \code{S2} or \code{S3} have been defined.
+a phylogenetic tree in \code{phylo} format, built according to the \code{scenarios} defined in input. \code{x} is replaced with 1, 2 or 3 depending on whether scenarios \code{S1}, \code{S2} or \code{S3} have been defined.
 }
   \item{Species.list}{
 a species list including original columns of the \code{splist} data frame and, if \code{output.splist = T}, an additional column called \code{status} showing which species have matched with species of the megaphylogeny. Species matching between the species list and the megaphylogeny are indicated as \code{match(prune)}, species that are added to the megaphylogeny before pruning are indicated as \code{match(add)}, while species whose genera or families are not found in the megaphylogeny are indicated as \code{unmatch}.
