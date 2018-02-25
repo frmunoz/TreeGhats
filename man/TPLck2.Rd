@@ -1,73 +1,42 @@
 \name{TPLck2}
 \alias{TPLck2}
-%- Also NEED an '\alias' for EACH other topic documented here.
 \title{Modified version of \code{TPLck} indicating the number of homonyms of a taxon name 
 }
 \description{
-A modified version of \code{\link[Taxonstand]{TPLck}} function from the package \code{Taxonstand} in order to connect to The Plant list (TPL),and check for the validity of a plant name. The function provides the same informations than \code{TPLck}. However we add a new value indicating the number of homonyms. Indeed, even the presence of several homonyms is indicating in \code{Warning message}, by  \code{the plant name has more than one valid synonym},  the function \code{TPLck} returns the values for the first alaphabetic homonyms. 
+A modified version of the \code{\link[Taxonstand]{TPLck}} function from package \code{Taxonstand}. The function basically provides the same information than \code{TPLck}, but further keeps track of homonyms. Although a warning message indicates in \code{TPLck} when there are several homonyms, the function returns the first homonym in alphabetic order only. 
+\code{TPLck2} returns the number of homonyms for a given taxon name.
 }
 \usage{
 TPLck2(sp, corr = TRUE, diffchar = 2, max.distance = 1, infra = TRUE, abbrev = TRUE,
 version = "1.1", encoding = "UTF-8")
 }
-%- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{sp}{A character specifying the genus and specific epithet and, additionally, the infraspecific epithet.
-}
-  \item{corr}{Logical. If 'TRUE' (default), then removal of spelling errors is performed (only) on the specific and infraspecific epithets prior to taxonomic standardization.
-}
-  \item{diffchar}{
-%%     ~~Describe \code{diffchar} here~~
-}
-  \item{max.distance}{
-%%     ~~Describe \code{max.distance} here~~
-}
-  \item{infra}{
-%%     ~~Describe \code{infra} here~~
-}
-  \item{abbrev}{
-%%     ~~Describe \code{abbrev} here~~
-}
-  \item{version}{
-%%     ~~Describe \code{version} here~~
-}
-  \item{encoding}{
-%%     ~~Describe \code{encoding} here~~
-}
+\item{sp}{a character vector specifying the input taxon, i.e. genus and specific epithet and, potentially, author name and infraspecific abbreviation and epithet.}
+\item{infra}{logical. If TRUE (default), infraspecific epithets are used to match taxon names in TPL.}
+\item{corr}{logical. If TRUE (default), spelling errors are corrected (only) in the specific and infraspecific epithets prior to taxonomic standardization.}
+\item{diffchar}{a number indicating the maximum difference between the number of characters in corrected and original taxon names. Not used if corr = FALSE.}
+\item{max.distance}{a number indicating the maximum distance allowed for a match in agrep when performing corrections of spelling errors in specific epithets. Not used if corr = FALSE.}
+\item{version}{a character vector indicating whether to connect to the newest version of TPL (1.1) or to the older one (1.0). Default to "1.1".}
+\item{encoding}{encoding to be assumed for input strings from TPL website; defaults to "UTF-8" (see \code{\link{read.csv}} and \code{\link{Encoding}}).}
 }
 \details{
-%%  ~~ If necessary, more details than the description above ~~
-To be completed
+\code{TPLck2} overcomes two issues in \code{TPLck}. First, valid homonyms (i.e., a name for a taxon that is identical in spelling to another such name, but belongs to a different taxon) cannot be identified. 
+Second, if the infraspecific epithet does not match any of the infraspecific epithets considered in TPL, then the first accepted name with no infraspecific epithet is selected as the best match. If all names provided by TPL have infraspecific epithets and are all synonyms (e.g. Pottia starkeana), then there is no best match and the output will match the original name.
 }
 \value{
-The function return an object of class \code{data.frame} with the following components:
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
-}
-\references{
-%% ~put references to the literature/web site here ~
-To be completed
+The function return an object of class \code{data.frame} including the same elements than those provided by \code{\link[Taxonstand]{TPLck}}, plus the element \code{$severalNames} indicating the number of homonyms if any. 
+The value of \code{$severalNames} is \code{NA} if there is no homonym.
 }
 \author{
-V. Raevel adapted from Luis Cayuela & Jari Oksanen
+V. Raevel, adapted from Luis Cayuela & Jari Oksanen
 }
-\note{
-%%  ~~further notes~~
-To be completed
-}
-
-%% ~Make other sections like Warning with \section{Warning }{....} ~
-
 \seealso{
- See Also  \code{\link[Taxonstand]{TPLck}}
+ \code{\link[Taxonstand]{TPLck}}
 }
 \examples{
-example <- c("Dipterocarpus indicus")
-result <- TPLck2(example)
+TPLck("Acacia sundra") 
+test <- TPLck2("Acacia sundra") 
+test
 }
-
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
-\keyword{ ~kwd1 }% use one of  RShowDoc("KEYWORDS")
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
