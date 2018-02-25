@@ -16,9 +16,7 @@ taxocheck <- function(names, otherinfo = T, max.distance = 2, phylo = F)
   # TreeGhatsData  must be use as the database
   data('TreeGhatsData', package='TreeGhats', envir=environment())
   TreeGhatsData <- get("TreeGhatsData", envir=environment())
-  data("apg_families", package='taxize', envir=environment())
-  apg_families <- get("apg_families", envir=environment())
-  
+
   # Pb with definition of sp to be checked (see below)
   #sp <- NULL
   
@@ -117,7 +115,6 @@ taxocheck <- function(names, otherinfo = T, max.distance = 2, phylo = F)
   #if (any(sel))
   #{tab[sel,]$NewID_TPL<- unlist(sapply(tolower(tab$ReferenceName_proposed[sel]),function(x) TreeGhatsData[which(TreeGhatsData$Name==x),"ID_TPL"]));} 
 
-  
   ## For taxa absent from TreeGhatsData, check in PlantList ##
   taxonCheckTPL<-rownames(tab[is.na(tab$FoundName),])
   tab.plantlist <- c();
@@ -254,16 +251,6 @@ taxocheck <- function(names, otherinfo = T, max.distance = 2, phylo = F)
     tab$InfrataxonName[sel]<-sapply(tolower(tab$ReferenceName_proposed[sel]),function(x) TreeGhatsData$InfraTaxonNames[which(TreeGhatsData$Name==x)])
     tab$Comment[tab$Comment=="OneInfrataxon"]<-NA
    } 
-  
-  ## Update family name according to APGIII ##
-  sel<-!is.na(tab$Family_APGIII) & tab$Family_APGIII==""
-  if(any(sel)){tab[sel,]$Family_APGIII<-NA }
-  fam.list <- c();
-  # Need to force definition apg_families, otherwise error in apg_lookup
-  #fam.list=sapply(tab[!is.na(tab$Family_APGIII),]$Family_APGIII,function(x) with(apg_families, apg_lookup(taxa =as.character(x), rank = "family")[1]))
-  fam.list=sapply(tab[!is.na(tab$Family_APGIII),]$Family_APGIII,function(x) ifelse(x%in%apg_families$this & apg_families$that[apg_families$this==x]!="",apg_families$that[apg_families$this==x],x))
-  tab[!is.na(tab$Family_APGIII),]$Family_APGIII=fam.list
-  
   
   ## Provide some ecological information ##
   if(otherinfo & any(!is.na(tab$ReferenceName_proposed)))
