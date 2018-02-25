@@ -12,10 +12,11 @@ version = "1.1", encoding = "UTF-8")
 }
 \arguments{
 \item{sp}{a character vector specifying the input taxon, i.e. genus and specific epithet and, potentially, author name and infraspecific abbreviation and epithet.}
-\item{infra}{logical. If TRUE (default), infraspecific epithets are used to match taxon names in TPL.}
 \item{corr}{logical. If TRUE (default), spelling errors are corrected (only) in the specific and infraspecific epithets prior to taxonomic standardization.}
 \item{diffchar}{a number indicating the maximum difference between the number of characters in corrected and original taxon names. Not used if corr = FALSE.}
 \item{max.distance}{a number indicating the maximum distance allowed for a match in agrep when performing corrections of spelling errors in specific epithets. Not used if corr = FALSE.}
+\item{infra}{logical. If TRUE (default), infraspecific epithets are used to match taxon names in TPL.}
+\item{abbrev}{logical. If 'TRUE' (default), abbreviations (aff., cf., subsp., var.) and their variants are removed prior to taxonomic standardization.}
 \item{version}{a character vector indicating whether to connect to the newest version of TPL (1.1) or to the older one (1.0). Default to "1.1".}
 \item{encoding}{encoding to be assumed for input strings from TPL website; defaults to "UTF-8" (see \code{\link{read.csv}} and \code{\link{Encoding}}).}
 }
@@ -34,7 +35,7 @@ V. Raevel, adapted from Luis Cayuela & Jari Oksanen
  \code{\link[Taxonstand]{TPLck}}
 }
 \examples{
-TPLck("Acacia sundra") 
+Taxonstand::TPLck("Acacia sundra") 
 test <- TPLck2("Acacia sundra") 
 test
 }
