@@ -35,9 +35,11 @@ V. Raevel, adapted from Luis Cayuela & Jari Oksanen
  \code{\link[Taxonstand]{TPLck}}
 }
 \examples{
+\dontrun{
 Taxonstand::TPLck("Acacia sundra") 
 test <- TPLck2("Acacia sundra") 
 test
+}
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
