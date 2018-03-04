@@ -29,7 +29,7 @@ If \code{otherinfo = T}, the biogeographic origin, the habit, the phenology and 
 \value{
 If \code{phylo = F} (default), the function returns an object of class \code{data.frame} with the following components:
 
-  \item{FoundName}{taxon names as found in \code{\link{TreeGhatsData}} or in TPL. Orthographic errors are corrected. The taxon names provided by the user is kept in the rownames of the return object. 'IncompleteName' is return when the user provide an name without species epithet, or including a number. \code{NA} indicates taxon names found neither in \code{\link{TreeGhatsData}} nor in TPL.}
+  \item{FoundName}{taxon names as found in \code{\link{TreeGhatsData}} or in TPL. Orthographic errors are corrected. The taxon names provided by the user is kept in the rownames of the return object. 'IncompleteName' is return when the user provide a name without species epithet, or including a number. \code{NA} indicates taxon names found neither in \code{\link{TreeGhatsData}} nor in TPL.}
   
   \item{Typo}{logical. If 'TRUE', there was a spelling error in a taxon name provided by the user. The correct spelling can be found in the \code{Foundname} column, while the spelling provided by the user is kept as row name.}
   
@@ -39,19 +39,19 @@ If \code{phylo = F} (default), the function returns an object of class \code{dat
   
   \item{ReferenceAuthority_TPL}{authority of \code{ReferenceName_TPL}.}
   
-  \item{Status_TBGRI}{taxonomic status according to TBGRI and extracted from \code{\link{TreeGhatsData}}, either 'Absent', 'Accepted', 'Synonym', 'Unresolved'. 'Absent' indicates taxon names not found in TBGRI.}
+  \item{Status_TBGRI}{taxonomic status according to TBGRI and extracted from \code{\link{TreeGhatsData}}, either 'Absent', 'Accepted', 'Synonym'. 'Absent' indicates taxon names not found in TBGRI.}
   
   \item{ReferenceName_TBGRI}{the reference taxon name according to TBGRI extracted from \code{\link{TreeGhatsData}}.}
   
   \item{ReferenceAuthorithy_TBGRI}{authority of \code{ReferenceName_TBGRI}.}
   
-  \item{Status_proposed}{proposed taxonomic status, either 'Accepted', 'Synonym', 'Unresolved','IncompleteName' or 'SeveralHomonyms'. 'IncompleteName' indicates incomplete taxon names provided by the user. 'SeveralHomonyms' indicates that there are several homonyms in TPL.}
+  \item{Status_proposed}{proposed taxonomic status, either 'Accepted', 'Synonym', 'Unresolved', 'IncompleteName' or 'SeveralHomonyms'. 'IncompleteName' indicates incomplete taxon names provided by the user. 'SeveralHomonyms' indicates that there are several homonyms in TPL.}
   
   \item{ReferenceName_proposed}{the taxon name proposed.}
   
   \item{ReferenceAuthorithy_proposed}{authority of \code{ReferenceName_proposed}.}
   
-  \item{Comment}{indicates if a taxon name given by the user includes several infra-taxa on the WG according to TBGRI. If it not the case for any of the taxa, the field is absent.}
+  \item{Infrataxon}{indicates if a taxon name given by the user includes  one or several infra-taxa on the WG according to TBGRI. If it not the case for any of the taxa, the field is absent.}
   
   \item{Family_APGIII}{family name according to APGIII for the reference taxon proposed.}
   

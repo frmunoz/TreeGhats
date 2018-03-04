@@ -81,7 +81,7 @@ taxocheck <- function(names, otherinfo = T, max.distance = 2, phylo = F)
   tab[sel,]$FoundName <- sel
   tab$Typo <- ifelse(rownames(tab)%in% sel, F, NA)
   tab$ID_TPL <-NA;tab$Status_TPL <-NA;tab$ReferenceName_TPL <-NA;tab$ReferenceAuthority_TPL <-NA;tab$Status_TBGRI=NA;tab$ReferenceName_TBGRI <-NA;tab$ReferenceAuthority_TBGRI <-NA; 
-  tab$Status_proposed<-NA;tab$ReferenceName_proposed <-NA;tab$ReferenceAuthority_proposed <-NA;tab$Comment<-NA;tab$Family_APGIII <-NA
+  tab$Status_proposed<-NA;tab$ReferenceName_proposed <-NA;tab$ReferenceAuthority_proposed <-NA;tab$Infrataxon<-NA;tab$Family_APGIII <-NA
   #tab$NewID_TPL<-NA;
   
   # Research names  with spelling errors maxDist
@@ -198,15 +198,15 @@ taxocheck <- function(names, otherinfo = T, max.distance = 2, phylo = F)
   }
   
   # Infrataxon management: Count number of Infrataxa in TreeGhatsData  
-  tab$Comment<-NA
+  tab$Infrataxon<-NA
   sel <- !is.na(tab$Status_TBGRI) & is.na(tab$InfrataxonRank)
   if (any(sel))
   {
     InfrataxonCount<-table(paste(TreeGhatsData$Genus,TreeGhatsData$Species, sep=" "))-1
-    tab$Comment[sel]<-sapply(tab$FoundName[sel],function(x) InfrataxonCount[which(tolower(names(InfrataxonCount))==x)])
-    tab$Comment[tab$Comment>1]<-"SeveralInfrataxa"
-    tab$Comment[tab$Comment==1]<-"OneInfrataxon"
-    tab$Comment[tab$Comment==0]<-NA
+    tab$Infrataxon[sel]<-sapply(tab$FoundName[sel],function(x) InfrataxonCount[which(tolower(names(InfrataxonCount))==x)])
+    tab$Infrataxon[tab$Infrataxon>1]<-"SeveralInfrataxa"
+    tab$Infrataxon[tab$Infrataxon==1]<-"OneInfrataxon"
+    tab$Infrataxon[tab$Infrataxon==0]<-NA
   }
   
   ## Statut proposed ##
@@ -236,20 +236,19 @@ taxocheck <- function(names, otherinfo = T, max.distance = 2, phylo = F)
   }
   
   # For Infrataxon the reference name proposed depend on the number of Infrataxa present in WG.
-  sel <- tab$Comment=="SeveralInfrataxa" & !is.na(tab$Comment)
+  sel <- tab$Infrataxon=="SeveralInfrataxa" & !is.na(tab$Infrataxon)
   if (any(sel))
   {
     tab$InfrataxonRank[sel]<-NA
     tab$InfrataxonName[sel]<-NA
     tab$ReferenceName_proposed[sel]<-paste(tab$Genus[sel],tab$Species[sel], sep=" ")
   }
-  sel <- tab$Comment=="OneInfrataxon" & !is.na(tab$Comment)
+  sel <- tab$Infrataxon=="OneInfrataxon" & !is.na(tab$Infrataxon)
   if (any(sel))
   { 
     tab$ReferenceName_proposed[sel]<-sapply(tab$ReferenceName_proposed[sel],function(x) TreeGhatsData$ReferenceName_proposed[which(paste(TreeGhatsData$Genus,TreeGhatsData$Species, sep=" ")==x & !is.na(TreeGhatsData$InfraTaxonRank))])
     tab$InfrataxonRank[sel]<-sapply(tolower(tab$ReferenceName_proposed[sel]),function(x) TreeGhatsData$InfraTaxonRank[which(TreeGhatsData$Name==x)])
     tab$InfrataxonName[sel]<-sapply(tolower(tab$ReferenceName_proposed[sel]),function(x) TreeGhatsData$InfraTaxonNames[which(TreeGhatsData$Name==x)])
-    tab$Comment[tab$Comment=="OneInfrataxon"]<-NA
    } 
   
   ## Provide some ecological information ##
@@ -266,8 +265,8 @@ taxocheck <- function(names, otherinfo = T, max.distance = 2, phylo = F)
   }
   
   tab[tab == ""] <- NA
-  if(all(is.na(tab$Comment)))
-  {tab<-tab[,-which(colnames(tab)=="Comment")]}
+  if(all(is.na(tab$Infrataxon)))
+  {tab<-tab[,-which(colnames(tab)=="Infrataxon")]}
   if(all(is.na(tab$InfrataxonName)))
   {tab<-tab[,-which(colnames(tab) %in% c("InfrataxonName","InfrataxonRank"))]}
   
