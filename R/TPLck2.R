@@ -3,7 +3,7 @@ TPLck2<-function (sp, corr = TRUE, diffchar = 2, max.distance = 1, infra = TRUE,
   {
     sp <- as.character(sp)
     abbr <- NA
-    severalNames<- NA
+    Homonym<- NA
     if (abbrev == TRUE) {
       vec0 <- c("nothossp. ", "nothossp.", " nothossp ", "nothosubsp. ", 
                 "nothosubsp.", " nothosubsp ", "cultivar. ", "cultivar.", 
@@ -266,7 +266,7 @@ TPLck2<-function (sp, corr = TRUE, diffchar = 2, max.distance = 1, infra = TRUE,
                                        "M", ]
               }
               if (nrow(table.sp) > 1) {
-                severalNames=nrow(table.sp)
+                Homonym=nrow(table.sp)
                 warning(paste(sp, "has more than one valid synonym"))
               }
               table.sp.id <- table.sp[1, 1]
@@ -571,6 +571,6 @@ TPLck2<-function (sp, corr = TRUE, diffchar = 2, max.distance = 1, infra = TRUE,
     results <- data.frame(Genus, Species, Abbrev, Infraspecific, 
                           ID, Plant.Name.Index, TPL_version = version, Taxonomic.status, 
                           Family, New.Genus, New.Hybrid.marker, New.Species, New.Infraspecific, 
-                          Authority, New.ID, Typo, WFormat, stringsAsFactors = FALSE,severalNames)
+                          Authority, New.ID, Typo, WFormat, stringsAsFactors = FALSE,Homonym)
   }
 

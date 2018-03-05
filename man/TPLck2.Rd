@@ -25,8 +25,8 @@ version = "1.1", encoding = "UTF-8")
 Second, if the infraspecific epithet does not match any of the infraspecific epithets considered in TPL, then the first accepted name with no infraspecific epithet is selected as the best match. If all names provided by TPL have infraspecific epithets and are all synonyms (e.g. Pottia starkeana), then there is no best match and the output will match the original name.
 }
 \value{
-The function return an object of class \code{data.frame} including the same elements than those provided by \code{\link[Taxonstand]{TPLck}}, plus the element \code{$severalNames} indicating the number of homonyms if any. 
-The value of \code{$severalNames} is \code{NA} if there is no homonym.
+The function return an object of class \code{data.frame} including the same elements than those provided by \code{\link[Taxonstand]{TPLck}}, plus the element \code{$Homonym} indicating the number of homonyms if any. 
+The value of \code{$Homonym} is \code{NA} if there is no homonym.
 }
 \author{
 V. Raevel, adapted from Luis Cayuela & Jari Oksanen
