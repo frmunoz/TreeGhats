@@ -80,7 +80,7 @@ taxocheck <- function(names, otherinfo = T, max.distance = 2, phylo = F)
   sel <- intersect(TreeGhatsData$Name,rownames(tab));
   tab[sel,]$FoundName <- sel
   tab$Typo <- ifelse(rownames(tab)%in% sel, F, NA)
-  tab$ID_TPL <-NA;tab$Status_TPL <-NA;tab$ReferenceName_TPL <-NA;tab$ReferenceAuthority_TPL <-NA;tab$Status_TBGRI=NA;tab$ReferenceName_TBGRI <-NA;tab$ReferenceAuthority_TBGRI <-NA; 
+  tab$ID_TPL <-NA;tab$ID_Tropicos <-NA;tab$Status_TPL <-NA;tab$ReferenceName_TPL <-NA;tab$ReferenceAuthority_TPL <-NA;tab$Status_TBGRI=NA;tab$ReferenceName_TBGRI <-NA;tab$ReferenceAuthority_TBGRI <-NA; 
   tab$Status_proposed<-NA;tab$ReferenceName_proposed <-NA;tab$ReferenceAuthority_proposed <-NA;tab$Infrataxon_info<-NA;tab$Family_APGIII <-NA
   #tab$NewID_TPL<-NA;
   
@@ -98,7 +98,7 @@ taxocheck <- function(names, otherinfo = T, max.distance = 2, phylo = F)
   if(any(sel))
   {
     WGinfo<-NA
-    WGinfo<- sapply(tab[sel,]$FoundName,function(x) TreeGhatsData[which(TreeGhatsData$Name==x),c("ID_TPL","Family_APGIII","Status_TPL","ReferenceName_TPL","ReferenceAuthority_TPL","Status_TBGRI","ReferenceName_TBGRI","ReferenceAuthority_TBGRI","Status_proposed","ReferenceName_proposed","ReferenceAuthority_proposed","Family_APGIII")]); 
+    WGinfo<- sapply(tab[sel,]$FoundName,function(x) TreeGhatsData[which(TreeGhatsData$Name==x),c("ID_TPL","ID_Tropicos","Family_APGIII","Status_TPL","ReferenceName_TPL","ReferenceAuthority_TPL","Status_TBGRI","ReferenceName_TBGRI","ReferenceAuthority_TBGRI","Status_proposed","ReferenceName_proposed","ReferenceAuthority_proposed","Family_APGIII")]); 
     tab[sel,]$Status_TBGRI <-unlist(WGinfo["Status_TBGRI",])   
     tab[sel,]$Status_TPL <- unlist(WGinfo["Status_TPL",])
     tab[sel,]$ReferenceName_TBGRI <- unlist(WGinfo["ReferenceName_TBGRI",])
@@ -106,6 +106,7 @@ taxocheck <- function(names, otherinfo = T, max.distance = 2, phylo = F)
     tab[sel,]$ReferenceAuthority_TBGRI <- unlist(WGinfo["ReferenceAuthority_TBGRI",])
     tab[sel,]$ReferenceName_TPL <-unlist(WGinfo["ReferenceName_TPL",]) 
     tab[sel,]$ID_TPL <-unlist(WGinfo["ID_TPL",])
+    tab[sel,]$ID_Tropicos <-unlist(WGinfo["ID_Tropicos",])
     tab[sel,]$Family_APGIII <-unlist(WGinfo["Family_APGIII",])
     tab[sel,]$Status_proposed <-unlist(WGinfo["Status_proposed",])
     tab[sel,]$ReferenceAuthority_proposed <-unlist(WGinfo["ReferenceAuthority_proposed",])
@@ -263,6 +264,10 @@ taxocheck <- function(names, otherinfo = T, max.distance = 2, phylo = F)
     tab$Phenology[!is.na(tab$ReferenceName_proposed)]<-unlist(Info["Phenology",])
     tab$IUCN[!is.na(tab$ReferenceName_proposed)]<-unlist(Info["IUCN_Status",])
   }
+  
+  ## URL in Tropicos
+  tab$URL_Tropicos <- lapply(tab$ID_Tropicos, function(x) ifelse(!is.na(x),
+    paste("http://tropicos.org/Name/", x, sep=""), NA))
   
   tab[tab == ""] <- NA
   if(all(is.na(tab$Infrataxon_info)))
