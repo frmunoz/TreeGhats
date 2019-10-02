@@ -119,9 +119,15 @@ taxocheck <- function(names, otherinfo = T, max.distance = 2, phylo = F)
   taxonCheckTPL<-rownames(tab[is.na(tab$FoundName),])
   tab.plantlist <- c();
   if(length(taxonCheckTPL)>=1)
-  {pb <- utils::winProgressBar(title = "progress bar", min = 0, max = length(taxonCheckTPL), width = 300)
-  for(i in 1:length(taxonCheckTPL))
-  {Sys.sleep(0.1);utils::setWinProgressBar(pb, i, title=paste("Check in TPL" ,round(i/length(taxonCheckTPL)*100, 0),"% done"));res=TPLck2(taxonCheckTPL[i]); tab.plantlist <- rbind(tab.plantlist,res)}
+  {
+    pb <- utils::winProgressBar(title = "progress bar", min = 0, max = length(taxonCheckTPL), width = 300)
+    for(i in 1:length(taxonCheckTPL))
+    {
+      Sys.sleep(0.1)
+      utils::setWinProgressBar(pb, i, title=paste("Check in TPL" ,round(i/length(taxonCheckTPL)*100, 0),"% done"))
+      res=TPLck2(taxonCheckTPL[i])
+      tab.plantlist <- rbind(tab.plantlist,res)
+    }
   #}
   
   rownames(tab.plantlist) <- rownames(tab[is.na(tab$FoundName),])
@@ -133,9 +139,10 @@ taxocheck <- function(names, otherinfo = T, max.distance = 2, phylo = F)
   tab[is.na(tab$FoundName),]$ID_TPL<-tab.plantlist[rownames(tab[is.na(tab$FoundName),]),"ID"]
   # Check several homonyms
   if(is.numeric(tab.plantlist$Homonym))
-  {tab[rownames(tab.plantlist)[!is.na(tab.plantlist$Homonym)],]$Status_TPL<-"SeveralHomonyms"
-  sel<-!is.na(tab$Status_TPL) & tab$Status_TPL=="SeveralHomonyms"
-  tab[sel,]$FoundName<-rownames(tab[sel,])
+  {
+    tab[rownames(tab.plantlist)[!is.na(tab.plantlist$Homonym)],]$Status_TPL<-"SeveralHomonyms"
+    sel<-!is.na(tab$Status_TPL) & tab$Status_TPL=="SeveralHomonyms"
+    tab[sel,]$FoundName<-rownames(tab[sel,])
   }  
   #Check infrataxon in tlp refnames  
   if(any(tab.plantlist$New.Infraspecific!=""&tab.plantlist$Taxonomic.status!=""))
@@ -199,7 +206,7 @@ taxocheck <- function(names, otherinfo = T, max.distance = 2, phylo = F)
   
   # Infrataxon management: Count number of Infrataxa in TreeGhatsData  
   tab$Infrataxon_info<-NA
-  sel <- !is.na(tab$Status_TBGRI) & is.na(tab$InfrataxonRank)
+  sel <- !is.na(tab$Status_TBGRI) & tab$Status_TBGRI!="Absent" & is.na(tab$InfrataxonRank)
   if (any(sel))
   {
     InfrataxonCount<-table(paste(TreeGhatsData$Genus,TreeGhatsData$Species, sep=" "))-1
