@@ -5,8 +5,8 @@ create.phylo <- function(names = NULL, scenarios = "S3")
 {
   data('TreeGhatsData', package='TreeGhats', envir=environment())
   TreeGhatsData <- get("TreeGhatsData", envir=environment())
-  data('qian', package='TreeGhats', envir=environment())
-  qian <- get("qian", envir=environment())
+  data('GBOTB.extended ', package='V.PhyloMaker', envir=environment())
+  GBOTB.extended <- get("GBOTB.extended", envir=environment())
   
   if(!is.null(names))
   {
@@ -31,10 +31,15 @@ create.phylo <- function(names = NULL, scenarios = "S3")
   #sum(unique(TreeGhatsData$Genus)%in%nodes$genus)/length(unique(TreeGhatsData$Genus)) # 79.9%
   #sum(unique(rownames(TreeGhatsData))%in%tolower(phylo.all.qian$tip.label))/length(unique(rownames(TreeGhatsData))) # 18.1%
   
+  # Previous function for building phylogeny (Qian, H., Jin, Y., 2016.
+  # An updated megaphylogeny of plants, a tool for generating plant phylogenies, and an analysis of phylogenetic community structure. 
+  # Journal of Plant Ecology 9, 233–239. https://doi.org/10.1093/jpe/rtv047
   # With whole Qian phylogeny
   #result<-S.PhyloMaker(splist=phylomaker, tree=qian$phylo.all , nodes=qian$nodes, scenarios = scenarios)      # run the function S.PhyloMaker
   # With phylogeny generated for WG trees
-  result<-S.PhyloMaker(splist=na.omit(phylomaker), tree=qian$phylo.all, nodes=qian$nodes, scenarios = scenarios) # run the function S.PhyloMaker
+  #result<-S.PhyloMaker(splist=na.omit(phylomaker), tree=qian$phylo.all, nodes=qian$nodes, scenarios = scenarios) # run the function S.PhyloMaker
   
+  # With new V.PhyloMaker package
+  result<-V.PhyloMaker::phylo.maker(sp.list=na.omit(phylomaker), scenarios = scenarios)
   return(result)
 }

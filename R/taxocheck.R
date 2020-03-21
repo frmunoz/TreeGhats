@@ -292,6 +292,6 @@ taxocheck <- function(names, otherinfo = T, max.distance = 2, phylo = F)
   {
     # Create the phylogeny corresponding to the taxa (create.phylo with default options)
     phylo <- create.phylo(tab)
-    return(list(tab=tab, phylo=phylo$Scenario.3))
+    return(list(tab=tab, phylo=phylo$scenario.3))
   }
 }
