@@ -2,4 +2,4 @@ language: r
 sudo: true
 cache: packages
 
-before_cache: Rscript -e 'devtools::install_github("jinyizju/V.PhyloMaker")'
+before_install: Rscript -e 'devtools::install_github("jinyizju/V.PhyloMaker")'
