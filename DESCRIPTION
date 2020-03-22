@@ -26,6 +26,6 @@ Imports:
 LazyData: true
 Description: The package includes two tools to manage taxonomic, ecological and phylogenetic information on Western Ghats trees.
     The tools (i) provide taxonomic name resolution and basic ecological information extracted from the TreeGhatsData database, and (ii) build a dated phylogeny for a given list of taxa.
-License: GPL (>= 2)
+License: GPL-3
 Encoding: UTF-8
 VignetteBuilder: knitr
