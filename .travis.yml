@@ -3,5 +3,5 @@ sudo: true
 cache: packages
 
 r_github_packages: 
-        jinyizju/V.PhyloMaker,
-        ropensci/magick
+        - jinyizju/V.PhyloMaker,
+        - ropensci/magick
