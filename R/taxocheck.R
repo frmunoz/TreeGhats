@@ -14,7 +14,7 @@ taxocheck <- function(names, otherinfo = T, max.distance = 2, phylo = F)
       } else if("BINOME"%in%toupper(colnames(names))) names <- names[,which(toupper(colnames(names))=="BINOME")[1]]
   
   # Remove NA values and void names
-  names <- names[!is.na(names) & names:=""]
+  names <- names[!is.na(names) & names!=""]
   
   # TreeGhatsData  must be use as the database
   data(TreeGhatsData, package='TreeGhats', envir=environment())
