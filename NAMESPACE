@@ -1,7 +1,7 @@
 exportPattern("^[[:alpha:]]+")
 
 importFrom("stats", "na.omit")
-importFrom("utils", "data", "read.csv", "read.table")
+importFrom("utils", "data", "read.csv", "read.table", "winProgressBar", "setWinProgressBar")
 importFrom("ape", "drop.tip", "branching.times")
 importFrom("stringdist", "amatch")
 importFrom("phytools", "bind.tip", "fastMRCA")

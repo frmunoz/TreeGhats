@@ -12,9 +12,12 @@ taxocheck <- function(names, otherinfo = T, max.distance = 2, phylo = F)
       {
         names <- names[,which(toupper(colnames(names))=="NAMES")[1]]
       } else if("BINOME"%in%toupper(colnames(names))) names <- names[,which(toupper(colnames(names))=="BINOME")[1]]
-        
+  
+  # Remove NA values and void names
+  names <- names[!is.na(names) & names:=""]
+  
   # TreeGhatsData  must be use as the database
-  data('TreeGhatsData', package='TreeGhats', envir=environment())
+  data(TreeGhatsData, package='TreeGhats', envir=environment())
   TreeGhatsData <- get("TreeGhatsData", envir=environment())
 
   # Pb with definition of sp to be checked (see below)
@@ -120,11 +123,11 @@ taxocheck <- function(names, otherinfo = T, max.distance = 2, phylo = F)
   tab.plantlist <- c();
   if(length(taxonCheckTPL)>=1)
   {
-    pb <- utils::winProgressBar(title = "progress bar", min = 0, max = length(taxonCheckTPL), width = 300)
+    pb <- winProgressBar(title = "progress bar", min = 0, max = length(taxonCheckTPL), width = 300)
     for(i in 1:length(taxonCheckTPL))
     {
       Sys.sleep(0.1)
-      utils::setWinProgressBar(pb, i, title=paste("Check in TPL" ,round(i/length(taxonCheckTPL)*100, 0),"% done"))
+      setWinProgressBar(pb, i, title=paste("Check in TPL" ,round(i/length(taxonCheckTPL)*100, 0),"% done"))
       res=TPLck2(taxonCheckTPL[i])
       tab.plantlist <- rbind(tab.plantlist,res)
     }
