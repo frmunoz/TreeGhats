@@ -11,7 +11,7 @@ Maintainer: V. Raevel <treeghats@gmail.com>
 URL: https://github.com/frmunoz/TreeGhats
 BugReports: https://github.com/frmunoz/TreeGhats
 Depends:
-    R (>= 3.0.2),
+    R (>= 3.5.0),
     V.PhyloMaker
 Imports:
     ape,
