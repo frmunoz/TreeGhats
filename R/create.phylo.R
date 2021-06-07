@@ -5,7 +5,7 @@ create.phylo <- function(names = NULL, scenarios = "S3")
 {
   data('TreeGhatsData', package='TreeGhats', envir=environment())
   TreeGhatsData <- get("TreeGhatsData", envir=environment())
-  data('GBOTB.extended ', package='V.PhyloMaker', envir=environment())
+  data('GBOTB.extended', package='V.PhyloMaker', envir=environment())
   GBOTB.extended <- get("GBOTB.extended", envir=environment())
   
   if(!is.null(names))
