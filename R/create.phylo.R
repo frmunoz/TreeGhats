@@ -10,7 +10,7 @@ create.phylo <- function(names = NULL, scenarios = "S3")
   
   if(!is.null(names))
   {
-    if(!("Binome"%in%colnames(names) & "Genus"%in%colnames(names) & "Species"%in%colnames(names)))
+    if(!"Binome"%in%colnames(names) & "Genus"%in%colnames(names) & "Species"%in%colnames(names))
       names$Binome <- paste(names$Genus,names$Species,sep=" ")
     names$Binome[is.na(names$Genus) | is.na(names$Species)] <- NA
     if(any(!sapply(c("Binome","Genus","Family_APGIII"),function(x) x%in%colnames(names)))) stop("Input names table must include Binome, Genus and Family_APGIII columns")
