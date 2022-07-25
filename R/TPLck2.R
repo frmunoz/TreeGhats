@@ -335,44 +335,57 @@ TPLck2<-function (sp, corr = TRUE, diffchar = 2, max.distance = 1, infra = TRUE,
                                          header = TRUE, sep = ",", fill = TRUE, 
                                          colClasses = "character", as.is = TRUE, 
                                          encoding = encoding), silent = TRUE)
-              if (version == "1.1" && nsen[17] == "?") {
-                table.sp <- table.sp[table.sp$Species.hybrid.marker == 
+              if(min(dim(table.sp))>0) {
+                if (version == "1.1" && nsen[17] == "?") {
+                  table.sp <- table.sp[table.sp$Species.hybrid.marker == 
                                        "?", ]
-              }
-              else if (version == "1.0" && nsen[15] == 
-                       "?") {
-                table.sp <- table.sp[table.sp$Species.hybrid.marker == 
+                }
+               else if (version == "1.0" && nsen[15] == 
+                        "?") {
+                 table.sp <- table.sp[table.sp$Species.hybrid.marker == 
                                        "?", ]
-              }
-              grep1 <- grep(infrasp, table.sp$Infraspecific.epithet, 
+                }
+                grep1 <- grep(infrasp, table.sp$Infraspecific.epithet, 
                             value = TRUE)
-              ngrep <- nchar(grep1)
-              if (infra == TRUE && length(grep(infrasp, 
-                                               table.sp$Infraspecific.epithet)) > 0 && 
-                  abs(ngrep - (nchar(infrasp))) == 0) {
-                table.sp <- table.sp[table.sp$Infraspecific.epithet == 
-                                       infrasp, ]
-                table.sp$Taxonomic.status.in.TPL <- table.sp$Taxonomic.status.in.TPL
+                ngrep <- nchar(grep1)
+                if (infra == TRUE && length(grep(infrasp, 
+                                                 table.sp$Infraspecific.epithet)) > 0 && 
+                    abs(ngrep - (nchar(infrasp))) == 0) {
+                  table.sp <- table.sp[table.sp$Infraspecific.epithet == 
+                                         infrasp, ]
+                  table.sp$Taxonomic.status.in.TPL <- table.sp$Taxonomic.status.in.TPL
+                }
+                else if (infra == FALSE || length(grep(infrasp, 
+                                                       table.sp$Infraspecific.epithet)) == 0 || 
+                         abs(ngrep - (nchar(infrasp))) > 0) {
+                  table.sp <- table.sp[table.sp$Infraspecific.epithet == 
+                                         "" || is.na(table.sp$Infraspecific.epithet), 
+                                       ]
+                  table.sp$Taxonomic.status.in.TPL <- table.sp$Taxonomic.status.in.TPL
+                }
+                Plant.Name.Index <- TRUE
+                Family <- table.sp$Family[1]
+                New.Genus <- table.sp$Genus[1]
+                New.Hybrid.marker <- table.sp$Species.hybrid.marker[1]
+                New.Species <- table.sp$Species[1]
+                New.Infraspecific <- table.sp$Infraspecific.epithet[1]
+                Authority <- table.sp$Authorship[1]
+                Typo <- ifelse(marker == TRUE || marker.infra == 
+                                 TRUE, TRUE, FALSE)
+                WFormat <- FALSE
+                New.ID <- table.sp[1, 1]
+              } else {
+                Plant.Name.Index <- F
+                Family <- NA
+                New.Genus <- NA
+                New.Hybrid.marker <- NA
+                New.Species <- NA
+                New.Infraspecific <- NA
+                Authority <- NA
+                Typo <- NA
+                WFormat <- NA
+                New.ID <- NA
               }
-              else if (infra == FALSE || length(grep(infrasp, 
-                                                     table.sp$Infraspecific.epithet)) == 0 || 
-                       abs(ngrep - (nchar(infrasp))) > 0) {
-                table.sp <- table.sp[table.sp$Infraspecific.epithet == 
-                                       "" || is.na(table.sp$Infraspecific.epithet), 
-                                     ]
-                table.sp$Taxonomic.status.in.TPL <- table.sp$Taxonomic.status.in.TPL
-              }
-              Plant.Name.Index <- TRUE
-              Family <- table.sp$Family[1]
-              New.Genus <- table.sp$Genus[1]
-              New.Hybrid.marker <- table.sp$Species.hybrid.marker[1]
-              New.Species <- table.sp$Species[1]
-              New.Infraspecific <- table.sp$Infraspecific.epithet[1]
-              Authority <- table.sp$Authorship[1]
-              Typo <- ifelse(marker == TRUE || marker.infra == 
-                               TRUE, TRUE, FALSE)
-              WFormat <- FALSE
-              New.ID <- table.sp[1, 1]
             }
             else if (sum(table.sp$Taxonomic.status.in.TPL == 
                          "Accepted") == 0 && sum(table.sp$Taxonomic.status.in.TPL == 
@@ -474,6 +487,8 @@ TPLck2<-function (sp, corr = TRUE, diffchar = 2, max.distance = 1, infra = TRUE,
             try(table.sp <- read.table(searchstring, header = TRUE, 
                                        sep = ",", fill = TRUE, colClasses = "character", 
                                        encoding = encoding), silent = TRUE)
+            if(is.na(nsen))
+              return(NA)
             if (version == "1.1" && nsen[17] == "?") {
               table.sp <- table.sp[table.sp$Species.hybrid.marker == 
                                      "?", ]
