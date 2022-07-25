@@ -1,4 +1,3 @@
-
 taxocheck <- function(names, otherinfo = T, max.distance = 2, phylo = F)
 
 {
